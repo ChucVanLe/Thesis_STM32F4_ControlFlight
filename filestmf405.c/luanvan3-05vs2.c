@@ -107,7 +107,7 @@ int main(void)
 						Gent_Pwm_Alt(15);
         }      
 // /*.................................save data to SD Card...........................................*/  
-//...........................					remove this code because Mr.Huan has done it.				        
+//...........................					remove code save data because Mr.Huan has done it.				        
     }// end while
 }//end main
     
