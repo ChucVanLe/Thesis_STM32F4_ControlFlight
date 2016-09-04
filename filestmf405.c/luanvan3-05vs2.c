@@ -32,24 +32,21 @@
 //bien cho ham sd card
 
 /**************************************************************************************/
-uint8_t CMD_Trigger =0;
-uint8_t Alt_latest =0;
-int them=0,them1=0;//bien dem cho thoi gian ngat truyen.
-int count1=0;
-int count2=0;
-uint8_t flag=0,flag2=0,flag3=0,flag4=0,flag5=0,chieudai=0;
-uint16_t lenght=0,lenght1=0,flag1=0;
-int y=0;
+uint8_t CMD_Trigger = 0;
+uint8_t Alt_latest = 0;
+int compare_enough_data = 0;
+int number_byte_empty_into_Buf_USART2 = 0;
+
+int lenght_of_data_IMU_GPS=0;
 uint8_t IMU[80];
 uint8_t GGA[100];
 uint8_t VTG[100];
-uint8_t SD[600];
-uint8_t SD1[600];
+
 uint8_t CMD_delay=0;
 uint16_t G_delay_count=0;
 uint8_t Buf_USART2[300],Buf_UART4[300],Buf_rx4[9],Buf1_rx4[9];
 uint8_t Update_heso_Roll=0,Update_heso_Pitch=0,Update_heso_Yaw=0,Update_heso_Alt=0,Update_heso_Press=0;
-volatile uint8_t dem=0;
+
 uint8_t crc;
 int h=0;
 int i=0;
@@ -107,11 +104,11 @@ int main(void)
 void SysTick_Handler(void)
  {
      
-    count1=count2;
-    count2=DMA1_Stream5->NDTR;// (Buffer->size) --> count2, number byte data from IMU/GPS
+    compare_enough_data = number_byte_empty_into_Buf_USART2;
+    number_byte_empty_into_Buf_USART2 = DMA1_Stream5->NDTR;// (Buffer->size) --> count2, number byte data from IMU/GPS
     if( CMD_delay ==1 )
     {   
-        G_delay_count +=1;
+        G_delay_count += 1;
     }
     if (G_delay_count == 1000)//reset buffer receive data from groud staion
     {
@@ -123,10 +120,10 @@ void SysTick_Handler(void)
         DMA_SetCurrDataCounter(DMA1_Stream2,9);
         DMA_Cmd(DMA1_Stream2,ENABLE);
     }         
-    if(count1==count2)
+    if(compare_enough_data == number_byte_empty_into_Buf_USART2)
     {
-        y=300-count2;//y number byte in buffer DMA has received
-        if (y>120)//buffer size IMU/GPS < 290
+        lenght_of_data_IMU_GPS = 300 - number_byte_empty_into_Buf_USART2;//y number byte in buffer DMA has received
+        if (lenght_of_data_IMU_GPS > 120)//buffer size IMU/GPS < 290
         {
              //fastest way to restart DMA
             DMA_Cmd(DMA1_Stream5,DISABLE);
@@ -135,9 +132,8 @@ void SysTick_Handler(void)
             DMA_Cmd(DMA1_Stream5,ENABLE);   
             //if(y>100)//buffer size GPS < 200
             {           
-                    for(i=0;i<y;i++)
+                    for(i=0;i<lenght_of_data_IMU_GPS;i++)
                     {
-                        dem=0;
                         if(Buf_USART2[i]=='$')
                         {
 													//if i1 == 0;
@@ -168,12 +164,12 @@ void SysTick_Handler(void)
                     Sampling_GGA(&Buf_USART2[h-1] ,l-h+2);//get lat, lon
                     //Sampling_GGA(GGA1 ,26);
                     Sampling_VTG(&Buf_USART2[l+1],l1-l);//get speed
-                    flag=1;//save data to SD card
+                    //save data to SD card
                     //imu ( DATA[0--> h-2]  BAO GOM \N VA \S\R)
                     if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station
                     {//if CMD_Trigger = 0 ; transmit data to ground station
                             
-                            DMA_SetCurrDataCounter(DMA1_Stream4,y);
+                            DMA_SetCurrDataCounter(DMA1_Stream4,lenght_of_data_IMU_GPS);
                             DMA_Cmd(DMA1_Stream4,ENABLE);   
                         }
                         else
