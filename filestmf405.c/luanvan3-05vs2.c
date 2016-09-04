@@ -78,7 +78,7 @@ int main(void)
     EXTI_FPGA_Pa8();
     UART4_Configuration(115200);
     USART2_Configuration(115200);
-    DMA_UART4_Configuration(Buf_UART4,300);
+    DMA_UART4_Configuration(Buf_USART2,300);
     DMA_USART2_Config(Buf_USART2,300);
     DMA_UART4_RX(Buf_rx4,9);
 // defaude dieu khien o che do ALT  
@@ -133,7 +133,7 @@ void SysTick_Handler(void)
     }         
     if(count1==count2)
     {
-        y=300-count2;
+        y=300-count2;//y number byte in buffer DMA has received
         if (y>10)//buffer size IMU/GPS < 290
         {
              //fastest way to restart DMA
@@ -143,135 +143,97 @@ void SysTick_Handler(void)
             DMA_Cmd(DMA1_Stream5,ENABLE);   
             if(y>100)//buffer size GPS < 200
             {           
-                    for(i=0;i<y;i++)
-                    {
-                        dem=0;
-                        if(Buf_USART2[i]=='$')
-                        {
-													//if i1 == 0;
-													//$ dau tien la chuoi  GGA, vi tri $ la h, vi tri ket thuc la l
-													//$ thu 2 la chuoi VTG,vi tri ket thuc la l1
-                            i1++;
-                            if(i1==1)
-                            {
-                                h=i;//luu vi tri GGA_$                                                          
-                            }
-                        }
-                        if((Buf_USART2[i]==13)&&(i1==1))
-                        {
-                            l=i;//luu vi tri GGA_13
-                        }
-                        if((Buf_USART2[i]==13)&&(i1==2))
-                        { 
-                            l1=i;//luu vi tri VTG_13
-                            i1=0;
-                            break;
-                        }
-                    }
-                    for(i=0;i<80;i++)
-                    {
-                        IMU[i]=Buf_USART2[i];
-                    }               
-                    Sampling_RPY(Buf_USART2,80);//get roll, pitch, yaw
-                    Sampling_GGA(&Buf_USART2[h-1] ,l-h+2);//get lat, lon
-                    //Sampling_GGA(GGA1 ,26);
-                    Sampling_VTG(&Buf_USART2[l+1],l1-l);//get speed
-                    flag=1;//save data to SD card
-                    //imu ( DATA[0--> h-2]  BAO GOM \N VA \S\R)
-                    if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station
-                    {//if CMD_Trigger = 0 ; transmit data to ground station
-                            Buf_UART4[0]=10;
-                                //Buf_UART4[1]=crc;
-                            Buf_UART4[2]=32;
-                            Buf_UART4[3]=73;//I
-                            Buf_UART4[4]=32;
-                            for(i=1;i<h-3;i++)
-                            {
-                                Buf_UART4[i+4]=Buf_USART2[i];   
-                            }
-                            Buf_UART4[h+1]=13;   
-                            crc=CRC_Cal(3,Buf_UART4,h); 
-                            Buf_UART4[1]=crc;
-                
-                            //GGA ( DATA[h-1-->l] BAO GOM \N VA \R )
-                            crc=CRC_Cal(h,Buf_USART2,l-1);
-                            Buf_UART4[h+2]=10;
-                            Buf_UART4[h+3]=crc;
-                            Buf_UART4[h+4]=32;
-                            for(i=h;i<l+1;i++)
-                            {
-                                Buf_UART4[i+5]=Buf_USART2[i];
-                            }
-                            
-                            //VTG ( DATA[l+1 --> x-1] bao gom \n va \r )
-                            crc=CRC_Cal(l+2,Buf_USART2,y-2);
-                            Buf_UART4[l+6]=10;
-                            Buf_UART4[l+7]=crc;
-                            Buf_UART4[l+8]=32;
-                            for(i=l+2;i<y;i++)
-                            {
-                                    Buf_UART4[i+7]=Buf_USART2[i];
-                            }
-                            
-                            DMA_SetCurrDataCounter(DMA1_Stream4,y+7);
-                            DMA_Cmd(DMA1_Stream4,ENABLE);   
-                        }
-                        else
-                        {
-                            CMD_Trigger=0;
-                            xacnhan(&Buf_rx4[0]);
-                            CMD_delay =1 ;
-//                          DMA_Cmd(DMA1_Stream2,DISABLE);
-//                          DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
-//                          DMA_SetCurrDataCounter(DMA1_Stream2,9);
-//                          DMA_Cmd(DMA1_Stream2,ENABLE);
-                        }
+//                    for(i=0;i<y;i++)
+//                    {
+//                        dem=0;
+//                        if(Buf_USART2[i]=='$')
+//                        {
+//													//if i1 == 0;
+//													//$ dau tien la chuoi  GGA, vi tri $ la h, vi tri ket thuc la l
+//													//$ thu 2 la chuoi VTG,vi tri ket thuc la l1
+//                            i1++;
+//                            if(i1==1)
+//                            {
+//                                h=i;//luu vi tri GGA_$                                                          
+//                            }
+//                        }
+//                        if((Buf_USART2[i]==13)&&(i1==1))
+//                        {
+//                            l=i;//luu vi tri GGA_13
+//                        }
+//                        if((Buf_USART2[i]==13)&&(i1==2))
+//                        { 
+//                            l1=i;//luu vi tri VTG_13
+//                            i1=0;
+//                            break;
+//                        }
+//                    }
+//                    for(i=0;i<80;i++)
+//                    {
+//                        IMU[i]=Buf_USART2[i];
+//                    }               
+//                    Sampling_RPY(Buf_USART2,80);//get roll, pitch, yaw
+//                    Sampling_GGA(&Buf_USART2[h-1] ,l-h+2);//get lat, lon
+//                    //Sampling_GGA(GGA1 ,26);
+//                    Sampling_VTG(&Buf_USART2[l+1],l1-l);//get speed
+//                    flag=1;//save data to SD card
+//                    //imu ( DATA[0--> h-2]  BAO GOM \N VA \S\R)
+//                    if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station
+//                    {//if CMD_Trigger = 0 ; transmit data to ground station
+//                            Buf_UART4[0]=10;
+//                                //Buf_UART4[1]=crc;
+//                            Buf_UART4[2]=32;
+//                            Buf_UART4[3]=73;//I
+//                            Buf_UART4[4]=32;
+//                            for(i=1;i<h-3;i++)
+//                            {
+//                                Buf_UART4[i+4]=Buf_USART2[i];   
+//                            }
+//                            Buf_UART4[h+1]=13;   
+//                            crc=CRC_Cal(3,Buf_UART4,h); 
+//                            Buf_UART4[1]=crc;
+//                
+//                            //GGA ( DATA[h-1-->l] BAO GOM \N VA \R )
+//                            crc=CRC_Cal(h,Buf_USART2,l-1);
+//                            Buf_UART4[h+2]=10;
+//                            Buf_UART4[h+3]=crc;
+//                            Buf_UART4[h+4]=32;
+//                            for(i=h;i<l+1;i++)
+//                            {
+//                                Buf_UART4[i+5]=Buf_USART2[i];
+//                            }
+//                            
+//                            //VTG ( DATA[l+1 --> x-1] bao gom \n va \r )
+//                            crc=CRC_Cal(l+2,Buf_USART2,y-2);
+//                            Buf_UART4[l+6]=10;
+//                            Buf_UART4[l+7]=crc;
+//                            Buf_UART4[l+8]=32;
+//                            for(i=l+2;i<y;i++)
+//                            {
+//                                    Buf_UART4[i+7]=Buf_USART2[i];
+//                            }
+//                            
+//                            DMA_SetCurrDataCounter(DMA1_Stream4,y+7);
+//                            DMA_Cmd(DMA1_Stream4,ENABLE);   
+//                        }
+//                        else
+//                        {
+//                            CMD_Trigger=0;
+//                            xacnhan(&Buf_rx4[0]);
+//                            CMD_delay =1 ;
+////                          DMA_Cmd(DMA1_Stream2,DISABLE);
+////                          DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
+////                          DMA_SetCurrDataCounter(DMA1_Stream2,9);
+////                          DMA_Cmd(DMA1_Stream2,ENABLE);
+//                        }
                     
                 }
                    
             else	//only data of IMU
             {   
-                    dem++;
-                    if(dem%2==0) 
-                    {   
-                        Sampling_RPY(Buf_USART2,80);
-                    }
-                    flag=1;
-                    
-                    if (dem==5)
-                    {
-                        if ( CMD_Trigger ==0)
-                        {
-                            //flag=1;
-                            //imu ( DATA[0--> y-1]  BAO GOM \N VA \S\R)
-                            Buf_UART4[0]=10;
-                            //Buf_UART4[1]=crc;
-                            Buf_UART4[2]=32;
-                            Buf_UART4[3]=73;//I
-                            Buf_UART4[4]=32;
-                            for(i=1;i<y-2;i++)
-                            {
-                                Buf_UART4[i+4]=Buf_USART2[i];   
-                            }
-                            Buf_UART4[y+2]=13;   
-                            crc=CRC_Cal(3,Buf_UART4,y+1);   
-                            Buf_UART4[1]=crc;
-                            DMA_SetCurrDataCounter(DMA1_Stream4,y+3);
-                            DMA_Cmd(DMA1_Stream4,ENABLE);
-                        }
-                        else
-                        {
-                            CMD_Trigger =0;
-                            xacnhan(Buf_rx4);
-                            CMD_delay =1 ;
-//                          DMA_Cmd(DMA1_Stream2,DISABLE);
-//                          DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
-//                          DMA_SetCurrDataCounter(DMA1_Stream2,9);
-//                          DMA_Cmd(DMA1_Stream2,ENABLE);
-                        }
-                        }
-                     
-                    }
+             //becase data from IMU/GPS send all of data (201 byte) in th one transmit
+							//user does not process in case  only data of IMU
+            }
         }
     }
  }
