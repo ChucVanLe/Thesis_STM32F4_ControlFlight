@@ -173,25 +173,25 @@ void Sampling_RPY(uint8_t* IMU , int lenght)
 	Roll_PID.Current=roll;
 	Roll_PID.enable=1;
 	//cap nhat pitch
-	for (i=8;i<12;++i)
-	pitch+= (*(IMU+i)-0x30)*pow(10,(11-i));
+	for (i=10;i<14;++i)
+	pitch+= (*(IMU+i)-0x30)*pow(10,(13-i));
 	pitch=pitch*0.1;
-	if (*(IMU+7)=='-')
+	if (*(IMU+9)=='-')
 		pitch=-pitch;
 	Pitch_PID.Current=pitch;
 	Pitch_PID.enable =1 ;
 	//cap nhat Yaw
-	for (i=14;i<18;++i)
-	yaw+= (*(IMU+i)-0x30)*pow(10,(17-i));
+	for (i=16;i<20;++i)
+	yaw+= (*(IMU+i)-0x30)*pow(10,(19-i));
 	yaw=yaw*0.1;
-	if (*(IMU+13)=='-')
+	if (*(IMU+15)=='-')
 		yaw=-yaw;
 	Yaw_PID.Current=yaw;
 	Yaw_PID.enable =1 ;	
 // 	if(state_press==1)
 // 	{	
-	for (i=74;i<78;++i)
-	press+= (*(IMU+i)-0x30)*pow(10,(77-i));
+	for (i=76;i<80;++i)
+	press+= (*(IMU+i)-0x30)*pow(10,(79-i));
 	press+=100000;
 	press=1- pow((press/101325),(1/5.25578));
 	press=(press*pow(10,5))/2.25577;
