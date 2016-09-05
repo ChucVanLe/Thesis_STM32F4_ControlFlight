@@ -165,10 +165,10 @@ void Sampling_RPY(uint8_t* IMU , int lenght)
 	int i = 0 ; 
 	float roll=0,pitch=0,yaw=0,press=0;
 	// cap nhat roll
-	for (i=2;i<6;++i)
-		roll+= (*(IMU+i)-0x30)*pow(10,(5-i));
+	for (i=4;i<8;i++)
+		roll+= (*(IMU+i)-0x30)*pow(10,(7-i));
 	roll=roll*0.1;
-	if (*(IMU+1)=='-')
+	if (*(IMU+3)=='-')
 		roll=-roll;
 	Roll_PID.Current=roll;
 	Roll_PID.enable=1;

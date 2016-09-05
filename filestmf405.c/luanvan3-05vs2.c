@@ -171,7 +171,7 @@ void SysTick_Handler(void)
                   break;
                }
            }               
-             Sampling_RPY(Buf_USART2,80);//get roll, pitch, yaw
+					Sampling_RPY(Buf_USART2,80);//get roll, pitch, yaw
                     //Sampling_GGA(&Buf_USART2[position_VTG -1] ,position_end_of_VTG - position_VTG + 2);//get lat, lon
                     //Sampling_GGA(GGA1 ,26);
                     //Sampling_VTG(&Buf_USART2[l+1],l1-l);//get speed
