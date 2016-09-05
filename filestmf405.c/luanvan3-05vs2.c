@@ -38,7 +38,7 @@ int compare_enough_data = 0;
 int number_byte_empty_into_Buf_USART2 = 0;
 
 int lenght_of_data_IMU_GPS=0;
-uint8_t IMU[80];
+//uint8_t IMU[80];
 uint8_t GGA[100];
 uint8_t VTG[100];
 
@@ -48,14 +48,18 @@ uint8_t Buf_USART2[300],Buf_UART4[300],Buf_rx4[9],Buf1_rx4[9];
 uint8_t Update_heso_Roll=0,Update_heso_Pitch=0,Update_heso_Yaw=0,Update_heso_Alt=0,Update_heso_Press=0;
 
 uint8_t crc;
-int h=0;
+int position_VTG = 0;
 int i=0;
-uint8_t i1=0 ;
-uint16_t l=0,l1=0,l2=0;
+uint8_t find_char_$ = 0 ;
+uint16_t position_end_of_VTG = 0, position_end_of_GGA = 0,l2=0;
 uint8_t flag_set_or_current_press;
 uint8_t flag_press=0;
 uint8_t state_alt=1,state_press=0;
 void xacnhan(uint8_t *buffer);
+
+uint8_t test_simulate1, test_simulate2, test_simulate3;
+		char str[] = "12345.56";
+		double d;
 /*************************************************************************************/
 int main(void)
 {
@@ -83,6 +87,10 @@ int main(void)
        
     SysTick_Config(SystemCoreClock/500);
     GPIO_SetBits(GPIOB,GPIO_Pin_12);
+		
+
+
+		sscanf(str, "%lf", &d);
 
     while(1)
     {
@@ -126,44 +134,47 @@ void SysTick_Handler(void)
         if (lenght_of_data_IMU_GPS > 120)//buffer size IMU/GPS < 290
         {
              //fastest way to restart DMA
-            DMA_Cmd(DMA1_Stream5,DISABLE);
-            DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
-            DMA_SetCurrDataCounter(DMA1_Stream5,300);
-            DMA_Cmd(DMA1_Stream5,ENABLE);   
-            //if(y>100)//buffer size GPS < 200
-            {           
-                    for(i=0;i<lenght_of_data_IMU_GPS;i++)
-                    {
-                        if(Buf_USART2[i]=='$')
-                        {
-													//if i1 == 0;
-													//$ dau tien la chuoi  GGA, vi tri $ la h, vi tri ket thuc la l
-													//$ thu 2 la chuoi VTG,vi tri ket thuc la l1
-                            i1++;
-                            if(i1==1)
-                            {
-                                h=i;//luu vi tri GGA_$                                                          
-                            }
-                        }
-                        if((Buf_USART2[i]==13)&&(i1==1))
-                        {
-                            l=i;//luu vi tri GGA_13
-                        }
-                        if((Buf_USART2[i]==13)&&(i1==2))
-                        { 
-                            l1=i;//luu vi tri VTG_13
-                            i1=0;
-                            break;
-                        }
-                    }
-                    for(i=0;i<80;i++)
-                    {
-                        IMU[i]=Buf_USART2[i];
-                    }               
-                    Sampling_RPY(Buf_USART2,80);//get roll, pitch, yaw
-                    Sampling_GGA(&Buf_USART2[h-1] ,l-h+2);//get lat, lon
+          DMA_Cmd(DMA1_Stream5,DISABLE);
+          DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
+          DMA_SetCurrDataCounter(DMA1_Stream5,300);
+					DMA_Cmd(DMA1_Stream5,ENABLE);
+          
+					//test simulate
+					test_simulate1 = Buf_USART2[3];
+					test_simulate2 = Buf_USART2[4];
+					test_simulate3 = Buf_USART2[5];
+					//test with STM studio => Buf_USART2[0] = 0x0A, Buf_USART2[1] = 0x24 ('$'), Buf_USART2[2], Buf_USART2[3],... roll, pitch,...
+          /*
+					$  0015  0068 -0080  0011 -0082  0123 -0203 -0019  0976  0297  0097  0383  0792 
+					$GPVTG,350.26,T,,M,1.034,N,1.916,K,A*36
+					$GPGGA,144845.10,1045.65955,N,10639.71225,E,1,05,11.37,89.0,M,-2.5,M,,*4B
+					*/
+					for(i = 0;i<lenght_of_data_IMU_GPS;i++)
+					{
+						if(Buf_USART2[i] == '$')
+							{
+								//if i1 == 0;
+								//$ dau tien la chuoi  GGA, vi tri $ la h, vi tri ket thuc la l
+								//$ thu 2 la chuoi VTG,vi tri ket thuc la l1
+								find_char_$ ++;         
+                if(find_char_$ == 2)
+										position_VTG = i;//luu vi tri VTG_$                                                          										
+               }
+						if((Buf_USART2[i]==13)&&(find_char_$ == 2))
+               {
+									position_end_of_VTG = i;//luu vi tri VTG_13
+               }
+            if((Buf_USART2[i]==13)&&(find_char_$ == 3))
+               { 
+                  position_end_of_GGA = i;//luu vi tri GGA_13
+                  find_char_$ = 0;
+                  break;
+               }
+           }               
+             Sampling_RPY(Buf_USART2,80);//get roll, pitch, yaw
+                    //Sampling_GGA(&Buf_USART2[position_VTG -1] ,position_end_of_VTG - position_VTG + 2);//get lat, lon
                     //Sampling_GGA(GGA1 ,26);
-                    Sampling_VTG(&Buf_USART2[l+1],l1-l);//get speed
+                    //Sampling_VTG(&Buf_USART2[l+1],l1-l);//get speed
                     //save data to SD card
                     //imu ( DATA[0--> h-2]  BAO GOM \N VA \S\R)
                     if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station
@@ -181,15 +192,7 @@ void SysTick_Handler(void)
 //                          DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
 //                          DMA_SetCurrDataCounter(DMA1_Stream2,9);
 //                          DMA_Cmd(DMA1_Stream2,ENABLE);
-                        }
-                    
-                }
-                   
-            //else	//only data of IMU
-            {   
-             //becase data from IMU/GPS send all of data (201 byte) in th one transmit
-							//user does not process in case  only data of IMU
-            }
+                        }     
         }
     }
  }
