@@ -44,4 +44,5 @@
 .\project\pid05.o: ..\file.h\ffconf.h
 .\project\pid05.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
 .\project\pid05.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\project\pid05.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
 .\project\pid05.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h

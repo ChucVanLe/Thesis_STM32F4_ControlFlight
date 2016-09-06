@@ -44,7 +44,8 @@ uint8_t VTG[100];
 
 uint8_t CMD_delay=0;
 uint16_t G_delay_count=0;
-uint8_t Buf_USART2[300],Buf_UART4[300],Buf_rx4[9],Buf1_rx4[9];
+uint8_t Buf_UART4[300],Buf_rx4[9],Buf1_rx4[9];
+char Buf_USART2[250];
 uint8_t Update_heso_Roll=0,Update_heso_Pitch=0,Update_heso_Yaw=0,Update_heso_Alt=0,Update_heso_Press=0;
 
 uint8_t crc;
@@ -73,8 +74,8 @@ int main(void)
     EXTI_FPGA_Pa8();
     UART4_Configuration(115200);
     USART2_Configuration(115200);
-    DMA_UART4_Configuration(Buf_USART2,300);
-    DMA_USART2_Config(Buf_USART2,300);
+    DMA_UART4_Configuration((uint8_t*)Buf_USART2,250);
+    DMA_USART2_Config((uint8_t*)Buf_USART2,250);
     DMA_UART4_RX(Buf_rx4,9);
 // defaude dieu khien o che do ALT  
     state_press=0;
@@ -171,10 +172,10 @@ void SysTick_Handler(void)
                   break;
                }
            }               
-					Sampling_RPY(Buf_USART2,80);//get roll, pitch, yaw
-                    //Sampling_GGA(&Buf_USART2[position_VTG -1] ,position_end_of_VTG - position_VTG + 2);//get lat, lon
+					Sampling_RPY((uint8_t*)Buf_USART2,80);//get roll, pitch, yaw
+          Sampling_VTG(&Buf_USART2[position_VTG] ,position_end_of_VTG - position_VTG);//get lat, lon
                     //Sampling_GGA(GGA1 ,26);
-                    //Sampling_VTG(&Buf_USART2[l+1],l1-l);//get speed
+					Sampling_GGA(&Buf_USART2[position_end_of_VTG + 1], position_end_of_GGA - position_end_of_VTG);//get speed
                     //save data to SD card
                     //imu ( DATA[0--> h-2]  BAO GOM \N VA \S\R)
                     if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station

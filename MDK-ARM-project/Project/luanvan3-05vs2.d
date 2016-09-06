@@ -44,4 +44,5 @@
 .\project\luanvan3-05vs2.o: ..\file.h\ffconf.h
 .\project\luanvan3-05vs2.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
 .\project\luanvan3-05vs2.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\project\luanvan3-05vs2.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
 .\project\luanvan3-05vs2.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h

@@ -31,6 +31,8 @@
 #include "stdio.h"
 #include <string.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "math.h"
 /**************************************Function***************************************************/
 #define Max_Xung 30
@@ -83,9 +85,9 @@ extern PID_Index Longitude ;
 extern PID_Index Speed;
 extern PID_Index Press;
 void PID_Init(void);
-void Sampling_GGA(uint8_t* data,int lenght);
+void Sampling_GGA(char* data,int lenght);
 void Sampling_RPY(uint8_t * IMU , int lenght);
-void Sampling_VTG(uint8_t* VTG , int lenght);
+void Sampling_VTG(char* VTG , int lenght);
 void Call_Roll_PID(float Roll_set);
 void Call_Pitch_PID(float Pitch_set);
 void Call_Yaw_PID(float Yaw_set);
@@ -97,7 +99,8 @@ void Gent_Pwm_Alt(float Alt);
 extern uint8_t Alt_latest;
 /*****************************Peripheral Function*********************************************/
 float trituyetdoi(float a);
-extern uint8_t Buf_USART2[],Buf_UART4[],Buf_rx4[],Buf1_rx4[];
+extern uint8_t Buf_UART4[],Buf_rx4[],Buf1_rx4[];
+extern char Buf_USART2[];
 extern  USART_InitTypeDef USART_InitStructure;
 extern uint64_t TickCnt;
 extern DMA_InitTypeDef  DMA_InitStructure;

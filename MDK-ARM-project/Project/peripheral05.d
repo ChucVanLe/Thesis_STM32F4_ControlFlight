@@ -44,4 +44,5 @@
 .\project\peripheral05.o: ..\file.h\ffconf.h
 .\project\peripheral05.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
 .\project\peripheral05.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\project\peripheral05.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
 .\project\peripheral05.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h

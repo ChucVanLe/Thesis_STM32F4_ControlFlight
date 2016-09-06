@@ -32,134 +32,105 @@ void PID_Init(void)
 	Alt_PID.Ki=0;
 	Alt_PID.Kd=0;
 }
-void Sampling_VTG(uint8_t* VTG , int lenght)
+//*****************************************************
+//get speed
+void Sampling_VTG(char* VTG , int lenght)
 {
 	int i=0;
-	int comma=0;
-	int dot =0 ;
-	int fp=0,ep = 0;
-	float vantoc=0;
+	char temp_speed[7];
+	int comma=0;//find ','
+	int fp_speed =0, ep_speed = 0;
 	for (i=0;i<lenght;i++)
 	{
-			if (VTG[i]==',')
+			if (VTG[i] == ',')
 			{
 				comma++;
-				if(comma==7)
-					fp=i;
-				if(comma==8)
+				if(comma == 7)
+					fp_speed = i;
+				if(comma == 8)
 				{
-					ep=i;
+					ep_speed = i;
 					break;
 				}
 			}
 	 }
-	for(i=fp+1;i<ep;++i)
-	{
-		if(VTG[i]=='.')
-		{
-			dot=i;
-			break;
-		}
-	}
-	for (i=fp+1;i<dot;++i)
-		vantoc+=(VTG[i]-0x30)*pow(10,(dot-i-1));
-	for (i=dot+1;i<ep;++i)
-		vantoc+=(VTG[i]-0x30)*pow(10,(dot-i));
-	Speed.Current=vantoc;
+	strncpy(temp_speed, &VTG[fp_speed], ep_speed - fp_speed);
+	//Speed.Current = atof(temp_speed);
+	 Speed.Current = fp_speed;
 }
-void Sampling_GGA(uint8_t* GGA , int lenght)
+//*****************************************************
+//get latitude, longitude, altitude
+void Sampling_GGA(char* GGA , int lenght)
 {
-	int i=0;
-	int comma=0;
-	int dot =0 ;
-	int fp=0,fp_latitude=0,fp_longitude=0;
-	int ep = 0,ep_latitude=0,ep_longitude=0;
-	float docao =0,vido=0,kinhdo=0;
-	// tim [ fp -12.5 ep ]
+	char min_lat[10], degree_lat[3], min_lon[10], degree_lon[3], temp_alt[5];
+	uint8_t pos_dot_lat, pos_dot_lon;
+	int i = 0;
+	int comma = 0;//find ','
+	int fp_alt = 0, fp_latitude=0, fp_longitude=0;
+	int ep_alt = 0, ep_latitude=0, ep_longitude=0;
+
 	for (i=0;i<lenght;i++)
 	{
 			if (*(GGA+i)==',')
 			{
 				comma++;
 				if(comma==2)
-					fp_latitude=i;
+					fp_latitude = i + 1;
 				if(comma==3)
-					ep_latitude=i;
+					ep_latitude = i;
 				if(comma==4)
-					fp_longitude=i;
+					fp_longitude = i + 1;
 				if(comma==5)
-					ep_longitude=i;
+					ep_longitude = i;
 				if (comma==9)
-					fp = i;
+					fp_alt = i + 1;
 				if (comma==10)
 				{
-					ep=i;
+					ep_alt = i;
 					break;
 				}
 			}
 	}
+	//find position dot latitude, longitude
+	for (i = fp_latitude; i < ep_latitude; i++)
+	{
+			if (*(GGA+i)=='.') pos_dot_lat = i;
+	}
+	for (i = fp_longitude; i < ep_longitude; i++)
+	{
+			if (*(GGA+i)=='.') pos_dot_lon = i;
+	}
+	
 	if(ep_latitude!=(fp_latitude+1))
 	{
-		vido= (GGA[fp_latitude+1]-0x30)*10+(GGA[fp_latitude+2]-0x30)+(GGA[fp_latitude+3]-0x30)*0.1+(GGA[fp_latitude+4]-0x30)*0.01+(GGA[fp_latitude+6]-0x30)*0.001;
-		vido+=(GGA[fp_latitude+7]-0x30)*0.0001+(GGA[fp_latitude+8]-0x30)*0.00001+(GGA[fp_latitude+9]-0x30)*0.000001;
-		// 		for(i=0;i<4;i++)
-// 		{
-// 			vido+=(GGA[fp_latitude+6+i]-0x30)* pow(10,-i-3);
-// 		}
+		strncpy(degree_lat, &GGA[fp_latitude], pos_dot_lat - 2 - fp_latitude);
+		strncpy(min_lat, &GGA[pos_dot_lat - 2], ep_latitude - (pos_dot_lat - 2));
+		Latitude.Current = atof(degree_lat) + atof(min_lat) / 60;
 	}
-	else vido=0;
-	Latitude.Current =vido;
+	else Latitude.Current = 0;
+
 	if(ep_longitude!=(fp_longitude+1))
 	{
-		kinhdo= (GGA[fp_longitude+1]-0x30)*100+(GGA[fp_longitude+2]-0x30)*10+(GGA[fp_longitude+3]-0x30)+(GGA[fp_longitude+4]-0x30)*0.1+(GGA[fp_longitude+5]-0x30)*0.01;
-		for(i=0;i<4;i++)
-		{
-			kinhdo+=(GGA[fp_longitude+7+i]-0x30)* pow(10,-i-3);
-		}
+		strncpy(degree_lon, &GGA[fp_longitude], pos_dot_lon - 2 - fp_longitude);
+		strncpy(min_lon, &GGA[pos_dot_lon - 2], ep_longitude - (pos_dot_lon - 2));
+		Longitude.Current = atof(degree_lon) + atof(min_lon) / 60;
 	}
-	else kinhdo=0;
-	Longitude.Current =kinhdo;
+	else Longitude.Current = 0;
+
 	// neu co thong tin do cao thi lam 
-if(state_alt==1)
-{
-	if (ep!=(fp+1))
+	if(state_alt==1)
 	{
-	// tim vi tri dau cham
-	for (i=fp+1;i<ep;++i)
-	{
-		if (*(GGA+i)=='.')
+		if (ep_alt != (fp_alt+1))
 		{
-			dot=i;
-			break;
+			strncpy(temp_alt, &GGA[fp_alt], ep_alt - fp_alt);
+			Alt_PID.Current = atof(temp_alt);
+			Alt_PID.enable = 1 ;
 		}
-	}
-	if (*(GGA+fp+1)=='-')
-	{
-		for (i=fp+2;i<dot;++i)
-				docao+=(*(GGA+i)-0x30)*pow(10,(dot-i-1));
-		for (i=dot+1;i<ep;++i)
-				docao+=(*(GGA+i)-0x30)*pow(10,(dot-i));
-		docao= -docao;
-	}
-	else 
-	{
-		for (i=fp+1;i<dot;++i)
-				docao+=(*(GGA+i)-0x30)*pow(10,(dot-i-1));
-		for (i=dot+1;i<ep;++i)
-				docao+=(*(GGA+i)-0x30)*pow(10,(dot-i));
-	}
- }
- else docao=0;
- if (docao >8 )
- {
-	Alt_PID.Current = docao;
-	Alt_PID.enable =1 ;
- }
- }
+		else Alt_PID.Current = 0;
+	 }
 }
-	
-
-
+//*****************************************************
+//get roll, pitch, yaw
 void Sampling_RPY(uint8_t* IMU , int lenght)
 {
 	int i = 0 ; 
@@ -203,7 +174,6 @@ void Sampling_RPY(uint8_t* IMU , int lenght)
 	Alt_PID.enable =1 ;
 	}
 }
-
 
 /*******************************************************************************
 Function name: Call_Roll_PID
