@@ -173,18 +173,15 @@ void SysTick_Handler(void)
                }
            }               
 					Sampling_RPY((uint8_t*)Buf_USART2,80);//get roll, pitch, yaw
-          Sampling_VTG(&Buf_USART2[position_VTG] ,position_end_of_VTG - position_VTG);//get lat, lon
-                    //Sampling_GGA(GGA1 ,26);
-					Sampling_GGA(&Buf_USART2[position_end_of_VTG + 1], position_end_of_GGA - position_end_of_VTG);//get speed
-                    //save data to SD card
-                    //imu ( DATA[0--> h-2]  BAO GOM \N VA \S\R)
-                    if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station
-                    {//if CMD_Trigger = 0 ; transmit data to ground station
-                            
-                            DMA_SetCurrDataCounter(DMA1_Stream4,lenght_of_data_IMU_GPS);
-                            DMA_Cmd(DMA1_Stream4,ENABLE);   
-                        }
-                        else
+          Sampling_VTG(&Buf_USART2[position_VTG] ,position_end_of_VTG - position_VTG);//get speed
+					Sampling_GGA(&Buf_USART2[position_end_of_VTG + 1], position_end_of_GGA - position_end_of_VTG);//get lat, lon, alt
+          
+					 if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station
+           {//if CMD_Trigger = 0 ; transmit data to ground station                           
+              DMA_SetCurrDataCounter(DMA1_Stream4,lenght_of_data_IMU_GPS);
+              DMA_Cmd(DMA1_Stream4,ENABLE);   
+           }
+           else
                         {
                             CMD_Trigger=0;
                             xacnhan(&Buf_rx4[0]);

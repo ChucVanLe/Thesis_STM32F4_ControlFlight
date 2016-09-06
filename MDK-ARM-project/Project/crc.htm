@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Project\crc.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Project\crc.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Tue Sep 06 17:13:35 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Tue Sep 06 17:50:23 2016
 <BR><P>
 <H3>Maximum Stack Usage =        368 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -577,6 +577,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_scanf_really_real
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xacnhan
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_VTG
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_RPY
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_GGA
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Yaw_PID
@@ -1088,10 +1089,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[b4]"></a>Sampling_VTG</STRONG> (Thumb, 68 bytes, Stack size 24 bytes, pid05.o(i.Sampling_VTG))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = Sampling_VTG &rArr; strncpy
+<P><STRONG><a name="[b4]"></a>Sampling_VTG</STRONG> (Thumb, 78 bytes, Stack size 24 bytes, pid05.o(i.Sampling_VTG))
+<BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = Sampling_VTG &rArr; __hardfp_atof &rArr; __strtod_int &rArr; _local_sscanf &rArr; _scanf_real
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncpy
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atof
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
@@ -1221,7 +1224,8 @@ Global Symbols
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__read_errno
 </UL>
-<BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_GGA
+<BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_VTG
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_GGA
 </UL>
 
 <P><STRONG><a name="[b3]"></a>__hardfp_pow</STRONG> (Thumb, 3132 bytes, Stack size 184 bytes, pow.o(i.__hardfp_pow))

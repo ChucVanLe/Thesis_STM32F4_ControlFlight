@@ -46,7 +46,7 @@ void Sampling_VTG(char* VTG , int lenght)
 			{
 				comma++;
 				if(comma == 7)
-					fp_speed = i;
+					fp_speed = i + 1;
 				if(comma == 8)
 				{
 					ep_speed = i;
@@ -55,8 +55,7 @@ void Sampling_VTG(char* VTG , int lenght)
 			}
 	 }
 	strncpy(temp_speed, &VTG[fp_speed], ep_speed - fp_speed);
-	//Speed.Current = atof(temp_speed);
-	 Speed.Current = fp_speed;
+	Speed.Current = atof(temp_speed);
 }
 //*****************************************************
 //get latitude, longitude, altitude

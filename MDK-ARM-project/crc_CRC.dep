@@ -472,7 +472,7 @@ I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C7D364)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7D364)
 I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C7D364)
 I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C7D364)
-F (..\filestmf405.c\pid05.c)(0x57CE969C)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I..\file.c -I..\file.h -I..\filestmf405.c -I..\lib\inc -I..\lib-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I Device\Include-DHSE_VALUE="8000000" -DUSE_STDPERIPH_DRIVER-o .\project\pid05.o --omf_browse .\project\pid05.crf --depend .\project\pid05.d)
+F (..\filestmf405.c\pid05.c)(0x57CE9F6E)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I..\file.c -I..\file.h -I..\filestmf405.c -I..\lib\inc -I..\lib-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I Device\Include-DHSE_VALUE="8000000" -DUSE_STDPERIPH_DRIVER-o .\project\pid05.o --omf_browse .\project\pid05.crf --depend .\project\pid05.d)
 I (..\file.h\project.h)(0x57CE9520)
 I (..\lib\stm32f4xx.h)(0x57CDB2D3)
 I (C:\Keil\ARM\CMSIS\Include\core_cm4.h)(0x532C05D2)
@@ -557,7 +557,7 @@ I (..\lib\inc\misc.h)(0x57CDB2D3)
 I (..\file.h\diskio.h)(0x57CDB2D3)
 I (..\file.h\integer.h)(0x57CDB2D3)
 I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C7D364)
-F (..\filestmf405.c\luanvan3-05vs2.c)(0x57CE954D)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I..\file.c -I..\file.h -I..\filestmf405.c -I..\lib\inc -I..\lib-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I Device\Include-DHSE_VALUE="8000000" -DUSE_STDPERIPH_DRIVER-o .\project\luanvan3-05vs2.o --omf_browse .\project\luanvan3-05vs2.crf --depend .\project\luanvan3-05vs2.d)
+F (..\filestmf405.c\luanvan3-05vs2.c)(0x57CE9E41)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I..\file.c -I..\file.h -I..\filestmf405.c -I..\lib\inc -I..\lib-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I Device\Include-DHSE_VALUE="8000000" -DUSE_STDPERIPH_DRIVER-o .\project\luanvan3-05vs2.o --omf_browse .\project\luanvan3-05vs2.crf --depend .\project\luanvan3-05vs2.d)
 I (..\file.h\project.h)(0x57CE9520)
 I (..\lib\stm32f4xx.h)(0x57CDB2D3)
 I (C:\Keil\ARM\CMSIS\Include\core_cm4.h)(0x532C05D2)
