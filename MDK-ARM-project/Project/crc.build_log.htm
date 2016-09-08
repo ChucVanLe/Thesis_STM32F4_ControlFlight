@@ -9,42 +9,60 @@ Project File Date:  09/06/2016
 <h2>Output:</h2>
 Build target 'CRC'
 compiling pid05.c...
-..\filestmf405.c\pid05.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(143): warning:  #1035-D: single-precision operand implicitly converted to double-precision
         roll=roll*0.1;
-..\filestmf405.c\pid05.c(149): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(151): warning:  #1035-D: single-precision operand implicitly converted to double-precision
         pitch=pitch*0.1;
-..\filestmf405.c\pid05.c(157): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(159): warning:  #1035-D: single-precision operand implicitly converted to double-precision
         yaw=yaw*0.1;
-..\filestmf405.c\pid05.c(201): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(203): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                 Roll_PID.a0=(Roll_PID.Kp +Roll_PID.Ki*0.02*0.5+Roll_PID.Kd*50); //a0=(Roll_PID.Kp +Roll_PID.Ki*0.01*0.5+Roll_PID.Kd/0.01)
-..\filestmf405.c\pid05.c(202): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(204): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                 Roll_PID.a1=(-Roll_PID.Kp+Roll_PID.Ki*0.02*0.5-2*Roll_PID.Kd*50);//a1=(-Roll_PID.Kp+Roll_PID.Ki*0.01*0.5-2*Roll_PID.Kd/0.01);
-..\filestmf405.c\pid05.c(246): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(248): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                         Pitch_PID.a0=(Pitch_PID.Kp +Pitch_PID.Ki*0.02*0.5+Pitch_PID.Kd*50);     
-..\filestmf405.c\pid05.c(247): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(249): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                         Pitch_PID.a1=(-Pitch_PID.Kp+Pitch_PID.Ki*0.02*0.5-2*Pitch_PID.Kd*50);
-..\filestmf405.c\pid05.c(289): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(291): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                                         Alt_PID.a0=(Alt_PID.Kp +Alt_PID.Ki*0.1*0.5+Alt_PID.Kd*10);      
-..\filestmf405.c\pid05.c(290): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(292): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                                         Alt_PID.a1=(-Alt_PID.Kp+Alt_PID.Ki*0.1*0.5-2*Alt_PID.Kd*10);
-..\filestmf405.c\pid05.c(320): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(322): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                                                 Alt_PID.a0=(Press.Kp +Press.Ki*0.1*0.5+Press.Kd*10);    
-..\filestmf405.c\pid05.c(321): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(323): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                                                 Alt_PID.a1=(-Press.Kp+Press.Ki*0.1*0.5-2*Press.Kd*10);
-..\filestmf405.c\pid05.c(365): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(367): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                 Yaw_PID.a0=(Yaw_PID.Kp +Yaw_PID.Ki*0.02*0.5+Yaw_PID.Kd*50);     
-..\filestmf405.c\pid05.c(366): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\filestmf405.c\pid05.c(368): warning:  #1035-D: single-precision operand implicitly converted to double-precision
                                 Yaw_PID.a1=(-Yaw_PID.Kp+Yaw_PID.Ki*0.02*0.5-2*Yaw_PID.Kd*50);
-..\filestmf405.c\pid05.c(66): warning: C4017W: pos_dot_lon may be used before being set
+..\filestmf405.c\pid05.c(68): warning: C4017W: pos_dot_lon may be used before being set
         uint8_t pos_dot_lat, pos_dot_lon;
-..\filestmf405.c\pid05.c(66): warning: C4017W: pos_dot_lat may be used before being set
+..\filestmf405.c\pid05.c(68): warning: C4017W: pos_dot_lat may be used before being set
         uint8_t pos_dot_lat, pos_dot_lon;
 ..\filestmf405.c\pid05.c: 15 warnings, 0 errors
+compiling luanvan3-05vs2.c...
 linking...
-Program Size: Code=16672 RO-data=632 RW-data=120 ZI-data=25584  
+Program Size: Code=22536 RO-data=1024 RW-data=88 ZI-data=37968  
 ".\Project\crc.axf" - 0 Error(s), 15 Warning(s).
 Load "E:\\Studying\\InSchool\\DoAnVaLuanVan\\CD_LVTN\\Project-lvtn\\ST32F405_project_LeVanChuc\\MDK-ARM-project\\Project\\crc.axf" 
 Erase Done.
 Programming Done.
 Verify OK.
 Application running ...
+oAnVaLuanVan\\CD_LVTN\\Project-lvtn\\ST32F405_project_LeVanChuc\\MDK-ARM-project\\Project\\crc.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...
+Load "E:\\Studying\\InSchool\\DoAnVaLuanVan\\CD_LVTN\\Project-lvtn\\ST32F405_project_LeVanChuc\\MDK-ARM-project\\Project\\crc.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...
+Load "E:\\Studying\\InSchool\\DoAnVaLuanVan\\CD_LVTN\\Project-lvtn\\ST32F405_project_LeVanChuc\\MDK-ARM-project\\Project\\crc.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...
+536 RO-data=1024 RW-data=88 ZI-data=37968  
+".\Project\crc.axf" - 0 Error(s), 17 Warning(s).

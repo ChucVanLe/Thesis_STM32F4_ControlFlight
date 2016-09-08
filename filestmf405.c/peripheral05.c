@@ -309,8 +309,8 @@ void Interrupt_uart4_rx(void)
 	}
 
 /**************************************************************************************/
-	uint8_t CRC_Cal(uint8_t offsetmin,uint8_t *kitu,int offsetmax)
-	{
+uint8_t CRC_Cal(uint8_t offsetmin,uint8_t *kitu,int offsetmax)
+{
 		uint8_t crc,crclsb;
 		int j=0;
 		int i=offsetmin;

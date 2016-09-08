@@ -32,35 +32,28 @@
 //bien cho ham sd card
 
 /**************************************************************************************/
-uint8_t CMD_Trigger = 0;
+uint8_t CMD_Trigger = 0;//mode tran data to ground station or receive data from GS
 uint8_t Alt_latest = 0;
 int compare_enough_data = 0;
 int number_byte_empty_into_Buf_USART2 = 0;
+int lenght_of_data_IMU_GPS = 0;
 
-int lenght_of_data_IMU_GPS=0;
-//uint8_t IMU[80];
-uint8_t GGA[100];
-uint8_t VTG[100];
-
-uint8_t CMD_delay=0;
-uint16_t G_delay_count=0;
+uint8_t CMD_delay =0;
+uint16_t G_delay_count =0;
 uint8_t Buf_UART4[300],Buf_rx4[9],Buf1_rx4[9];
 char Buf_USART2[250];
 uint8_t Update_heso_Roll=0,Update_heso_Pitch=0,Update_heso_Yaw=0,Update_heso_Alt=0,Update_heso_Press=0;
 
 uint8_t crc;
-int position_VTG = 0;
-int i=0;
+int i = 0;
 uint8_t find_char_$ = 0 ;
-uint16_t position_end_of_VTG = 0, position_end_of_GGA = 0,l2=0;
+uint16_t position_VTG = 0, position_end_of_VTG = 0, position_end_of_GGA = 0;
 uint8_t flag_set_or_current_press;
-uint8_t flag_press=0;
-uint8_t state_alt=1,state_press=0;
+uint8_t flag_press = 0;
+uint8_t state_alt = 1,state_press = 0;
 void xacnhan(uint8_t *buffer);
 
 uint8_t test_simulate1, test_simulate2, test_simulate3;
-		char str[] = "12345.56";
-		double d;
 /*************************************************************************************/
 int main(void)
 {
@@ -76,23 +69,18 @@ int main(void)
     USART2_Configuration(115200);
     DMA_UART4_Configuration((uint8_t*)Buf_USART2,250);
     DMA_USART2_Config((uint8_t*)Buf_USART2,250);
-    DMA_UART4_RX(Buf_rx4,9);
+    DMA_UART4_RX(Buf_rx4, 9);
 // defaude dieu khien o che do ALT  
     state_press=0;
     state_alt=1;
-
 
     power ();
     
     MyTIM_PWM_Configuration();  
        
-    SysTick_Config(SystemCoreClock/500);
+    SysTick_Config(SystemCoreClock/500);//interrupt system 2ms
     GPIO_SetBits(GPIOB,GPIO_Pin_12);
 		
-
-
-		sscanf(str, "%lf", &d);
-
     while(1)
     {
         if (GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8))
@@ -115,14 +103,14 @@ void SysTick_Handler(void)
      
     compare_enough_data = number_byte_empty_into_Buf_USART2;
     number_byte_empty_into_Buf_USART2 = DMA1_Stream5->NDTR;// (Buffer->size) --> count2, number byte data from IMU/GPS
-    if( CMD_delay ==1 )
+    if( CMD_delay == 1 )
     {   
         G_delay_count += 1;
     }
     if (G_delay_count == 1000)//reset buffer receive data from groud staion
     {
-        G_delay_count =0;
-        CMD_delay =0;
+        G_delay_count = 0;
+        CMD_delay = 0;
     //  DMA_UART4_RX(Buf_rx4,9);
         DMA_Cmd(DMA1_Stream2,DISABLE);
 				DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
@@ -131,13 +119,13 @@ void SysTick_Handler(void)
     }         
     if(compare_enough_data == number_byte_empty_into_Buf_USART2)
     {
-        lenght_of_data_IMU_GPS = 300 - number_byte_empty_into_Buf_USART2;//y number byte in buffer DMA has received
-        if (lenght_of_data_IMU_GPS > 120)//buffer size IMU/GPS < 290
+        lenght_of_data_IMU_GPS = 250 - number_byte_empty_into_Buf_USART2;//y number byte in buffer DMA has received
+        if (lenght_of_data_IMU_GPS > 100)//buffer size IMU/GPS < 290
         {
              //fastest way to restart DMA
           DMA_Cmd(DMA1_Stream5,DISABLE);
           DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
-          DMA_SetCurrDataCounter(DMA1_Stream5,300);
+          DMA_SetCurrDataCounter(DMA1_Stream5,250);
 					DMA_Cmd(DMA1_Stream5,ENABLE);
           
 					//test simulate
@@ -176,21 +164,21 @@ void SysTick_Handler(void)
           Sampling_VTG(&Buf_USART2[position_VTG] ,position_end_of_VTG - position_VTG);//get speed
 					Sampling_GGA(&Buf_USART2[position_end_of_VTG + 1], position_end_of_GGA - position_end_of_VTG);//get lat, lon, alt
           
-					 if ( CMD_Trigger == 0)//if CMD_Trigger =1 ; receive data from ground station
-           {//if CMD_Trigger = 0 ; transmit data to ground station                           
+					 if (CMD_Trigger == 0)//if CMD_Trigger = 0 ; transmit data to ground station   
+           {                        
               DMA_SetCurrDataCounter(DMA1_Stream4,lenght_of_data_IMU_GPS);
               DMA_Cmd(DMA1_Stream4,ENABLE);   
            }
-           else
-                        {
-                            CMD_Trigger=0;
-                            xacnhan(&Buf_rx4[0]);
-                            CMD_delay =1 ;
+           else//if CMD_Trigger =1 ; receive data from ground station
+           {
+							CMD_Trigger=0;
+              xacnhan(&Buf_rx4[0]);
+							CMD_delay =1 ;
 //                          DMA_Cmd(DMA1_Stream2,DISABLE);
 //                          DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
 //                          DMA_SetCurrDataCounter(DMA1_Stream2,9);
 //                          DMA_Cmd(DMA1_Stream2,ENABLE);
-                        }     
+           }     
         }
     }
  }
@@ -202,22 +190,22 @@ void DMA1_Stream2_IRQHandler(void)
         if (DMA_GetITStatus(DMA1_Stream2, DMA_IT_TCIF2))
         {
             DMA_ClearITPendingBit(DMA1_Stream2, DMA_IT_TCIF2);
-            CMD_Trigger = 1 ;
-            //tat DMA Tx                        
-//          them1=1;
-                        //restart DMA_RX
-//          DMA_ClearITPendingBit(DMA1_Stream2, DMA_IT_TCIF2);
-                
+            CMD_Trigger = 1 ;                
         }
     }
 void xacnhan(uint8_t *buffer)
     {
         int i;
         switch (buffer[0])
+				//1: update roll
+				//2: update pitch
+				//3: update yaw
+				//4: update alt, state_alt = 1
+				//5: update alt, state_alt = 0, no GPS, altitude is calculator with press, state press = 1
         {
             case 1:
                 
-                if(CRC_Cal(0,&buffer[0],7)==buffer[8]) 
+                if(CRC_Cal(0,&buffer[0],7)==buffer[8])//no error
                 {
                     Buf_UART4[0]=13;
                     Buf_UART4[1]=10;
@@ -241,7 +229,7 @@ void xacnhan(uint8_t *buffer)
                     Buf_UART4[0]=13;
                     Buf_UART4[1]=10;
                     Buf_UART4[2]=buffer[0];
-                    Buf_UART4[3]=21;
+                    Buf_UART4[3]=21;//NAK
                     Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
                     Buf_UART4[5]=13;
                     DMA_SetCurrDataCounter(DMA1_Stream4,6);
@@ -250,7 +238,7 @@ void xacnhan(uint8_t *buffer)
                 break;
                 
             case 2:
-                    if(CRC_Cal(0,&buffer[0],7)==buffer[8]) 
+                    if(CRC_Cal(0,&buffer[0],7)==buffer[8])//no error
                     {
                     //  them=1;
                         Buf_UART4[0]=13;
@@ -283,7 +271,7 @@ void xacnhan(uint8_t *buffer)
                     }
                     break;
                     
-                    case 3:
+						case 3:
                         if(CRC_Cal(0,&buffer[0],7)==buffer[8]) 
                         {
                             Buf_UART4[0]=13;

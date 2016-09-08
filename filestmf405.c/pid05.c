@@ -36,9 +36,9 @@ void PID_Init(void)
 //get speed
 void Sampling_VTG(char* VTG , int lenght)
 {
-	int i=0;
+	int i = 0;
 	char temp_speed[7];
-	int comma=0;//find ','
+	int comma = 0;//find ','
 	int fp_speed =0, ep_speed = 0;
 	for (i=0;i<lenght;i++)
 	{
@@ -54,8 +54,11 @@ void Sampling_VTG(char* VTG , int lenght)
 				}
 			}
 	 }
+	if(ep_speed!=(fp_speed))
+	{
 	strncpy(temp_speed, &VTG[fp_speed], ep_speed - fp_speed);
 	Speed.Current = atof(temp_speed);
+	}
 }
 //*****************************************************
 //get latitude, longitude, altitude
@@ -100,7 +103,7 @@ void Sampling_GGA(char* GGA , int lenght)
 			if (*(GGA+i)=='.') pos_dot_lon = i;
 	}
 	
-	if(ep_latitude!=(fp_latitude+1))
+	if(ep_latitude!=(fp_latitude))
 	{
 		strncpy(degree_lat, &GGA[fp_latitude], pos_dot_lat - 2 - fp_latitude);
 		strncpy(min_lat, &GGA[pos_dot_lat - 2], ep_latitude - (pos_dot_lat - 2));
@@ -108,7 +111,7 @@ void Sampling_GGA(char* GGA , int lenght)
 	}
 	else Latitude.Current = 0;
 
-	if(ep_longitude!=(fp_longitude+1))
+	if(ep_longitude!=(fp_longitude))
 	{
 		strncpy(degree_lon, &GGA[fp_longitude], pos_dot_lon - 2 - fp_longitude);
 		strncpy(min_lon, &GGA[pos_dot_lon - 2], ep_longitude - (pos_dot_lon - 2));
@@ -119,7 +122,7 @@ void Sampling_GGA(char* GGA , int lenght)
 	// neu co thong tin do cao thi lam 
 	if(state_alt==1)
 	{
-		if (ep_alt != (fp_alt+1))
+		if (ep_alt != (fp_alt))
 		{
 			strncpy(temp_alt, &GGA[fp_alt], ep_alt - fp_alt);
 			Alt_PID.Current = atof(temp_alt);
