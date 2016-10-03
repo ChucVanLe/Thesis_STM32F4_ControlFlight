@@ -19,7 +19,7 @@
 ".\project\fattime.o"
 ".\project\ff.o"
 ".\project\ccsbcs.o"
---strict --scatter ".\Project\crc.sct"
+--library_type=microlib --strict --scatter ".\Project\crc.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Project\crc.map" -o .\Project\crc.axf
