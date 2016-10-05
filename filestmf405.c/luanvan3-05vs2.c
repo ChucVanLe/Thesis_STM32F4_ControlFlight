@@ -55,8 +55,8 @@ uint8_t flag_press = 0;
 uint8_t state_alt = 1,state_press = 0;
 void xacnhan(char *buffer);
 
-uint8_t test_simulate1, test_simulate2, test_simulate3;
-float test_simulate4;
+float lat_long_from_GS[14][2];//contain lat, long which is uploaded from GS
+float test_simulate1, test_simulate2, test_simulate3;
 /*************************************************************************************/
 int main(void)
 {
@@ -88,12 +88,12 @@ int main(void)
     {
         if (GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8))
         {
-//						Call_Roll_PID(Roll_PID.SetPoint);   
-//						//Gent_Pwm_Pitch(-5);
-//						Call_Pitch_PID(Pitch_PID.SetPoint);
-//						Call_Yaw_PID(Yaw_PID.SetPoint);
-//						//Call_Alt_PID(Alt_PID.SetPoint);
-//						Gent_Pwm_Alt(15);
+						Call_Roll_PID(Roll_PID.SetPoint);   
+						//Gent_Pwm_Pitch(-5);
+						Call_Pitch_PID(Pitch_PID.SetPoint);
+						Call_Yaw_PID(Yaw_PID.SetPoint);
+						//Call_Alt_PID(Alt_PID.SetPoint);
+						Gent_Pwm_Alt(15);
         }      
 // /*.................................save data to SD Card...........................................*/  
 //...........................					remove code save data because Mr.Huan has done it.				        
@@ -210,10 +210,11 @@ void DMA1_Stream2_IRQHandler(void)
 }
 void xacnhan(char *buffer)
 {
-	uint8_t i = 0;
+	uint8_t i = 0, index_array_lat_lon = 0;
 	uint8_t comma = 0;//find ','
-	uint8_t fp_kp = 0, fp_ki = 0, fp_kd = 0, fp_setpoint = 0, ep_setpoint = 0;
-	char temp_kp[10], temp_ki[10],temp_kd[10],temp_setpoint[10];
+	uint8_t fp_kp = 0, fp_ki = 0, fp_kd = 0, fp_setpoint = 0, ep_setpoint = 0, fp_lat = 0, fp_lon = 0;
+	char temp_kp[10], temp_ki[10],temp_kd[10],temp_checksum[10],temp_setpoint[10], temp_lat[14], temp_long[14];
+	uint32_t checksum_from_GS = 0, count_check_sum = 0;
 	//reset temp variable 
 	for(i = 0; i < 10; i++)
 	{
@@ -221,49 +222,18 @@ void xacnhan(char *buffer)
 		temp_ki[i] = 0;
 		temp_kd[i] = 0;
 		temp_setpoint[i] = 0;
-	}	
-  switch (buffer[1])
-				//'0': update roll
-				//2: update pitch
-				//3: update yaw
-				//4: update alt, state_alt = 1
-				//5: update alt, state_alt = 0, no GPS, altitude is calculator with press, state press = 1
-   {
-    case '0':
-                
-//                if(CRC_Cal(0,&buffer[0],7)==buffer[8])//no error
-//                {
-//                    Buf_UART4[0]=13;
-//                    Buf_UART4[1]=10;
-//                    Buf_UART4[2]=buffer[0];
-//                    Buf_UART4[3]=6;//ACK
-//                    Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                    Buf_UART4[5]=13;
-//                    DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                    DMA_Cmd(DMA1_Stream4,ENABLE);
-//                    Roll_PID.Kp=buffer[1]*0.1;
-//                    Roll_PID.Ki=buffer[2]*0.1;
-//                    Roll_PID.Kd=buffer[3]*0.1;
-//                    if(buffer[4]!=0)
-//                    {
-//                    Roll_PID.SetPoint=buffer[4];
-//                    }
-//                    Update_heso_Roll=1;
-//                }
-//                else
-//                {
-//                    Buf_UART4[0]=13;
-//                    Buf_UART4[1]=10;
-//                    Buf_UART4[2]=buffer[0];
-//                    Buf_UART4[3]=21;//NAK
-//                    Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                    Buf_UART4[5]=13;
-//                    DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                    DMA_Cmd(DMA1_Stream4,ENABLE);
-//                }
-
-
-	for (i=0; i <= index_receive_enough_data_GS; i++)
+	}
+	for(i = 0; i < 14; i++)
+	{
+		temp_lat[i] = 0;
+		temp_long[i] = 0;
+		lat_long_from_GS[i][0] = 0;
+		lat_long_from_GS[i][1] = 0;
+	}
+	
+	if('4' != buffer[1])//'4' = buffer[1]: upload latitude, longtitude
+	{
+		for (i=0; i <= index_receive_enough_data_GS; i++)
 		{
 			if (*(buffer + i)==',')
 			{
@@ -275,7 +245,22 @@ void xacnhan(char *buffer)
 				if(comma==5) ep_setpoint = i;
 			}
 		}
-		test_simulate1 = ep_setpoint;
+	}
+	//check sum
+	for (i=1; i <= ep_setpoint; i++)
+		{
+			 count_check_sum += *(buffer + i);
+		}
+  switch (buffer[1])
+				//'0': update roll
+				//'1': update pitch
+				//'2': update yaw
+				//'3': update alt, state_alt = 1
+				//'4': update lat, long
+				//	update alt, state_alt = 0, no GPS, altitude is calculator with press, state press = 1
+  {
+  case '0':
+	{
 		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
 		Roll_PID.Kp = atof(temp_kp);
 		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
@@ -283,144 +268,79 @@ void xacnhan(char *buffer)
 		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
 		Roll_PID.Kd = atof(temp_kd);
 		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
-		Roll_PID.SetPoint = atof(temp_kd);
-		test_simulate4 = atof(temp_setpoint);
-
+		Roll_PID.SetPoint = atof(temp_setpoint);
+		strncpy(temp_checksum, &buffer[ep_setpoint + 1], index_receive_enough_data_GS - ep_setpoint - 1);
+		checksum_from_GS = atof(temp_checksum);
+		
+					test_simulate1 = 1;
+			test_simulate2 = checksum_from_GS;
+			test_simulate3 = count_check_sum;
     break;
+	}
+	case '1':
+	{
+		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
+		Pitch_PID.Kp = atof(temp_kp);
+		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
+		Pitch_PID.Ki = atof(temp_ki);
+		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
+		Pitch_PID.Kd = atof(temp_kd);
+		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
+		Pitch_PID.SetPoint = atof(temp_setpoint);
+    break;
+	}
+	case '2':
+	{
+		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
+		Yaw_PID.Kp = atof(temp_kp);
+		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
+		Yaw_PID.Ki = atof(temp_ki);
+		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
+		Yaw_PID.Kd = atof(temp_kd);
+		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
+		Yaw_PID.SetPoint = atof(temp_setpoint);
+    break;
+	}
+	case '3':
+	{
+		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
+		Alt_PID.Kp = atof(temp_kp);
+		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
+		Alt_PID.Ki = atof(temp_ki);
+		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
+		Alt_PID.Kd = atof(temp_kd);
+		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
+		Alt_PID.SetPoint = atof(temp_setpoint);
+    break;
+	}
+	case '4'://update lat, long
+	{//! 4 v lat k lon v lat k lon v lat k lon checksum @
+		for (i=0; i <= index_receive_enough_data_GS; i++)
+		{
+			if ('k' == *(buffer + i)) 
+			{
+				fp_lon = i;			
+				strncpy(temp_lat, &buffer[fp_lat + 1], fp_lon - fp_lat - 1);
+				lat_long_from_GS[index_array_lat_lon][0] = atof(temp_lat);
+			}
+			else
+			{
+				if ('v' == *(buffer + i)) 
+				{
+					fp_lat = i;
+					if(2 != fp_lat)
+					{
+					strncpy(temp_long, &buffer[fp_lon + 1], fp_lat - fp_lon - 1);
+					lat_long_from_GS[index_array_lat_lon++][1] = atof(temp_long);
+					}
+				}
+			}
+		}
+
+			break;
+	}
                 
-//            case 2:
-//                    if(CRC_Cal(0,&buffer[0],7)==buffer[8])//no error
-//                    {
-//                    //  them=1;
-//                        Buf_UART4[0]=13;
-//                        Buf_UART4[1]=10;
-//                        Buf_UART4[2]=buffer[0];
-//                        Buf_UART4[3]=6;//ACK
-//                        Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                        Buf_UART4[5]=13;
-//                        DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                        DMA_Cmd(DMA1_Stream4,ENABLE);
-//                        Pitch_PID.Kp=buffer[1]*0.1;
-//                        Pitch_PID.Ki=buffer[2]*0.1;
-//                        Pitch_PID.Kd=buffer[3]*0.1;
-//                        if(buffer[4]!=0)
-//                        {
-//                        Pitch_PID.SetPoint=buffer[4];
-//                        }
-//                        Update_heso_Pitch=1;
-//                    }
-//                    else
-//                    {
-//                        Buf_UART4[0]=13;
-//                        Buf_UART4[1]=10;
-//                        Buf_UART4[2]=buffer[0];
-//                        Buf_UART4[3]=21;
-//                        Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                        Buf_UART4[5]=13;
-//                        DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                        DMA_Cmd(DMA1_Stream4,ENABLE);
-//                    }
-//                    break;
-//                    
-//						case 3:
-//                        if(CRC_Cal(0,&buffer[0],7)==buffer[8]) 
-//                        {
-//                            Buf_UART4[0]=13;
-//                            Buf_UART4[1]=10;
-//                            Buf_UART4[2]=buffer[0];
-//                            Buf_UART4[3]=6;//ACK
-//                            Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                            Buf_UART4[5]=13;
-//                            DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                            DMA_Cmd(DMA1_Stream4,ENABLE);
-//                            Yaw_PID.Kp=buffer[1]*0.1;
-//                            Yaw_PID.Ki=buffer[2]*0.1;
-//                            Yaw_PID.Kd=buffer[3]*0.1;
-//                            if(buffer[4]!=0)
-//                            {
-//                            Yaw_PID.SetPoint=buffer[4];
-//                            }
-//                            Update_heso_Yaw=1;
-//                        }
-//                        else
-//                        {
-//                            Buf_UART4[0]=13;
-//                            Buf_UART4[1]=10;
-//                            Buf_UART4[2]=buffer[0];
-//                            Buf_UART4[3]=21;
-//                            Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                            Buf_UART4[5]=13;
-//                            DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                            DMA_Cmd(DMA1_Stream4,ENABLE);
-//                        }
-//                        break;
-//                        
-//                    case 4:
-//                            if(CRC_Cal(0,&buffer[0],7)==buffer[8]) 
-//                            {
-//                            Buf_UART4[0]=13;
-//                            Buf_UART4[1]=10;
-//                            Buf_UART4[2]=buffer[0];
-//                            Buf_UART4[3]=6;//ACK
-//                            Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                            Buf_UART4[5]=13;
-//                            DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                            DMA_Cmd(DMA1_Stream4,ENABLE);
-//                            Alt_PID.Kp=buffer[1];
-//                            Alt_PID.Ki=buffer[2];
-//                            Alt_PID.Kd=buffer[3];
-//                                //if(buffer[4]!=0)  Alt_PID.SetPoint=buffer[4];
-//                            Update_heso_Alt=1;
-//                            state_press=0;
-//                            state_alt=1;
-//                            }
-//                        else
-//                        {
-//                            Buf_UART4[0]=13;
-//                            Buf_UART4[1]=10;
-//                            Buf_UART4[2]=buffer[0];
-//                            Buf_UART4[3]=21;
-//                            Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                            Buf_UART4[5]=13;
-//                            DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                            DMA_Cmd(DMA1_Stream4,ENABLE);
-//                        }
-//                        break;
-//                    case 5:
-//                            if(CRC_Cal(0,&buffer[0],7)==buffer[8]) 
-//                            {
-//                                    Buf_UART4[0]=13;
-//                                    Buf_UART4[1]=10;
-//                                    Buf_UART4[2]=buffer[0];
-//                                    Buf_UART4[3]=6;//ACK
-//                                    Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                                    Buf_UART4[5]=13;
-//                                    DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                                    DMA_Cmd(DMA1_Stream4,ENABLE);
-////                                  Press.Kp=buffer[1];
-////                                  Press.Ki=buffer[2];
-////                                  Press.Kd=buffer[3];
-//                                    Alt_PID.Kp=buffer[1];
-//                                    Alt_PID.Ki=buffer[2];
-//                                    Alt_PID.Kd=buffer[3];
-////                                  Update_heso_Press=1; 
-//                                    Update_heso_Alt=1;  
-//                                        
-//                                    state_press=1;
-//                                    state_alt=0;
-//                            }
-//                            else
-//                            {
-//                                    Buf_UART4[0]=13;
-//                                    Buf_UART4[1]=10;
-//                                    Buf_UART4[2]=buffer[0];
-//                                    Buf_UART4[3]=21;
-//                                    Buf_UART4[4]=CRC_Cal(1,&Buf_UART4[0],3);//CRC
-//                                    Buf_UART4[5]=13;
-//                                    DMA_SetCurrDataCounter(DMA1_Stream4,6);
-//                                    DMA_Cmd(DMA1_Stream4,ENABLE);
-//                            }
-//                            break;
+
 //                        default:
 //                            for ( i =0 ; i<9 ;++i )
 //												    {
@@ -432,7 +352,7 @@ void xacnhan(char *buffer)
 //                            DMA_Cmd(DMA1_Stream2,ENABLE);                   
 //                }
 			}
-   }       
+}       
         
 
 

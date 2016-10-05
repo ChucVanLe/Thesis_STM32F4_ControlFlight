@@ -398,7 +398,7 @@ void MyTIM_PWM_Configuration(void)
   }
 	
 	/*******************************EXTI**********************/
-	void EXTI_FPGA_Pa8(void)
+void EXTI_FPGA_Pa8(void)
   {
 		NVIC_InitTypeDef  NVIC_InitStructure;
 		EXTI_InitTypeDef  EXTI_InitStructure;
@@ -452,24 +452,24 @@ void MyTIM_PWM_Configuration(void)
 // 	
 
 	
-	void EXTI9_5_IRQHandler(void)
+void EXTI9_5_IRQHandler(void)
   {
     if(EXTI_GetITStatus(EXTI_Line8) != RESET)
     {
       //if (Alt_PID.Current !=0)	Alt_PID.SetPoint = Alt_PID.Current;
 			//if (Alt_PID.Current >0)	Alt_PID.SetPoint = Alt_PID.Current;
-			Roll_PID.SetPoint =0;
-			Yaw_PID.SetPoint =Yaw_PID.Current;
-			Pitch_PID.SetPoint =Pitch_PID.Current;
-			if(state_press==1)
-			{
-				Alt_PID.SetPoint=Press.Current;
-			}
-			
-			if ((state_alt==1)&&(Alt_PID.Current >5))
-			{
-				Alt_PID.SetPoint=Alt_PID.Current;
-			}
+//			Roll_PID.SetPoint =0;
+//			Yaw_PID.SetPoint =Yaw_PID.Current;
+//			Pitch_PID.SetPoint =Pitch_PID.Current;
+//			if(state_press==1)
+//			{
+//				Alt_PID.SetPoint=Press.Current;
+//			}
+//			
+//			if ((state_alt==1)&&(Alt_PID.Current >5))
+//			{
+//				Alt_PID.SetPoint=Alt_PID.Current;
+//			}
  			Gent_Pwm_Pitch(0);
  			Gent_Pwm_Yaw(0);
  			Gent_Pwm_Roll(0);
