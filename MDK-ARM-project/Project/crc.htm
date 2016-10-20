@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Project\crc.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Project\crc.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Thu Oct 20 07:53:25 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Thu Oct 20 09:45:15 2016
 <BR><P>
 <H3>Maximum Stack Usage =        384 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -467,7 +467,8 @@ Global Symbols
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
@@ -518,12 +519,12 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_value
+<BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Yaw
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
+<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_value
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_RPY
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_GGA
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Yaw
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
 </UL>
 
 <P><STRONG><a name="[6e]"></a>__aeabi_i2d</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, dflti.o(.text))
@@ -553,12 +554,12 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[7f]"></a>__aeabi_f2d</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, f2d.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_RPY
+<BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Yaw
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_RPY
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Yaw_PID
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Roll_PID
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Pitch_PID
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Yaw
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
 </UL>
 
 <P><STRONG><a name="[72]"></a>__aeabi_d2f</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, d2f.o(.text))
@@ -566,7 +567,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_float_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_scanf_really_real
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_scanf_really_real
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;receive_data_and_reply
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_VTG
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Sampling_RPY
@@ -630,10 +632,10 @@ Global Symbols
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ul2d
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ul2d
 </UL>
 
 <P><STRONG><a name="[c2]"></a>__ARM_scalbn</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, dscalb.o(.text))
@@ -668,9 +670,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[7b]"></a>_scanf_really_real</STRONG> (Thumb, 560 bytes, Stack size 104 bytes, scanf_fp.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_is_digit
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_value
+<BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_value
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_is_digit
 </UL>
 
 <P><STRONG><a name="[60]"></a>_sgetc</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, _sgetc.o(.text))
@@ -699,15 +701,15 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[7e]"></a>Call_Pitch_PID</STRONG> (Thumb, 442 bytes, Stack size 48 bytes, pid05.o(i.Call_Pitch_PID))
-<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Call_Pitch_PID &rArr; __aeabi_dsub &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = Call_Pitch_PID &rArr; Gent_Pwm_Pitch &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trituyetdoi
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Pitch
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -715,13 +717,13 @@ Global Symbols
 <P><STRONG><a name="[82]"></a>Call_Roll_PID</STRONG> (Thumb, 444 bytes, Stack size 48 bytes, pid05.o(i.Call_Roll_PID))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Call_Roll_PID &rArr; __aeabi_dsub &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Roll
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trituyetdoi
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Roll
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -729,13 +731,13 @@ Global Symbols
 <P><STRONG><a name="[84]"></a>Call_Yaw_PID</STRONG> (Thumb, 438 bytes, Stack size 48 bytes, pid05.o(i.Call_Yaw_PID))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Call_Yaw_PID &rArr; __aeabi_dsub &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Yaw
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;trituyetdoi
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Yaw
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -761,17 +763,17 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[86]"></a>DMA_ClearITPendingBit</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, stm32f4xx_dma.o(i.DMA_ClearITPendingBit))
-<BR><BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA1_Stream2_IRQHandler
-<LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA1_Stream4_IRQHandler
+<BR><BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA1_Stream4_IRQHandler
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA1_Stream2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[87]"></a>DMA_Cmd</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32f4xx_dma.o(i.DMA_Cmd))
-<BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;receive_data_and_reply
-<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
-<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA1_Stream2_IRQHandler
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_USART2_Config
+<BR><BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_USART2_Config
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_UART4_RX
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_UART4_Configuration
+<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;receive_data_and_reply
+<LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA1_Stream2_IRQHandler
 </UL>
 
 <P><STRONG><a name="[8a]"></a>DMA_DeInit</STRONG> (Thumb, 272 bytes, Stack size 28 bytes, stm32f4xx_dma.o(i.DMA_DeInit))
@@ -849,7 +851,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[22]"></a>EXTI9_5_IRQHandler</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, peripheral05.o(i.EXTI9_5_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = EXTI9_5_IRQHandler &rArr; Gent_Pwm_Yaw &rArr; __aeabi_ddiv &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = EXTI9_5_IRQHandler &rArr; Gent_Pwm_Pitch &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_GetITStatus
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Yaw
@@ -904,20 +906,22 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[81]"></a>Gent_Pwm_Pitch</STRONG> (Thumb, 86 bytes, Stack size 8 bytes, pid05.o(i.Gent_Pwm_Pitch))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = Gent_Pwm_Pitch &rArr; __aeabi_ddiv &rArr; _double_round
+<P><STRONG><a name="[81]"></a>Gent_Pwm_Pitch</STRONG> (Thumb, 98 bytes, Stack size 8 bytes, pid05.o(i.Gent_Pwm_Pitch))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Gent_Pwm_Pitch &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
+<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Pitch_PID
-<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Pitch_PID
 </UL>
 
 <P><STRONG><a name="[83]"></a>Gent_Pwm_Roll</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, pid05.o(i.Gent_Pwm_Roll))
-<BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Roll_PID
-<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
+<BR><BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Roll_PID
 </UL>
 
 <P><STRONG><a name="[85]"></a>Gent_Pwm_Yaw</STRONG> (Thumb, 86 bytes, Stack size 8 bytes, pid05.o(i.Gent_Pwm_Yaw))
@@ -927,8 +931,8 @@ Global Symbols
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
 </UL>
-<BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Yaw_PID
-<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Yaw_PID
 </UL>
 
 <P><STRONG><a name="[96]"></a>Interrupt_uart4_rx</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, peripheral05.o(i.Interrupt_uart4_rx))
@@ -1267,15 +1271,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[5d]"></a>main</STRONG> (Thumb, 196 bytes, Stack size 8 bytes, luanvan3-05vs2.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = main &rArr; Call_Yaw_PID &rArr; __aeabi_dsub &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = main &rArr; Call_Pitch_PID &rArr; Gent_Pwm_Pitch &rArr; __aeabi_dadd &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_Init
-<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Alt
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Yaw_PID
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Roll_PID
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Pitch_PID
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_Configuration
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART4_Configuration
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Configuration
@@ -1288,6 +1287,11 @@ Global Symbols
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_USART2_Config
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_UART4_RX
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA_UART4_Configuration
+<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_Init
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gent_Pwm_Alt
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Yaw_PID
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Roll_PID
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Call_Pitch_PID
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
@@ -1337,9 +1341,9 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[79]"></a>_fp_value</STRONG> (Thumb, 256 bytes, Stack size 56 bytes, scanf_fp.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ul2d
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<BR><BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ul2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_scanf_really_real
 </UL>
