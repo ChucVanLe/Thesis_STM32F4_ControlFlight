@@ -354,10 +354,10 @@ void MyTIM_PWM_Configuration(void)
     /* Time base configuration */
     //TIM_TimeBaseStructure.TIM_Prescaler = 0;  
     //TIM_TimeBaseStructure.TIM_Period = 0xFFFF;// 65535
-		//TIM_TimeBaseStructure.TIM_Prescaler =((SystemCoreClock/2)/1000000)-1; //timer 1 nen Fc=2Mhz;
-		//TIM_TimeBaseStructure.TIM_Period = 16000;//chu ki 8ms==>moi muc la 0.5microgiay.
- 		TIM_TimeBaseStructure.TIM_Prescaler =((SystemCoreClock/16)/625000)-1;//Fc=5Mhz==>T=2*10^(-4) ms
-		TIM_TimeBaseStructure.TIM_Period = 40000-1;
+//		TIM_TimeBaseStructure.TIM_Prescaler =((SystemCoreClock/2)/1000000)-1; //timer 1 nen Fc=2Mhz;
+//		TIM_TimeBaseStructure.TIM_Period = 16000;//chu ki 8ms==>moi muc la 0.5microgiay.
+ 		TIM_TimeBaseStructure.TIM_Prescaler = 53-1;//Fc=5Mhz==>T=2*10^(-4) ms
+		TIM_TimeBaseStructure.TIM_Period = 21711-1;//f = 73Hz similar Remote control
 // 		TIM_TimeBaseStructure.TIM_Prescaler =((SystemCoreClock/8)/625000)-1;//Fc=2.5Mhz==>T=4*10^(-4) ms
 // 		TIM_TimeBaseStructure.TIM_Period = 20000;
 //  		TIM_TimeBaseStructure.TIM_Prescaler =((SystemCoreClock/4)/1000000)-1;//Fc=5Mhz==>T=2*10^(-4) ms
@@ -387,10 +387,10 @@ void MyTIM_PWM_Configuration(void)
     TIM_OC4PreloadConfig(TIM4, TIM_OCPreload_Enable);
   
     TIM_ARRPreloadConfig(TIM4, ENABLE);
-    TIM4->CCR1 = 7500;
-		TIM4->CCR2 = 7500;
-		TIM4->CCR3 = 7000;
-		TIM4->CCR4 = 7500;
+    TIM4->CCR1 = 2377;//pwm 1.5ms
+		TIM4->CCR2 = 2377;
+		TIM4->CCR3 = 1585;
+		TIM4->CCR4 = 2377;
     /* TIM1 enable counter */
     TIM_Cmd(TIM4, ENABLE);
 	//timer 1 va 8 moi dung dong nay

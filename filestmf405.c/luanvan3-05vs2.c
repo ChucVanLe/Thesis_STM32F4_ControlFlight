@@ -41,7 +41,7 @@ int lenght_of_data_IMU_GPS = 0;
 
 uint8_t CMD_delay =0;
 uint16_t G_delay_count =0;
-uint8_t Buf_UART4[100],Buf_rx4[1],Buf1_rx4[9];
+uint8_t Buf_UART4[6],Buf_rx4[1];
 char Buf_USART2[250], data_from_pc[250];
 uint8_t Update_heso_Roll=0,Update_heso_Pitch=0,Update_heso_Yaw=0,Update_heso_Alt=0,Update_heso_Press=0;
 #define		BUFF_SIZE			1//interrupt UART_DMA when receive BUFF_SIZE from GS
@@ -53,7 +53,7 @@ uint16_t position_VTG = 0, position_end_of_VTG = 0, position_end_of_GGA = 0;
 uint8_t flag_set_or_current_press;
 uint8_t flag_press = 0;
 uint8_t state_alt = 1,state_press = 0;
-void xacnhan(char *buffer);
+void receive_data_and_reply(char *buffer);
 
 float lat_long_from_GS[14][2];//contain lat, long which is uploaded from GS
 float test_simulate1, test_simulate2, test_simulate3;
@@ -77,7 +77,7 @@ int main(void)
     state_press = 0;
     state_alt = 1;
 
-    power();
+    //power();
     
     MyTIM_PWM_Configuration();  
        
@@ -88,12 +88,20 @@ int main(void)
     {
         if (GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8))
         {
-						Call_Roll_PID(Roll_PID.SetPoint);   
+//						Call_Roll_PID(Roll_PID.SetPoint);   
+//						//Gent_Pwm_Pitch(-5);
+//						Call_Pitch_PID(Pitch_PID.SetPoint);
+//						Call_Yaw_PID(Yaw_PID.SetPoint);
+//						//Call_Alt_PID(Alt_PID.SetPoint);
+//						Gent_Pwm_Alt(15);
+					
+						Call_Roll_PID(30);   
 						//Gent_Pwm_Pitch(-5);
-						Call_Pitch_PID(Pitch_PID.SetPoint);
-						Call_Yaw_PID(Yaw_PID.SetPoint);
+						Call_Pitch_PID(15);
+						Call_Yaw_PID(137.7);
 						//Call_Alt_PID(Alt_PID.SetPoint);
 						Gent_Pwm_Alt(15);
+					
         }      
 // /*.................................save data to SD Card...........................................*/  
 //...........................					remove code save data because Mr.Huan has done it.				        
@@ -124,7 +132,7 @@ void SysTick_Handler(void)
 
 		if(CMD_Trigger) //receive enough 1 frame
 		{//if CMD_Trigger = 1 ; receive data from ground station 
-				xacnhan(&data_from_pc[0]);
+				receive_data_and_reply(&data_from_pc[0]);
 				
 				//reset data buffer
 				CMD_Trigger = false;
@@ -144,7 +152,7 @@ void SysTick_Handler(void)
 					DMA_Cmd(DMA1_Stream5,ENABLE);
           
 
-					//test with STM studio => Buf_USART2[0] = 0x0A, Buf_USART2[1] = 0x24 ('$'), Buf_USART2[2], Buf_USART2[3],... roll, pitch,...
+					//test with STM studio => Buf_USART2[0] = 0x0A, Buf_USART2[1] = 0x24 ('$'), Buf_USART2[2], Buf_USART2[3],... roll, pitch,... finish with '\r'
           /*
 					$  0015  0068 -0080  0011 -0082  0123 -0203 -0019  0976  0297  0097  0383  0792 
 					$GPVTG,350.26,T,,M,1.034,N,1.916,K,A*36
@@ -208,13 +216,13 @@ void DMA1_Stream2_IRQHandler(void)
 		DMA1_Stream2->NDTR = BUFF_SIZE;
 		DMA_Cmd(DMA1_Stream2, ENABLE);
 }
-void xacnhan(char *buffer)
+void receive_data_and_reply(char *buffer)
 {
 	uint8_t i = 0, index_array_lat_lon = 0;
 	uint8_t comma = 0;//find ','
 	uint8_t fp_kp = 0, fp_ki = 0, fp_kd = 0, fp_setpoint = 0, ep_setpoint = 0, fp_lat = 0, fp_lon = 0;
 	char temp_kp[10], temp_ki[10],temp_kd[10],temp_checksum[10],temp_setpoint[10], temp_lat[14], temp_long[14];
-	uint32_t checksum_from_GS = 0, count_check_sum = 0;
+	uint32_t checksum_from_GS = 0, cal_check_sum = 0;
 	//reset temp variable 
 	for(i = 0; i < 10; i++)
 	{
@@ -245,12 +253,13 @@ void xacnhan(char *buffer)
 				if(comma==5) ep_setpoint = i;
 			}
 		}
+				//check sum
+		for (i=1; i <= ep_setpoint; i++)
+			{
+				 cal_check_sum += *(buffer + i);
+			}
 	}
-	//check sum
-	for (i=1; i <= ep_setpoint; i++)
-		{
-			 count_check_sum += *(buffer + i);
-		}
+
   switch (buffer[1])
 				//'0': update roll
 				//'1': update pitch
@@ -261,81 +270,203 @@ void xacnhan(char *buffer)
   {
   case '0':
 	{
-		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
-		Roll_PID.Kp = atof(temp_kp);
-		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
-		Roll_PID.Ki = atof(temp_ki);
-		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
-		Roll_PID.Kd = atof(temp_kd);
-		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
-		Roll_PID.SetPoint = atof(temp_setpoint);
+
+		//check error
 		strncpy(temp_checksum, &buffer[ep_setpoint + 1], index_receive_enough_data_GS - ep_setpoint - 1);
 		checksum_from_GS = atof(temp_checksum);
-		
-					test_simulate1 = 1;
-			test_simulate2 = checksum_from_GS;
-			test_simulate3 = count_check_sum;
+		if(checksum_from_GS == cal_check_sum)//send ACK to GS
+		{
+			strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
+			Roll_PID.Kp = atof(temp_kp);
+			strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
+			Roll_PID.Ki = atof(temp_ki);
+			strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
+			Roll_PID.Kd = atof(temp_kd);
+			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
+			Roll_PID.SetPoint = atof(temp_setpoint);
+			//send reply to GS
+      Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 6;//ACK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+		else
+		{
+			Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 21;//NAK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+
     break;
 	}
 	case '1':
 	{
-		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
-		Pitch_PID.Kp = atof(temp_kp);
-		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
-		Pitch_PID.Ki = atof(temp_ki);
-		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
-		Pitch_PID.Kd = atof(temp_kd);
-		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
-		Pitch_PID.SetPoint = atof(temp_setpoint);
-    break;
+
+    //check error
+		strncpy(temp_checksum, &buffer[ep_setpoint + 1], index_receive_enough_data_GS - ep_setpoint - 1);
+		checksum_from_GS = atof(temp_checksum);
+		if(checksum_from_GS == cal_check_sum)//send ACK to GS
+		{
+			strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
+			Pitch_PID.Kp = atof(temp_kp);
+			strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
+			Pitch_PID.Ki = atof(temp_ki);
+			strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
+			Pitch_PID.Kd = atof(temp_kd);
+			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
+			Pitch_PID.SetPoint = atof(temp_setpoint);
+			//send reply to GS
+      Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 6;//ACK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+		else
+		{
+			Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 21;//NAK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+		break;
 	}
 	case '2':
 	{
-		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
-		Yaw_PID.Kp = atof(temp_kp);
-		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
-		Yaw_PID.Ki = atof(temp_ki);
-		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
-		Yaw_PID.Kd = atof(temp_kd);
-		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
-		Yaw_PID.SetPoint = atof(temp_setpoint);
-    break;
+
+    //check error
+		strncpy(temp_checksum, &buffer[ep_setpoint + 1], index_receive_enough_data_GS - ep_setpoint - 1);
+		checksum_from_GS = atof(temp_checksum);
+		if(checksum_from_GS == cal_check_sum)//send ACK to GS
+		{
+			strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
+			Yaw_PID.Kp = atof(temp_kp);
+			strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
+			Yaw_PID.Ki = atof(temp_ki);
+			strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
+			Yaw_PID.Kd = atof(temp_kd);
+			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
+			Yaw_PID.SetPoint = atof(temp_setpoint);
+			//send reply to GS
+      Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 6;//ACK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+		else
+		{
+			Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 21;//NAK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+		break;
 	}
 	case '3':
 	{
-		strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
-		Alt_PID.Kp = atof(temp_kp);
-		strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
-		Alt_PID.Ki = atof(temp_ki);
-		strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
-		Alt_PID.Kd = atof(temp_kd);
-		strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
-		Alt_PID.SetPoint = atof(temp_setpoint);
-    break;
+
+    //check error
+		strncpy(temp_checksum, &buffer[ep_setpoint + 1], index_receive_enough_data_GS - ep_setpoint - 1);
+		checksum_from_GS = atof(temp_checksum);
+		if(checksum_from_GS == cal_check_sum)//send ACK to GS
+		{
+			strncpy(temp_kp, &buffer[fp_kp + 1], fp_ki - fp_kp - 1);
+			Alt_PID.Kp = atof(temp_kp);
+			strncpy(temp_ki, &buffer[fp_ki + 1], fp_kd - fp_ki - 1);
+			Alt_PID.Ki = atof(temp_ki);
+			strncpy(temp_kd, &buffer[fp_kd + 1], fp_setpoint - fp_kd - 1);
+			Alt_PID.Kd = atof(temp_kd);
+			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
+			Alt_PID.SetPoint = atof(temp_setpoint);
+			//send reply to GS
+      Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 6;//ACK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+		else
+		{
+			Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 21;//NAK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}
+		break;
 	}
 	case '4'://update lat, long
 	{//! 4 v lat k lon v lat k lon v lat k lon checksum @
 		for (i=0; i <= index_receive_enough_data_GS; i++)
 		{
-			if ('k' == *(buffer + i)) 
+			if(',' == *(buffer + i))//check sum
 			{
-				fp_lon = i;			
-				strncpy(temp_lat, &buffer[fp_lat + 1], fp_lon - fp_lat - 1);
-				lat_long_from_GS[index_array_lat_lon][0] = atof(temp_lat);
+				ep_setpoint = i;
+				test_simulate1 = 1;
 			}
-			else
+		}		
+		for (i=1; i <= ep_setpoint; i++)
+		{
+			 cal_check_sum += *(buffer + i);
+		}
+    //check error
+		strncpy(temp_checksum, &buffer[ep_setpoint + 1], index_receive_enough_data_GS - ep_setpoint - 1);
+		checksum_from_GS = atof(temp_checksum);
+		if(checksum_from_GS == cal_check_sum)//send ACK to GS
+		{
+			//! 4 v lat k lon v lat k lon v lat k lon checksum @
+			for (i=0; i <= index_receive_enough_data_GS; i++)
 			{
-				if ('v' == *(buffer + i)) 
+				if ('k' == *(buffer + i)) 
 				{
-					fp_lat = i;
-					if(2 != fp_lat)
+					fp_lon = i;			
+					strncpy(temp_lat, &buffer[fp_lat + 1], fp_lon - fp_lat - 1);
+					lat_long_from_GS[index_array_lat_lon][0] = atof(temp_lat);
+				}
+				else
+				{
+					if ('v' == *(buffer + i)) 
 					{
-					strncpy(temp_long, &buffer[fp_lon + 1], fp_lat - fp_lon - 1);
-					lat_long_from_GS[index_array_lat_lon++][1] = atof(temp_long);
+						fp_lat = i;
+						if(2 != fp_lat)
+						{
+						strncpy(temp_long, &buffer[fp_lon + 1], fp_lat - fp_lon - 1);
+						lat_long_from_GS[index_array_lat_lon++][1] = atof(temp_long);
+						}
 					}
 				}
 			}
+			//send respond to GS
+      Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 6;//ACK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
 		}
+		else
+		{
+			Buf_USART2[0] = '!';
+      Buf_USART2[1] = buffer[1];
+      Buf_USART2[2] = 21;//NAK
+      Buf_USART2[3] = '@';
+			DMA_SetCurrDataCounter(DMA1_Stream4,4);
+      DMA_Cmd(DMA1_Stream4,ENABLE);
+		}			
 
 			break;
 	}

@@ -188,6 +188,7 @@ uk = u(k - 1)+ a0 * e(k) + a1 * e(k - 1) + a2 * e(k - 2)
 void Call_Roll_PID(float Roll_set)
 {
 	static float Roll_set_previous=200; 
+	Roll_PID.enable = 1;
 	if(Roll_PID.enable)
 		{
 			Roll_PID.enable=0;
@@ -212,8 +213,8 @@ void Call_Roll_PID(float Roll_set)
 			Roll_PID.Pid_Result=Roll_PID.Pid_Result_Temp+Roll_PID.a0*Roll_PID.e[2]+Roll_PID.a1*Roll_PID.e[1]+Roll_PID.a2*Roll_PID.e[0];
 			//Roll_PID.Pid_Result = Roll_PID.Kp*Roll_PID.e[2];
 			// gioi han		
-			if(Roll_PID.Pid_Result>Max_Xung) Roll_PID.Pid_Result=Max_Xung;
-			if(Roll_PID.Pid_Result<-Max_Xung) Roll_PID.Pid_Result=-Max_Xung;
+//			if(Roll_PID.Pid_Result>Max_Xung) Roll_PID.Pid_Result=Max_Xung;
+//			if(Roll_PID.Pid_Result<-Max_Xung) Roll_PID.Pid_Result=-Max_Xung;
 					
 			Roll_PID.e[0]=Roll_PID.e[1];
 			Roll_PID.e[1]=Roll_PID.e[2];
@@ -255,8 +256,8 @@ void Call_Pitch_PID(float Pitch_set)
 		Pitch_PID.Pid_Result_Temp=Pitch_PID.Pid_Result;
 		Pitch_PID.Pid_Result=Pitch_PID.Pid_Result_Temp+Pitch_PID.a0*Pitch_PID.e[2]+Pitch_PID.a1*Pitch_PID.e[1]	+Pitch_PID.a2*Pitch_PID.e[0];
 				
-		if(Pitch_PID.Pid_Result>Max_Xung) Pitch_PID.Pid_Result=Max_Xung;
-		if(Pitch_PID.Pid_Result<-Max_Xung) Pitch_PID.Pid_Result=-Max_Xung;
+//		if(Pitch_PID.Pid_Result>Max_Xung) Pitch_PID.Pid_Result=Max_Xung;
+//		if(Pitch_PID.Pid_Result<-Max_Xung) Pitch_PID.Pid_Result=-Max_Xung;
 				
 		Pitch_PID.e[0]=Pitch_PID.e[1];
 		Pitch_PID.e[1]=Pitch_PID.e[2];
@@ -377,10 +378,11 @@ void Call_Yaw_PID(float Yaw_set)
 		Yaw_PID.Pid_Result_Temp=Yaw_PID.Pid_Result;
 		Yaw_PID.Pid_Result=Yaw_PID.Pid_Result_Temp+Yaw_PID.a0*Yaw_PID.e[2]+Yaw_PID.a1*Yaw_PID.e[1]	+Yaw_PID.a2*Yaw_PID.e[0];
 				
-		if(Yaw_PID.Pid_Result>Max_Xung) Yaw_PID.Pid_Result=Max_Xung;
-		if(Yaw_PID.Pid_Result<-Max_Xung) Yaw_PID.Pid_Result=-Max_Xung;
 				
 		Yaw_PID.e[0]=Yaw_PID.e[1];
+		
+//		if(Yaw_PID.Pid_Result>Max_Xung) Yaw_PID.Pid_Result=Max_Xung;
+//		if(Yaw_PID.Pid_Result<-Max_Xung) Yaw_PID.Pid_Result=-Max_Xung;
 		Yaw_PID.e[1]=Yaw_PID.e[2];
 
 		// Dat gia tri vao PWM	
@@ -394,25 +396,37 @@ void Call_Yaw_PID(float Yaw_set)
 void Gent_Pwm_Roll(float Roll)
 {
 	int Pwm ;
- 	Pwm =(int)((1+(Roll+45)/90)*40000/8);
+ 	//Pwm =(int)((1+(Roll+45)/90)*21711/8);
+	Pwm =(int)(2377 + Roll);
+	if(Pwm > 3169) Pwm = 3169;//Pulse = 1ms
+	if(Pwm < 1584) Pwm = 1584;//Pulse = 2ms
 	TIM4->CCR1 = Pwm;
+//	TIM4->CCR1 = 1584;//1ms
+//	TIM4->CCR1 = 2377;//1.5ms,dung yen
+	//Tpwm = 21177 pulse
+	//f = 73Hz
 }
 void Gent_Pwm_Pitch(float Pitch)
 {
 	int Pwm ;
- 	Pwm =(int)((1+(Pitch+45)/90)*40000/8);
+ 	Pwm =(int)((float)(1.56 + Pitch/90) * 21711 / 13.7);
+	if(Pwm > 3011) Pwm = 3011;//Pulse = 1.9ms
+	if(Pwm < 1822) Pwm = 1822;//Pulse = 1.15ms
 	TIM4->CCR2 = Pwm;
 }
 void Gent_Pwm_Yaw(float Yaw)
 {
 	int Pwm ;
- 	Pwm =(int)((1+(Yaw+45)/90)*40000/8);
+ 	Pwm =(int)((1+(Yaw+45)/90)*21711/13.7);
+	//limit
+	if(Pwm > 3011) Pwm = 3011;//Pulse = 1.9ms
+	if(Pwm < 1822) Pwm = 1822;//Pulse = 1.15ms
 	TIM4->CCR4 = Pwm;
 }
 void Gent_Pwm_Alt(float Alt)
 {
 	int Pwm ;
- 	Pwm =(int)((1+(Alt+45)/90)*40000/8);
+ 	Pwm =(int)((1+(Alt+45)/90)*21711/8);
 	TIM4->CCR3 = Pwm;
 }
 
