@@ -397,9 +397,9 @@ void Gent_Pwm_Roll(float Roll)
 {
 	int Pwm ;
  	//Pwm =(int)((1+(Roll+45)/90)*21711/8);
-	Pwm =(int)(2377 + Roll);
-	if(Pwm > 3169) Pwm = 3169;//Pulse = 1ms
-	if(Pwm < 1584) Pwm = 1584;//Pulse = 2ms
+	 	Pwm =(int)((float)(1.5 - Roll/90) * 21711 / 13.7);
+	if(Pwm > 2853) Pwm = 2932;//Pulse = 1.85ms
+	if(Pwm < 1712) Pwm = 1712;//Pulse = 1.08ms
 	TIM4->CCR1 = Pwm;
 //	TIM4->CCR1 = 1584;//1ms
 //	TIM4->CCR1 = 2377;//1.5ms,dung yen
@@ -410,7 +410,7 @@ void Gent_Pwm_Pitch(float Pitch)
 {
 	int Pwm ;
  	Pwm =(int)((float)(1.56 + Pitch/90) * 21711 / 13.7);
-	if(Pwm > 3011) Pwm = 3011;//Pulse = 1.9ms
+	if(Pwm > 2932) Pwm = 2932;//Pulse = 1.85ms
 	if(Pwm < 1822) Pwm = 1822;//Pulse = 1.15ms
 	TIM4->CCR2 = Pwm;
 }
@@ -420,7 +420,7 @@ void Gent_Pwm_Yaw(float Yaw)
  	Pwm =(int)((1+(Yaw+45)/90)*21711/13.7);
 	//limit
 	if(Pwm > 3011) Pwm = 3011;//Pulse = 1.9ms
-	if(Pwm < 1822) Pwm = 1822;//Pulse = 1.15ms
+	if(Pwm < 1965) Pwm = 1965;//Pulse = 1.24ms
 	TIM4->CCR4 = Pwm;
 }
 void Gent_Pwm_Alt(float Alt)

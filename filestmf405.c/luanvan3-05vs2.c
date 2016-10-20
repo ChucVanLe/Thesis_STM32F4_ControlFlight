@@ -88,19 +88,18 @@ int main(void)
     {
         if (GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8))
         {
-//						Call_Roll_PID(Roll_PID.SetPoint);   
-//						//Gent_Pwm_Pitch(-5);
-//						Call_Pitch_PID(Pitch_PID.SetPoint);
+						Call_Roll_PID(Roll_PID.SetPoint);   
+
+						Call_Pitch_PID(Pitch_PID.SetPoint);
 //						Call_Yaw_PID(Yaw_PID.SetPoint);
 //						//Call_Alt_PID(Alt_PID.SetPoint);
 //						Gent_Pwm_Alt(15);
 					
-						Call_Roll_PID(30);   
-						//Gent_Pwm_Pitch(-5);
-						Call_Pitch_PID(15);
-						Call_Yaw_PID(137.7);
-						//Call_Alt_PID(Alt_PID.SetPoint);
-						Gent_Pwm_Alt(15);
+//						Call_Roll_PID(15);   
+//						Call_Pitch_PID(15);
+//						Call_Yaw_PID(15);
+//						//Call_Alt_PID(Alt_PID.SetPoint);
+//						Gent_Pwm_Alt(15);
 					
         }      
 // /*.................................save data to SD Card...........................................*/  
