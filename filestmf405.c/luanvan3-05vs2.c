@@ -91,9 +91,14 @@ int main(void)
 						Call_Roll_PID(Roll_PID.SetPoint);   
 
 						Call_Pitch_PID(Pitch_PID.SetPoint);
-//						Call_Yaw_PID(Yaw_PID.SetPoint);
-//						//Call_Alt_PID(Alt_PID.SetPoint);
-//						Gent_Pwm_Alt(15);
+						Call_Yaw_PID(Yaw_PID.SetPoint);
+						//test simute altitude
+						if(Yaw_PID.Current > 0)
+						Alt_PID.Current = Yaw_PID.Current;
+						else Alt_PID.Current = 0;
+						//Call_Alt_PID(Alt_PID.SetPoint);
+						Call_Alt_PID(30);
+
 					
 //						Call_Roll_PID(15);   
 //						Call_Pitch_PID(15);
@@ -117,16 +122,6 @@ void SysTick_Handler(void)
     {   
         G_delay_count += 1;
     }
-//    if (G_delay_count == 1000)//reset buffer receive data from groud staion
-//    {
-//        G_delay_count = 0;
-//        CMD_delay = 0;
-//    //  DMA_UART4_RX(Buf_rx4,9);
-//        DMA_Cmd(DMA1_Stream2,DISABLE);
-//				DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
-//        DMA_SetCurrDataCounter(DMA1_Stream2,9);
-//        DMA_Cmd(DMA1_Stream2,ENABLE);
-//    }
 
 
 		if(CMD_Trigger) //receive enough 1 frame
@@ -283,6 +278,7 @@ void receive_data_and_reply(char *buffer)
 			Roll_PID.Kd = atof(temp_kd);
 			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
 			Roll_PID.SetPoint = atof(temp_setpoint);
+			Update_heso_Roll=1;
 			//send reply to GS
       Buf_USART2[0] = '!';
       Buf_USART2[1] = buffer[1];
@@ -319,6 +315,7 @@ void receive_data_and_reply(char *buffer)
 			Pitch_PID.Kd = atof(temp_kd);
 			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
 			Pitch_PID.SetPoint = atof(temp_setpoint);
+			Update_heso_Pitch=1;
 			//send reply to GS
       Buf_USART2[0] = '!';
       Buf_USART2[1] = buffer[1];
@@ -354,6 +351,7 @@ void receive_data_and_reply(char *buffer)
 			Yaw_PID.Kd = atof(temp_kd);
 			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
 			Yaw_PID.SetPoint = atof(temp_setpoint);
+			Update_heso_Yaw=1;
 			//send reply to GS
       Buf_USART2[0] = '!';
       Buf_USART2[1] = buffer[1];
@@ -389,6 +387,7 @@ void receive_data_and_reply(char *buffer)
 			Alt_PID.Kd = atof(temp_kd);
 			strncpy(temp_setpoint, &buffer[fp_setpoint + 1], ep_setpoint - fp_setpoint - 1);
 			Alt_PID.SetPoint = atof(temp_setpoint);
+			Update_heso_Alt=1;
 			//send reply to GS
       Buf_USART2[0] = '!';
       Buf_USART2[1] = buffer[1];

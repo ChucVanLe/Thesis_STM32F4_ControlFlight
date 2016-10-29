@@ -173,7 +173,6 @@ Section Cross References
     pid05.o(i.Call_Alt_PID) refers to pid05.o(.bss) for .bss
     pid05.o(i.Call_Alt_PID) refers to luanvan3-05vs2.o(.data) for state_alt
     pid05.o(i.Call_Alt_PID) refers to pid05.o(.data) for .data
-    pid05.o(i.Call_Alt_PID) refers to luanvan3-05vs2.o(.data) for Update_heso_Alt
     pid05.o(i.Call_Alt_PID) refers to luanvan3-05vs2.o(.data) for Update_heso_Press
     pid05.o(i.Call_Pitch_PID) refers to f2d.o(.text) for __aeabi_f2d
     pid05.o(i.Call_Pitch_PID) refers to dmul.o(.text) for __aeabi_dmul
@@ -197,11 +196,13 @@ Section Cross References
     pid05.o(i.Call_Yaw_PID) refers to dmul.o(.text) for __aeabi_dmul
     pid05.o(i.Call_Yaw_PID) refers to dadd.o(.text) for __aeabi_dadd
     pid05.o(i.Call_Yaw_PID) refers to d2f.o(.text) for __aeabi_d2f
-    pid05.o(i.Call_Yaw_PID) refers to pid05.o(i.trituyetdoi) for trituyetdoi
     pid05.o(i.Call_Yaw_PID) refers to pid05.o(i.Gent_Pwm_Yaw) for Gent_Pwm_Yaw
     pid05.o(i.Call_Yaw_PID) refers to pid05.o(.bss) for .bss
     pid05.o(i.Call_Yaw_PID) refers to pid05.o(.data) for .data
     pid05.o(i.Call_Yaw_PID) refers to luanvan3-05vs2.o(.data) for Update_heso_Yaw
+    pid05.o(i.Gent_Pwm_Alt) refers to f2d.o(.text) for __aeabi_f2d
+    pid05.o(i.Gent_Pwm_Alt) refers to ddiv.o(.text) for __aeabi_ddiv
+    pid05.o(i.Gent_Pwm_Alt) refers to dfixi.o(.text) for __aeabi_d2iz
     pid05.o(i.Gent_Pwm_Pitch) refers to f2d.o(.text) for __aeabi_f2d
     pid05.o(i.Gent_Pwm_Pitch) refers to dadd.o(.text) for __aeabi_dadd
     pid05.o(i.Gent_Pwm_Pitch) refers to d2f.o(.text) for __aeabi_d2f
@@ -270,6 +271,8 @@ Section Cross References
     luanvan3-05vs2.o(i.main) refers to stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit) for GPIO_ReadInputDataBit
     luanvan3-05vs2.o(i.main) refers to pid05.o(i.Call_Roll_PID) for Call_Roll_PID
     luanvan3-05vs2.o(i.main) refers to pid05.o(i.Call_Pitch_PID) for Call_Pitch_PID
+    luanvan3-05vs2.o(i.main) refers to pid05.o(i.Call_Yaw_PID) for Call_Yaw_PID
+    luanvan3-05vs2.o(i.main) refers to pid05.o(i.Call_Alt_PID) for Call_Alt_PID
     luanvan3-05vs2.o(i.main) refers to luanvan3-05vs2.o(.bss) for .bss
     luanvan3-05vs2.o(i.main) refers to luanvan3-05vs2.o(.data) for .data
     luanvan3-05vs2.o(i.main) refers to system_stm32f4xx.o(.data) for SystemCoreClock
@@ -878,17 +881,11 @@ Removing Unused input sections from the image.
     Removing peripheral05.o(.data), (8 bytes).
     Removing pid05.o(.rev16_text), (4 bytes).
     Removing pid05.o(.revsh_text), (4 bytes).
-    Removing pid05.o(i.Call_Alt_PID), (988 bytes).
-    Removing pid05.o(i.Call_Yaw_PID), (484 bytes).
-    Removing pid05.o(i.Gent_Pwm_Alt), (72 bytes).
     Removing powersd05.o(.rev16_text), (4 bytes).
     Removing powersd05.o(.revsh_text), (4 bytes).
     Removing powersd05.o(i.power), (228 bytes).
     Removing luanvan3-05vs2.o(.rev16_text), (4 bytes).
     Removing luanvan3-05vs2.o(.revsh_text), (4 bytes).
-    Removing luanvan3-05vs2.o(.data), (1 bytes).
-    Removing luanvan3-05vs2.o(.data), (1 bytes).
-    Removing luanvan3-05vs2.o(.data), (1 bytes).
     Removing luanvan3-05vs2.o(.data), (1 bytes).
     Removing luanvan3-05vs2.o(.data), (1 bytes).
     Removing luanvan3-05vs2.o(.data), (1 bytes).
@@ -961,7 +958,7 @@ Removing Unused input sections from the image.
     Removing dneg.o(.text), (6 bytes).
     Removing cdcmple.o(.text), (40 bytes).
 
-366 unused section(s) (total 32011 bytes) removed from the image.
+360 unused section(s) (total 30464 bytes) removed from the image.
 
 ==============================================================================
 
@@ -971,30 +968,30 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
-    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  ctype_c.o ABSOLUTE
     ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  isspace_c.o ABSOLUTE
+    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  ctype_c.o ABSOLUTE
     ../clib/microlib/errno.c                 0x00000000   Number         0  errno.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
     ../clib/microlib/string/strncpy.c        0x00000000   Number         0  strncpy.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  strtod.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  scanf_fp.o ABSOLUTE
     ../clib/scanf.c                          0x00000000   Number         0  _sgetc.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  scanf_fp.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  strtod.o ABSOLUTE
     ../fplib/microlib/d2f.c                  0x00000000   Number         0  d2f.o ABSOLUTE
     ../fplib/microlib/f2d.c                  0x00000000   Number         0  f2d.o ABSOLUTE
     ../fplib/microlib/fpadd.c                0x00000000   Number         0  dadd.o ABSOLUTE
@@ -1103,94 +1100,97 @@ Image Symbol Table
     .text                                    0x08000c04   Section        0  dsqrt.o(.text)
     .text                                    0x08000ca8   Section        0  ctype_c.o(.text)
     .text                                    0x08000cd0   Section        0  dfltul.o(.text)
-    i.Call_Pitch_PID                         0x08000ce8   Section        0  pid05.o(i.Call_Pitch_PID)
-    i.Call_Roll_PID                          0x08000ed0   Section        0  pid05.o(i.Call_Roll_PID)
-    i.DMA1_Stream2_IRQHandler                0x080010b8   Section        0  luanvan3-05vs2.o(i.DMA1_Stream2_IRQHandler)
-    i.DMA1_Stream4_IRQHandler                0x0800110c   Section        0  peripheral05.o(i.DMA1_Stream4_IRQHandler)
-    i.DMA_ClearFlag                          0x08001134   Section        0  stm32f4xx_dma.o(i.DMA_ClearFlag)
-    i.DMA_ClearITPendingBit                  0x08001160   Section        0  stm32f4xx_dma.o(i.DMA_ClearITPendingBit)
-    i.DMA_Cmd                                0x0800118c   Section        0  stm32f4xx_dma.o(i.DMA_Cmd)
-    i.DMA_DeInit                             0x080011a0   Section        0  stm32f4xx_dma.o(i.DMA_DeInit)
-    i.DMA_GetITStatus                        0x080012c4   Section        0  stm32f4xx_dma.o(i.DMA_GetITStatus)
-    i.DMA_ITConfig                           0x08001318   Section        0  stm32f4xx_dma.o(i.DMA_ITConfig)
-    i.DMA_Init                               0x0800134c   Section        0  stm32f4xx_dma.o(i.DMA_Init)
-    i.DMA_SetCurrDataCounter                 0x080013a0   Section        0  stm32f4xx_dma.o(i.DMA_SetCurrDataCounter)
-    i.DMA_UART4_Configuration                0x080013a4   Section        0  peripheral05.o(i.DMA_UART4_Configuration)
-    i.DMA_UART4_RX                           0x08001414   Section        0  peripheral05.o(i.DMA_UART4_RX)
-    i.DMA_USART2_Config                      0x08001480   Section        0  peripheral05.o(i.DMA_USART2_Config)
-    i.Delay_100ms                            0x080014e8   Section        0  peripheral05.o(i.Delay_100ms)
-    i.EXTI9_5_IRQHandler                     0x080014f8   Section        0  peripheral05.o(i.EXTI9_5_IRQHandler)
-    i.EXTI_FPGA_Pa8                          0x0800153c   Section        0  peripheral05.o(i.EXTI_FPGA_Pa8)
-    i.EXTI_GetITStatus                       0x08001580   Section        0  stm32f4xx_exti.o(i.EXTI_GetITStatus)
-    i.EXTI_Init                              0x080015a0   Section        0  stm32f4xx_exti.o(i.EXTI_Init)
-    i.GPIO_Init                              0x08001610   Section        0  stm32f4xx_gpio.o(i.GPIO_Init)
-    i.GPIO_PinAFConfig                       0x080016b2   Section        0  stm32f4xx_gpio.o(i.GPIO_PinAFConfig)
-    i.GPIO_ReadInputDataBit                  0x080016d2   Section        0  stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit)
-    i.GPIO_SetBits                           0x080016e0   Section        0  stm32f4xx_gpio.o(i.GPIO_SetBits)
-    i.Gent_Pwm_Pitch                         0x080016e4   Section        0  pid05.o(i.Gent_Pwm_Pitch)
-    i.Gent_Pwm_Roll                          0x08001764   Section        0  pid05.o(i.Gent_Pwm_Roll)
-    i.Gent_Pwm_Yaw                           0x080017c8   Section        0  pid05.o(i.Gent_Pwm_Yaw)
-    i.Interrupt_uart4_rx                     0x08001838   Section        0  peripheral05.o(i.Interrupt_uart4_rx)
-    i.MyGPIO_Configuration                   0x08001860   Section        0  peripheral05.o(i.MyGPIO_Configuration)
-    i.MyRCC_Configuration                    0x0800190c   Section        0  peripheral05.o(i.MyRCC_Configuration)
-    i.MyTIM_PWM_Configuration                0x0800195c   Section        0  peripheral05.o(i.MyTIM_PWM_Configuration)
-    i.NVIC_Configuration                     0x08001a60   Section        0  peripheral05.o(i.NVIC_Configuration)
-    i.NVIC_Init                              0x08001a88   Section        0  misc.o(i.NVIC_Init)
-    i.NVIC_PriorityGroupConfig               0x08001aec   Section        0  misc.o(i.NVIC_PriorityGroupConfig)
-    i.PID_Init                               0x08001b00   Section        0  pid05.o(i.PID_Init)
-    i.RCC_AHB1PeriphClockCmd                 0x08001b80   Section        0  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
-    i.RCC_AHB1PeriphResetCmd                 0x08001b98   Section        0  stm32f4xx_rcc.o(i.RCC_AHB1PeriphResetCmd)
-    i.RCC_APB1PeriphClockCmd                 0x08001bb0   Section        0  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
-    i.RCC_APB2PeriphClockCmd                 0x08001bc8   Section        0  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
-    i.RCC_GetClocksFreq                      0x08001be0   Section        0  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
-    i.SYSCFG_EXTILineConfig                  0x08001c74   Section        0  stm32f4xx_syscfg.o(i.SYSCFG_EXTILineConfig)
-    i.Sampling_GGA                           0x08001c9c   Section        0  pid05.o(i.Sampling_GGA)
-    i.Sampling_RPY                           0x08001e54   Section        0  pid05.o(i.Sampling_RPY)
-    i.Sampling_VTG                           0x08002134   Section        0  pid05.o(i.Sampling_VTG)
-    i.SetSysClock                            0x0800218c   Section        0  system_stm32f4xx.o(i.SetSysClock)
-    SetSysClock                              0x0800218d   Thumb Code   162  system_stm32f4xx.o(i.SetSysClock)
-    i.SysTick_Handler                        0x08002240   Section        0  luanvan3-05vs2.o(i.SysTick_Handler)
-    i.SystemInit                             0x08002344   Section        0  system_stm32f4xx.o(i.SystemInit)
-    i.TIM_ARRPreloadConfig                   0x080023a8   Section        0  stm32f4xx_tim.o(i.TIM_ARRPreloadConfig)
-    i.TIM_Cmd                                0x080023bc   Section        0  stm32f4xx_tim.o(i.TIM_Cmd)
-    i.TIM_OC1Init                            0x080023d0   Section        0  stm32f4xx_tim.o(i.TIM_OC1Init)
-    i.TIM_OC1PreloadConfig                   0x08002430   Section        0  stm32f4xx_tim.o(i.TIM_OC1PreloadConfig)
-    i.TIM_OC2Init                            0x0800243c   Section        0  stm32f4xx_tim.o(i.TIM_OC2Init)
-    i.TIM_OC2PreloadConfig                   0x080024bc   Section        0  stm32f4xx_tim.o(i.TIM_OC2PreloadConfig)
-    i.TIM_OC3Init                            0x080024d0   Section        0  stm32f4xx_tim.o(i.TIM_OC3Init)
-    i.TIM_OC3PreloadConfig                   0x0800254c   Section        0  stm32f4xx_tim.o(i.TIM_OC3PreloadConfig)
-    i.TIM_OC4Init                            0x08002558   Section        0  stm32f4xx_tim.o(i.TIM_OC4Init)
-    i.TIM_OC4PreloadConfig                   0x080025b8   Section        0  stm32f4xx_tim.o(i.TIM_OC4PreloadConfig)
-    i.TIM_TimeBaseInit                       0x080025cc   Section        0  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
-    i.UART4_Configuration                    0x08002648   Section        0  peripheral05.o(i.UART4_Configuration)
-    i.USART2_Configuration                   0x0800267c   Section        0  peripheral05.o(i.USART2_Configuration)
-    i.USART_Cmd                              0x080026b0   Section        0  stm32f4xx_usart.o(i.USART_Cmd)
-    i.USART_DMACmd                           0x080026c4   Section        0  stm32f4xx_usart.o(i.USART_DMACmd)
-    i.USART_Init                             0x080026d4   Section        0  stm32f4xx_usart.o(i.USART_Init)
-    i.__ARM_fpclassify                       0x0800278c   Section        0  fpclassify.o(i.__ARM_fpclassify)
-    i.__hardfp_atof                          0x080027c0   Section        0  atof.o(i.__hardfp_atof)
-    i.__hardfp_pow                           0x080027f8   Section        0  pow.o(i.__hardfp_pow)
-    i.__kernel_poly                          0x08003488   Section        0  poly.o(i.__kernel_poly)
-    i.__mathlib_dbl_underflow                0x08003580   Section        0  dunder.o(i.__mathlib_dbl_underflow)
-    i.__read_errno                           0x080035a0   Section        0  errno.o(i.__read_errno)
-    i.__scatterload_copy                     0x080035ac   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x080035ba   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x080035bc   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i.__set_errno                            0x080035cc   Section        0  errno.o(i.__set_errno)
-    i._is_digit                              0x080035d8   Section        0  scanf_fp.o(i._is_digit)
-    i.fabs                                   0x080035e6   Section        0  fabs.o(i.fabs)
-    i.main                                   0x08003608   Section        0  luanvan3-05vs2.o(i.main)
-    i.receive_data_and_reply                 0x080036d8   Section        0  luanvan3-05vs2.o(i.receive_data_and_reply)
-    i.sqrt                                   0x08003a9c   Section        0  sqrt.o(i.sqrt)
-    i.trituyetdoi                            0x08003b0a   Section        0  pid05.o(i.trituyetdoi)
-    .constdata                               0x08003b20   Section      136  pow.o(.constdata)
-    bp                                       0x08003b20   Data          16  pow.o(.constdata)
-    dp_h                                     0x08003b30   Data          16  pow.o(.constdata)
-    dp_l                                     0x08003b40   Data          16  pow.o(.constdata)
-    L                                        0x08003b50   Data          48  pow.o(.constdata)
-    P                                        0x08003b80   Data          40  pow.o(.constdata)
-    .constdata                               0x08003ba8   Section        8  qnan.o(.constdata)
-    .constdata                               0x08003bb0   Section       64  ctype_c.o(.constdata)
+    i.Call_Alt_PID                           0x08000ce8   Section        0  pid05.o(i.Call_Alt_PID)
+    i.Call_Pitch_PID                         0x08001068   Section        0  pid05.o(i.Call_Pitch_PID)
+    i.Call_Roll_PID                          0x0800124c   Section        0  pid05.o(i.Call_Roll_PID)
+    i.Call_Yaw_PID                           0x08001430   Section        0  pid05.o(i.Call_Yaw_PID)
+    i.DMA1_Stream2_IRQHandler                0x08001630   Section        0  luanvan3-05vs2.o(i.DMA1_Stream2_IRQHandler)
+    i.DMA1_Stream4_IRQHandler                0x08001684   Section        0  peripheral05.o(i.DMA1_Stream4_IRQHandler)
+    i.DMA_ClearFlag                          0x080016ac   Section        0  stm32f4xx_dma.o(i.DMA_ClearFlag)
+    i.DMA_ClearITPendingBit                  0x080016d8   Section        0  stm32f4xx_dma.o(i.DMA_ClearITPendingBit)
+    i.DMA_Cmd                                0x08001704   Section        0  stm32f4xx_dma.o(i.DMA_Cmd)
+    i.DMA_DeInit                             0x08001718   Section        0  stm32f4xx_dma.o(i.DMA_DeInit)
+    i.DMA_GetITStatus                        0x0800183c   Section        0  stm32f4xx_dma.o(i.DMA_GetITStatus)
+    i.DMA_ITConfig                           0x08001890   Section        0  stm32f4xx_dma.o(i.DMA_ITConfig)
+    i.DMA_Init                               0x080018c4   Section        0  stm32f4xx_dma.o(i.DMA_Init)
+    i.DMA_SetCurrDataCounter                 0x08001918   Section        0  stm32f4xx_dma.o(i.DMA_SetCurrDataCounter)
+    i.DMA_UART4_Configuration                0x0800191c   Section        0  peripheral05.o(i.DMA_UART4_Configuration)
+    i.DMA_UART4_RX                           0x0800198c   Section        0  peripheral05.o(i.DMA_UART4_RX)
+    i.DMA_USART2_Config                      0x080019f8   Section        0  peripheral05.o(i.DMA_USART2_Config)
+    i.Delay_100ms                            0x08001a60   Section        0  peripheral05.o(i.Delay_100ms)
+    i.EXTI9_5_IRQHandler                     0x08001a70   Section        0  peripheral05.o(i.EXTI9_5_IRQHandler)
+    i.EXTI_FPGA_Pa8                          0x08001ab4   Section        0  peripheral05.o(i.EXTI_FPGA_Pa8)
+    i.EXTI_GetITStatus                       0x08001af8   Section        0  stm32f4xx_exti.o(i.EXTI_GetITStatus)
+    i.EXTI_Init                              0x08001b18   Section        0  stm32f4xx_exti.o(i.EXTI_Init)
+    i.GPIO_Init                              0x08001b88   Section        0  stm32f4xx_gpio.o(i.GPIO_Init)
+    i.GPIO_PinAFConfig                       0x08001c2a   Section        0  stm32f4xx_gpio.o(i.GPIO_PinAFConfig)
+    i.GPIO_ReadInputDataBit                  0x08001c4a   Section        0  stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit)
+    i.GPIO_SetBits                           0x08001c58   Section        0  stm32f4xx_gpio.o(i.GPIO_SetBits)
+    i.Gent_Pwm_Alt                           0x08001c5c   Section        0  pid05.o(i.Gent_Pwm_Alt)
+    i.Gent_Pwm_Pitch                         0x08001ccc   Section        0  pid05.o(i.Gent_Pwm_Pitch)
+    i.Gent_Pwm_Roll                          0x08001d4c   Section        0  pid05.o(i.Gent_Pwm_Roll)
+    i.Gent_Pwm_Yaw                           0x08001db0   Section        0  pid05.o(i.Gent_Pwm_Yaw)
+    i.Interrupt_uart4_rx                     0x08001e20   Section        0  peripheral05.o(i.Interrupt_uart4_rx)
+    i.MyGPIO_Configuration                   0x08001e48   Section        0  peripheral05.o(i.MyGPIO_Configuration)
+    i.MyRCC_Configuration                    0x08001ef4   Section        0  peripheral05.o(i.MyRCC_Configuration)
+    i.MyTIM_PWM_Configuration                0x08001f44   Section        0  peripheral05.o(i.MyTIM_PWM_Configuration)
+    i.NVIC_Configuration                     0x08002048   Section        0  peripheral05.o(i.NVIC_Configuration)
+    i.NVIC_Init                              0x08002070   Section        0  misc.o(i.NVIC_Init)
+    i.NVIC_PriorityGroupConfig               0x080020d4   Section        0  misc.o(i.NVIC_PriorityGroupConfig)
+    i.PID_Init                               0x080020e8   Section        0  pid05.o(i.PID_Init)
+    i.RCC_AHB1PeriphClockCmd                 0x08002168   Section        0  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
+    i.RCC_AHB1PeriphResetCmd                 0x08002180   Section        0  stm32f4xx_rcc.o(i.RCC_AHB1PeriphResetCmd)
+    i.RCC_APB1PeriphClockCmd                 0x08002198   Section        0  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
+    i.RCC_APB2PeriphClockCmd                 0x080021b0   Section        0  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
+    i.RCC_GetClocksFreq                      0x080021c8   Section        0  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
+    i.SYSCFG_EXTILineConfig                  0x0800225c   Section        0  stm32f4xx_syscfg.o(i.SYSCFG_EXTILineConfig)
+    i.Sampling_GGA                           0x08002284   Section        0  pid05.o(i.Sampling_GGA)
+    i.Sampling_RPY                           0x0800243c   Section        0  pid05.o(i.Sampling_RPY)
+    i.Sampling_VTG                           0x0800271c   Section        0  pid05.o(i.Sampling_VTG)
+    i.SetSysClock                            0x08002774   Section        0  system_stm32f4xx.o(i.SetSysClock)
+    SetSysClock                              0x08002775   Thumb Code   162  system_stm32f4xx.o(i.SetSysClock)
+    i.SysTick_Handler                        0x08002828   Section        0  luanvan3-05vs2.o(i.SysTick_Handler)
+    i.SystemInit                             0x0800292c   Section        0  system_stm32f4xx.o(i.SystemInit)
+    i.TIM_ARRPreloadConfig                   0x08002990   Section        0  stm32f4xx_tim.o(i.TIM_ARRPreloadConfig)
+    i.TIM_Cmd                                0x080029a4   Section        0  stm32f4xx_tim.o(i.TIM_Cmd)
+    i.TIM_OC1Init                            0x080029b8   Section        0  stm32f4xx_tim.o(i.TIM_OC1Init)
+    i.TIM_OC1PreloadConfig                   0x08002a18   Section        0  stm32f4xx_tim.o(i.TIM_OC1PreloadConfig)
+    i.TIM_OC2Init                            0x08002a24   Section        0  stm32f4xx_tim.o(i.TIM_OC2Init)
+    i.TIM_OC2PreloadConfig                   0x08002aa4   Section        0  stm32f4xx_tim.o(i.TIM_OC2PreloadConfig)
+    i.TIM_OC3Init                            0x08002ab8   Section        0  stm32f4xx_tim.o(i.TIM_OC3Init)
+    i.TIM_OC3PreloadConfig                   0x08002b34   Section        0  stm32f4xx_tim.o(i.TIM_OC3PreloadConfig)
+    i.TIM_OC4Init                            0x08002b40   Section        0  stm32f4xx_tim.o(i.TIM_OC4Init)
+    i.TIM_OC4PreloadConfig                   0x08002ba0   Section        0  stm32f4xx_tim.o(i.TIM_OC4PreloadConfig)
+    i.TIM_TimeBaseInit                       0x08002bb4   Section        0  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
+    i.UART4_Configuration                    0x08002c30   Section        0  peripheral05.o(i.UART4_Configuration)
+    i.USART2_Configuration                   0x08002c64   Section        0  peripheral05.o(i.USART2_Configuration)
+    i.USART_Cmd                              0x08002c98   Section        0  stm32f4xx_usart.o(i.USART_Cmd)
+    i.USART_DMACmd                           0x08002cac   Section        0  stm32f4xx_usart.o(i.USART_DMACmd)
+    i.USART_Init                             0x08002cbc   Section        0  stm32f4xx_usart.o(i.USART_Init)
+    i.__ARM_fpclassify                       0x08002d74   Section        0  fpclassify.o(i.__ARM_fpclassify)
+    i.__hardfp_atof                          0x08002da8   Section        0  atof.o(i.__hardfp_atof)
+    i.__hardfp_pow                           0x08002de0   Section        0  pow.o(i.__hardfp_pow)
+    i.__kernel_poly                          0x08003a70   Section        0  poly.o(i.__kernel_poly)
+    i.__mathlib_dbl_underflow                0x08003b68   Section        0  dunder.o(i.__mathlib_dbl_underflow)
+    i.__read_errno                           0x08003b88   Section        0  errno.o(i.__read_errno)
+    i.__scatterload_copy                     0x08003b94   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x08003ba2   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x08003ba4   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.__set_errno                            0x08003bb4   Section        0  errno.o(i.__set_errno)
+    i._is_digit                              0x08003bc0   Section        0  scanf_fp.o(i._is_digit)
+    i.fabs                                   0x08003bce   Section        0  fabs.o(i.fabs)
+    i.main                                   0x08003bf0   Section        0  luanvan3-05vs2.o(i.main)
+    i.receive_data_and_reply                 0x08003d08   Section        0  luanvan3-05vs2.o(i.receive_data_and_reply)
+    i.sqrt                                   0x0800424c   Section        0  sqrt.o(i.sqrt)
+    i.trituyetdoi                            0x080042ba   Section        0  pid05.o(i.trituyetdoi)
+    .constdata                               0x080042d0   Section      136  pow.o(.constdata)
+    bp                                       0x080042d0   Data          16  pow.o(.constdata)
+    dp_h                                     0x080042e0   Data          16  pow.o(.constdata)
+    dp_l                                     0x080042f0   Data          16  pow.o(.constdata)
+    L                                        0x08004300   Data          48  pow.o(.constdata)
+    P                                        0x08004330   Data          40  pow.o(.constdata)
+    .constdata                               0x08004358   Section        8  qnan.o(.constdata)
+    .constdata                               0x08004360   Section       64  ctype_c.o(.constdata)
     .data                                    0x20000000   Section       20  system_stm32f4xx.o(.data)
     .data                                    0x20000014   Section       16  stm32f4xx_rcc.o(.data)
     APBAHBPrescTable                         0x20000014   Data          16  stm32f4xx_rcc.o(.data)
@@ -1199,13 +1199,12 @@ Image Symbol Table
     Pitch_set_previous                       0x20000028   Data           4  pid05.o(.data)
     Alt_set_previous                         0x2000002c   Data           4  pid05.o(.data)
     Yaw_set_previous                         0x20000030   Data           4  pid05.o(.data)
-    .data                                    0x20000034   Section       36  luanvan3-05vs2.o(.data)
-    .data                                    0x20000058   Section        1  luanvan3-05vs2.o(.data)
-    .data                                    0x20000059   Section        1  luanvan3-05vs2.o(.data)
-    .data                                    0x2000005c   Section        4  errno.o(.data)
-    _errno                                   0x2000005c   Data           4  errno.o(.data)
-    .bss                                     0x20000060   Section      448  pid05.o(.bss)
-    .bss                                     0x20000220   Section      612  luanvan3-05vs2.o(.bss)
+    .data                                    0x20000034   Section       40  luanvan3-05vs2.o(.data)
+    .data                                    0x2000005c   Section        1  luanvan3-05vs2.o(.data)
+    .data                                    0x20000060   Section        4  errno.o(.data)
+    _errno                                   0x20000060   Data           4  errno.o(.data)
+    .bss                                     0x20000064   Section      448  pid05.o(.bss)
+    .bss                                     0x20000224   Section      612  luanvan3-05vs2.o(.bss)
     STACK                                    0x20000488   Section    24576  startup_stm32f4xx.o(STACK)
 
     Global Symbols
@@ -1355,120 +1354,126 @@ Image Symbol Table
     _dsqrt                                   0x08000c05   Thumb Code   162  dsqrt.o(.text)
     __ctype_lookup                           0x08000ca9   Thumb Code    34  ctype_c.o(.text)
     __aeabi_ul2d                             0x08000cd1   Thumb Code    24  dfltul.o(.text)
-    Call_Pitch_PID                           0x08000ce9   Thumb Code   442  pid05.o(i.Call_Pitch_PID)
-    Call_Roll_PID                            0x08000ed1   Thumb Code   444  pid05.o(i.Call_Roll_PID)
-    DMA1_Stream2_IRQHandler                  0x080010b9   Thumb Code    66  luanvan3-05vs2.o(i.DMA1_Stream2_IRQHandler)
-    DMA1_Stream4_IRQHandler                  0x0800110d   Thumb Code    32  peripheral05.o(i.DMA1_Stream4_IRQHandler)
-    DMA_ClearFlag                            0x08001135   Thumb Code    32  stm32f4xx_dma.o(i.DMA_ClearFlag)
-    DMA_ClearITPendingBit                    0x08001161   Thumb Code    32  stm32f4xx_dma.o(i.DMA_ClearITPendingBit)
-    DMA_Cmd                                  0x0800118d   Thumb Code    20  stm32f4xx_dma.o(i.DMA_Cmd)
-    DMA_DeInit                               0x080011a1   Thumb Code   272  stm32f4xx_dma.o(i.DMA_DeInit)
-    DMA_GetITStatus                          0x080012c5   Thumb Code    68  stm32f4xx_dma.o(i.DMA_GetITStatus)
-    DMA_ITConfig                             0x08001319   Thumb Code    52  stm32f4xx_dma.o(i.DMA_ITConfig)
-    DMA_Init                                 0x0800134d   Thumb Code    80  stm32f4xx_dma.o(i.DMA_Init)
-    DMA_SetCurrDataCounter                   0x080013a1   Thumb Code     4  stm32f4xx_dma.o(i.DMA_SetCurrDataCounter)
-    DMA_UART4_Configuration                  0x080013a5   Thumb Code   104  peripheral05.o(i.DMA_UART4_Configuration)
-    DMA_UART4_RX                             0x08001415   Thumb Code   100  peripheral05.o(i.DMA_UART4_RX)
-    DMA_USART2_Config                        0x08001481   Thumb Code    96  peripheral05.o(i.DMA_USART2_Config)
-    Delay_100ms                              0x080014e9   Thumb Code    12  peripheral05.o(i.Delay_100ms)
-    EXTI9_5_IRQHandler                       0x080014f9   Thumb Code    58  peripheral05.o(i.EXTI9_5_IRQHandler)
-    EXTI_FPGA_Pa8                            0x0800153d   Thumb Code    66  peripheral05.o(i.EXTI_FPGA_Pa8)
-    EXTI_GetITStatus                         0x08001581   Thumb Code    28  stm32f4xx_exti.o(i.EXTI_GetITStatus)
-    EXTI_Init                                0x080015a1   Thumb Code   108  stm32f4xx_exti.o(i.EXTI_Init)
-    GPIO_Init                                0x08001611   Thumb Code   162  stm32f4xx_gpio.o(i.GPIO_Init)
-    GPIO_PinAFConfig                         0x080016b3   Thumb Code    32  stm32f4xx_gpio.o(i.GPIO_PinAFConfig)
-    GPIO_ReadInputDataBit                    0x080016d3   Thumb Code    14  stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit)
-    GPIO_SetBits                             0x080016e1   Thumb Code     4  stm32f4xx_gpio.o(i.GPIO_SetBits)
-    Gent_Pwm_Pitch                           0x080016e5   Thumb Code    98  pid05.o(i.Gent_Pwm_Pitch)
-    Gent_Pwm_Roll                            0x08001765   Thumb Code    80  pid05.o(i.Gent_Pwm_Roll)
-    Gent_Pwm_Yaw                             0x080017c9   Thumb Code    86  pid05.o(i.Gent_Pwm_Yaw)
-    Interrupt_uart4_rx                       0x08001839   Thumb Code    40  peripheral05.o(i.Interrupt_uart4_rx)
-    MyGPIO_Configuration                     0x08001861   Thumb Code   162  peripheral05.o(i.MyGPIO_Configuration)
-    MyRCC_Configuration                      0x0800190d   Thumb Code    78  peripheral05.o(i.MyRCC_Configuration)
-    MyTIM_PWM_Configuration                  0x0800195d   Thumb Code   252  peripheral05.o(i.MyTIM_PWM_Configuration)
-    NVIC_Configuration                       0x08001a61   Thumb Code    40  peripheral05.o(i.NVIC_Configuration)
-    NVIC_Init                                0x08001a89   Thumb Code    92  misc.o(i.NVIC_Init)
-    NVIC_PriorityGroupConfig                 0x08001aed   Thumb Code    10  misc.o(i.NVIC_PriorityGroupConfig)
-    PID_Init                                 0x08001b01   Thumb Code   118  pid05.o(i.PID_Init)
-    RCC_AHB1PeriphClockCmd                   0x08001b81   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
-    RCC_AHB1PeriphResetCmd                   0x08001b99   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_AHB1PeriphResetCmd)
-    RCC_APB1PeriphClockCmd                   0x08001bb1   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
-    RCC_APB2PeriphClockCmd                   0x08001bc9   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
-    RCC_GetClocksFreq                        0x08001be1   Thumb Code   132  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
-    SYSCFG_EXTILineConfig                    0x08001c75   Thumb Code    34  stm32f4xx_syscfg.o(i.SYSCFG_EXTILineConfig)
-    Sampling_GGA                             0x08001c9d   Thumb Code   418  pid05.o(i.Sampling_GGA)
-    Sampling_RPY                             0x08001e55   Thumb Code   664  pid05.o(i.Sampling_RPY)
-    Sampling_VTG                             0x08002135   Thumb Code    82  pid05.o(i.Sampling_VTG)
-    SysTick_Handler                          0x08002241   Thumb Code   242  luanvan3-05vs2.o(i.SysTick_Handler)
-    SystemInit                               0x08002345   Thumb Code    82  system_stm32f4xx.o(i.SystemInit)
-    TIM_ARRPreloadConfig                     0x080023a9   Thumb Code    20  stm32f4xx_tim.o(i.TIM_ARRPreloadConfig)
-    TIM_Cmd                                  0x080023bd   Thumb Code    20  stm32f4xx_tim.o(i.TIM_Cmd)
-    TIM_OC1Init                              0x080023d1   Thumb Code    88  stm32f4xx_tim.o(i.TIM_OC1Init)
-    TIM_OC1PreloadConfig                     0x08002431   Thumb Code    12  stm32f4xx_tim.o(i.TIM_OC1PreloadConfig)
-    TIM_OC2Init                              0x0800243d   Thumb Code   120  stm32f4xx_tim.o(i.TIM_OC2Init)
-    TIM_OC2PreloadConfig                     0x080024bd   Thumb Code    20  stm32f4xx_tim.o(i.TIM_OC2PreloadConfig)
-    TIM_OC3Init                              0x080024d1   Thumb Code   116  stm32f4xx_tim.o(i.TIM_OC3Init)
-    TIM_OC3PreloadConfig                     0x0800254d   Thumb Code    12  stm32f4xx_tim.o(i.TIM_OC3PreloadConfig)
-    TIM_OC4Init                              0x08002559   Thumb Code    88  stm32f4xx_tim.o(i.TIM_OC4Init)
-    TIM_OC4PreloadConfig                     0x080025b9   Thumb Code    20  stm32f4xx_tim.o(i.TIM_OC4PreloadConfig)
-    TIM_TimeBaseInit                         0x080025cd   Thumb Code    96  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
-    UART4_Configuration                      0x08002649   Thumb Code    48  peripheral05.o(i.UART4_Configuration)
-    USART2_Configuration                     0x0800267d   Thumb Code    48  peripheral05.o(i.USART2_Configuration)
-    USART_Cmd                                0x080026b1   Thumb Code    20  stm32f4xx_usart.o(i.USART_Cmd)
-    USART_DMACmd                             0x080026c5   Thumb Code    16  stm32f4xx_usart.o(i.USART_DMACmd)
-    USART_Init                               0x080026d5   Thumb Code   174  stm32f4xx_usart.o(i.USART_Init)
-    __ARM_fpclassify                         0x0800278d   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
-    __hardfp_atof                            0x080027c1   Thumb Code    44  atof.o(i.__hardfp_atof)
-    __hardfp_pow                             0x080027f9   Thumb Code  3132  pow.o(i.__hardfp_pow)
-    __kernel_poly                            0x08003489   Thumb Code   248  poly.o(i.__kernel_poly)
-    __mathlib_dbl_underflow                  0x08003581   Thumb Code    24  dunder.o(i.__mathlib_dbl_underflow)
-    __read_errno                             0x080035a1   Thumb Code     6  errno.o(i.__read_errno)
-    __scatterload_copy                       0x080035ad   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x080035bb   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x080035bd   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    __set_errno                              0x080035cd   Thumb Code     6  errno.o(i.__set_errno)
-    _is_digit                                0x080035d9   Thumb Code    14  scanf_fp.o(i._is_digit)
-    fabs                                     0x080035e7   Thumb Code    32  fabs.o(i.fabs)
-    main                                     0x08003609   Thumb Code   176  luanvan3-05vs2.o(i.main)
-    receive_data_and_reply                   0x080036d9   Thumb Code   928  luanvan3-05vs2.o(i.receive_data_and_reply)
-    sqrt                                     0x08003a9d   Thumb Code   110  sqrt.o(i.sqrt)
-    trituyetdoi                              0x08003b0b   Thumb Code    16  pid05.o(i.trituyetdoi)
-    __mathlib_zero                           0x08003ba8   Data           8  qnan.o(.constdata)
-    __ctype_categories                       0x08003bb0   Data          64  ctype_c.o(.constdata)
-    Region$$Table$$Base                      0x08003bf0   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08003c10   Number         0  anon$$obj.o(Region$$Table)
+    Call_Alt_PID                             0x08000ce9   Thumb Code   842  pid05.o(i.Call_Alt_PID)
+    Call_Pitch_PID                           0x08001069   Thumb Code   438  pid05.o(i.Call_Pitch_PID)
+    Call_Roll_PID                            0x0800124d   Thumb Code   438  pid05.o(i.Call_Roll_PID)
+    Call_Yaw_PID                             0x08001431   Thumb Code   464  pid05.o(i.Call_Yaw_PID)
+    DMA1_Stream2_IRQHandler                  0x08001631   Thumb Code    68  luanvan3-05vs2.o(i.DMA1_Stream2_IRQHandler)
+    DMA1_Stream4_IRQHandler                  0x08001685   Thumb Code    32  peripheral05.o(i.DMA1_Stream4_IRQHandler)
+    DMA_ClearFlag                            0x080016ad   Thumb Code    32  stm32f4xx_dma.o(i.DMA_ClearFlag)
+    DMA_ClearITPendingBit                    0x080016d9   Thumb Code    32  stm32f4xx_dma.o(i.DMA_ClearITPendingBit)
+    DMA_Cmd                                  0x08001705   Thumb Code    20  stm32f4xx_dma.o(i.DMA_Cmd)
+    DMA_DeInit                               0x08001719   Thumb Code   272  stm32f4xx_dma.o(i.DMA_DeInit)
+    DMA_GetITStatus                          0x0800183d   Thumb Code    68  stm32f4xx_dma.o(i.DMA_GetITStatus)
+    DMA_ITConfig                             0x08001891   Thumb Code    52  stm32f4xx_dma.o(i.DMA_ITConfig)
+    DMA_Init                                 0x080018c5   Thumb Code    80  stm32f4xx_dma.o(i.DMA_Init)
+    DMA_SetCurrDataCounter                   0x08001919   Thumb Code     4  stm32f4xx_dma.o(i.DMA_SetCurrDataCounter)
+    DMA_UART4_Configuration                  0x0800191d   Thumb Code   104  peripheral05.o(i.DMA_UART4_Configuration)
+    DMA_UART4_RX                             0x0800198d   Thumb Code   100  peripheral05.o(i.DMA_UART4_RX)
+    DMA_USART2_Config                        0x080019f9   Thumb Code    96  peripheral05.o(i.DMA_USART2_Config)
+    Delay_100ms                              0x08001a61   Thumb Code    12  peripheral05.o(i.Delay_100ms)
+    EXTI9_5_IRQHandler                       0x08001a71   Thumb Code    58  peripheral05.o(i.EXTI9_5_IRQHandler)
+    EXTI_FPGA_Pa8                            0x08001ab5   Thumb Code    66  peripheral05.o(i.EXTI_FPGA_Pa8)
+    EXTI_GetITStatus                         0x08001af9   Thumb Code    28  stm32f4xx_exti.o(i.EXTI_GetITStatus)
+    EXTI_Init                                0x08001b19   Thumb Code   108  stm32f4xx_exti.o(i.EXTI_Init)
+    GPIO_Init                                0x08001b89   Thumb Code   162  stm32f4xx_gpio.o(i.GPIO_Init)
+    GPIO_PinAFConfig                         0x08001c2b   Thumb Code    32  stm32f4xx_gpio.o(i.GPIO_PinAFConfig)
+    GPIO_ReadInputDataBit                    0x08001c4b   Thumb Code    14  stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit)
+    GPIO_SetBits                             0x08001c59   Thumb Code     4  stm32f4xx_gpio.o(i.GPIO_SetBits)
+    Gent_Pwm_Alt                             0x08001c5d   Thumb Code    86  pid05.o(i.Gent_Pwm_Alt)
+    Gent_Pwm_Pitch                           0x08001ccd   Thumb Code    98  pid05.o(i.Gent_Pwm_Pitch)
+    Gent_Pwm_Roll                            0x08001d4d   Thumb Code    80  pid05.o(i.Gent_Pwm_Roll)
+    Gent_Pwm_Yaw                             0x08001db1   Thumb Code    86  pid05.o(i.Gent_Pwm_Yaw)
+    Interrupt_uart4_rx                       0x08001e21   Thumb Code    40  peripheral05.o(i.Interrupt_uart4_rx)
+    MyGPIO_Configuration                     0x08001e49   Thumb Code   162  peripheral05.o(i.MyGPIO_Configuration)
+    MyRCC_Configuration                      0x08001ef5   Thumb Code    78  peripheral05.o(i.MyRCC_Configuration)
+    MyTIM_PWM_Configuration                  0x08001f45   Thumb Code   252  peripheral05.o(i.MyTIM_PWM_Configuration)
+    NVIC_Configuration                       0x08002049   Thumb Code    40  peripheral05.o(i.NVIC_Configuration)
+    NVIC_Init                                0x08002071   Thumb Code    92  misc.o(i.NVIC_Init)
+    NVIC_PriorityGroupConfig                 0x080020d5   Thumb Code    10  misc.o(i.NVIC_PriorityGroupConfig)
+    PID_Init                                 0x080020e9   Thumb Code   118  pid05.o(i.PID_Init)
+    RCC_AHB1PeriphClockCmd                   0x08002169   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd)
+    RCC_AHB1PeriphResetCmd                   0x08002181   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_AHB1PeriphResetCmd)
+    RCC_APB1PeriphClockCmd                   0x08002199   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd)
+    RCC_APB2PeriphClockCmd                   0x080021b1   Thumb Code    18  stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd)
+    RCC_GetClocksFreq                        0x080021c9   Thumb Code   132  stm32f4xx_rcc.o(i.RCC_GetClocksFreq)
+    SYSCFG_EXTILineConfig                    0x0800225d   Thumb Code    34  stm32f4xx_syscfg.o(i.SYSCFG_EXTILineConfig)
+    Sampling_GGA                             0x08002285   Thumb Code   418  pid05.o(i.Sampling_GGA)
+    Sampling_RPY                             0x0800243d   Thumb Code   664  pid05.o(i.Sampling_RPY)
+    Sampling_VTG                             0x0800271d   Thumb Code    82  pid05.o(i.Sampling_VTG)
+    SysTick_Handler                          0x08002829   Thumb Code   242  luanvan3-05vs2.o(i.SysTick_Handler)
+    SystemInit                               0x0800292d   Thumb Code    82  system_stm32f4xx.o(i.SystemInit)
+    TIM_ARRPreloadConfig                     0x08002991   Thumb Code    20  stm32f4xx_tim.o(i.TIM_ARRPreloadConfig)
+    TIM_Cmd                                  0x080029a5   Thumb Code    20  stm32f4xx_tim.o(i.TIM_Cmd)
+    TIM_OC1Init                              0x080029b9   Thumb Code    88  stm32f4xx_tim.o(i.TIM_OC1Init)
+    TIM_OC1PreloadConfig                     0x08002a19   Thumb Code    12  stm32f4xx_tim.o(i.TIM_OC1PreloadConfig)
+    TIM_OC2Init                              0x08002a25   Thumb Code   120  stm32f4xx_tim.o(i.TIM_OC2Init)
+    TIM_OC2PreloadConfig                     0x08002aa5   Thumb Code    20  stm32f4xx_tim.o(i.TIM_OC2PreloadConfig)
+    TIM_OC3Init                              0x08002ab9   Thumb Code   116  stm32f4xx_tim.o(i.TIM_OC3Init)
+    TIM_OC3PreloadConfig                     0x08002b35   Thumb Code    12  stm32f4xx_tim.o(i.TIM_OC3PreloadConfig)
+    TIM_OC4Init                              0x08002b41   Thumb Code    88  stm32f4xx_tim.o(i.TIM_OC4Init)
+    TIM_OC4PreloadConfig                     0x08002ba1   Thumb Code    20  stm32f4xx_tim.o(i.TIM_OC4PreloadConfig)
+    TIM_TimeBaseInit                         0x08002bb5   Thumb Code    96  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
+    UART4_Configuration                      0x08002c31   Thumb Code    48  peripheral05.o(i.UART4_Configuration)
+    USART2_Configuration                     0x08002c65   Thumb Code    48  peripheral05.o(i.USART2_Configuration)
+    USART_Cmd                                0x08002c99   Thumb Code    20  stm32f4xx_usart.o(i.USART_Cmd)
+    USART_DMACmd                             0x08002cad   Thumb Code    16  stm32f4xx_usart.o(i.USART_DMACmd)
+    USART_Init                               0x08002cbd   Thumb Code   174  stm32f4xx_usart.o(i.USART_Init)
+    __ARM_fpclassify                         0x08002d75   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
+    __hardfp_atof                            0x08002da9   Thumb Code    44  atof.o(i.__hardfp_atof)
+    __hardfp_pow                             0x08002de1   Thumb Code  3132  pow.o(i.__hardfp_pow)
+    __kernel_poly                            0x08003a71   Thumb Code   248  poly.o(i.__kernel_poly)
+    __mathlib_dbl_underflow                  0x08003b69   Thumb Code    24  dunder.o(i.__mathlib_dbl_underflow)
+    __read_errno                             0x08003b89   Thumb Code     6  errno.o(i.__read_errno)
+    __scatterload_copy                       0x08003b95   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x08003ba3   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x08003ba5   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    __set_errno                              0x08003bb5   Thumb Code     6  errno.o(i.__set_errno)
+    _is_digit                                0x08003bc1   Thumb Code    14  scanf_fp.o(i._is_digit)
+    fabs                                     0x08003bcf   Thumb Code    32  fabs.o(i.fabs)
+    main                                     0x08003bf1   Thumb Code   234  luanvan3-05vs2.o(i.main)
+    receive_data_and_reply                   0x08003d09   Thumb Code  1342  luanvan3-05vs2.o(i.receive_data_and_reply)
+    sqrt                                     0x0800424d   Thumb Code   110  sqrt.o(i.sqrt)
+    trituyetdoi                              0x080042bb   Thumb Code    16  pid05.o(i.trituyetdoi)
+    __mathlib_zero                           0x08004358   Data           8  qnan.o(.constdata)
+    __ctype_categories                       0x08004360   Data          64  ctype_c.o(.constdata)
+    Region$$Table$$Base                      0x080043a0   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x080043c0   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20000000   Data           4  system_stm32f4xx.o(.data)
     AHBPrescTable                            0x20000004   Data          16  system_stm32f4xx.o(.data)
     CMD_Trigger                              0x20000034   Data           1  luanvan3-05vs2.o(.data)
     index_find_e                             0x20000035   Data           1  luanvan3-05vs2.o(.data)
     CMD_delay                                0x20000036   Data           1  luanvan3-05vs2.o(.data)
-    index_receive_enough_data_GS             0x20000037   Data           1  luanvan3-05vs2.o(.data)
-    find_char_$                              0x20000038   Data           1  luanvan3-05vs2.o(.data)
-    state_alt                                0x20000039   Data           1  luanvan3-05vs2.o(.data)
-    state_press                              0x2000003a   Data           1  luanvan3-05vs2.o(.data)
-    Buf_rx4                                  0x2000003b   Data           1  luanvan3-05vs2.o(.data)
-    G_delay_count                            0x2000003c   Data           2  luanvan3-05vs2.o(.data)
-    position_VTG                             0x2000003e   Data           2  luanvan3-05vs2.o(.data)
-    position_end_of_VTG                      0x20000040   Data           2  luanvan3-05vs2.o(.data)
-    position_end_of_GGA                      0x20000042   Data           2  luanvan3-05vs2.o(.data)
-    compare_enough_data                      0x20000044   Data           4  luanvan3-05vs2.o(.data)
-    number_byte_empty_into_Buf_USART2        0x20000048   Data           4  luanvan3-05vs2.o(.data)
-    lenght_of_data_IMU_GPS                   0x2000004c   Data           4  luanvan3-05vs2.o(.data)
-    i                                        0x20000050   Data           4  luanvan3-05vs2.o(.data)
-    test_simulate1                           0x20000054   Data           4  luanvan3-05vs2.o(.data)
-    Update_heso_Roll                         0x20000058   Data           1  luanvan3-05vs2.o(.data)
-    Update_heso_Pitch                        0x20000059   Data           1  luanvan3-05vs2.o(.data)
-    Roll_PID                                 0x20000060   Data          56  pid05.o(.bss)
-    Pitch_PID                                0x20000098   Data          56  pid05.o(.bss)
-    Yaw_PID                                  0x200000d0   Data          56  pid05.o(.bss)
-    Alt_PID                                  0x20000108   Data          56  pid05.o(.bss)
-    Latitude                                 0x20000140   Data          56  pid05.o(.bss)
-    Longitude                                0x20000178   Data          56  pid05.o(.bss)
-    Speed                                    0x200001b0   Data          56  pid05.o(.bss)
-    Press                                    0x200001e8   Data          56  pid05.o(.bss)
-    Buf_USART2                               0x20000220   Data         250  luanvan3-05vs2.o(.bss)
-    data_from_pc                             0x2000031a   Data         250  luanvan3-05vs2.o(.bss)
-    lat_long_from_GS                         0x20000414   Data         112  luanvan3-05vs2.o(.bss)
+    Update_heso_Roll                         0x20000037   Data           1  luanvan3-05vs2.o(.data)
+    Update_heso_Pitch                        0x20000038   Data           1  luanvan3-05vs2.o(.data)
+    Update_heso_Yaw                          0x20000039   Data           1  luanvan3-05vs2.o(.data)
+    Update_heso_Alt                          0x2000003a   Data           1  luanvan3-05vs2.o(.data)
+    index_receive_enough_data_GS             0x2000003b   Data           1  luanvan3-05vs2.o(.data)
+    find_char_$                              0x2000003c   Data           1  luanvan3-05vs2.o(.data)
+    state_alt                                0x2000003d   Data           1  luanvan3-05vs2.o(.data)
+    state_press                              0x2000003e   Data           1  luanvan3-05vs2.o(.data)
+    Buf_rx4                                  0x2000003f   Data           1  luanvan3-05vs2.o(.data)
+    G_delay_count                            0x20000040   Data           2  luanvan3-05vs2.o(.data)
+    position_VTG                             0x20000042   Data           2  luanvan3-05vs2.o(.data)
+    position_end_of_VTG                      0x20000044   Data           2  luanvan3-05vs2.o(.data)
+    position_end_of_GGA                      0x20000046   Data           2  luanvan3-05vs2.o(.data)
+    compare_enough_data                      0x20000048   Data           4  luanvan3-05vs2.o(.data)
+    number_byte_empty_into_Buf_USART2        0x2000004c   Data           4  luanvan3-05vs2.o(.data)
+    lenght_of_data_IMU_GPS                   0x20000050   Data           4  luanvan3-05vs2.o(.data)
+    i                                        0x20000054   Data           4  luanvan3-05vs2.o(.data)
+    test_simulate1                           0x20000058   Data           4  luanvan3-05vs2.o(.data)
+    Update_heso_Press                        0x2000005c   Data           1  luanvan3-05vs2.o(.data)
+    Roll_PID                                 0x20000064   Data          56  pid05.o(.bss)
+    Pitch_PID                                0x2000009c   Data          56  pid05.o(.bss)
+    Yaw_PID                                  0x200000d4   Data          56  pid05.o(.bss)
+    Alt_PID                                  0x2000010c   Data          56  pid05.o(.bss)
+    Latitude                                 0x20000144   Data          56  pid05.o(.bss)
+    Longitude                                0x2000017c   Data          56  pid05.o(.bss)
+    Speed                                    0x200001b4   Data          56  pid05.o(.bss)
+    Press                                    0x200001ec   Data          56  pid05.o(.bss)
+    Buf_USART2                               0x20000224   Data         250  luanvan3-05vs2.o(.bss)
+    data_from_pc                             0x2000031e   Data         250  luanvan3-05vs2.o(.bss)
+    lat_long_from_GS                         0x20000418   Data         112  luanvan3-05vs2.o(.bss)
     __initial_sp                             0x20006488   Data           0  startup_stm32f4xx.o(STACK)
 
 
@@ -1479,140 +1484,143 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003c70, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00004424, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00003c10, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x000043c0, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x08000000   0x00000188   Data   RO            3    RESET               startup_stm32f4xx.o
-    0x08000188   0x00000000   Code   RO         2822  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x08000188   0x00000004   Code   RO         2868    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x0800018c   0x00000004   Code   RO         2871    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x08000190   0x00000000   Code   RO         2873    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x08000190   0x00000000   Code   RO         2875    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x08000190   0x00000008   Code   RO         2876    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x08000198   0x00000000   Code   RO         2878    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x08000198   0x00000000   Code   RO         2880    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x08000198   0x00000004   Code   RO         2869    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x08000188   0x00000000   Code   RO         2819  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x08000188   0x00000004   Code   RO         2865    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x0800018c   0x00000004   Code   RO         2868    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x08000190   0x00000000   Code   RO         2870    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x08000190   0x00000000   Code   RO         2872    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x08000190   0x00000008   Code   RO         2873    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x08000198   0x00000000   Code   RO         2875    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x08000198   0x00000000   Code   RO         2877    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x08000198   0x00000004   Code   RO         2866    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
     0x0800019c   0x00000024   Code   RO            4    .text               startup_stm32f4xx.o
-    0x080001c0   0x00000018   Code   RO         2825    .text               mc_w.l(strncpy.o)
-    0x080001d8   0x0000014e   Code   RO         2827    .text               mf_w.l(dadd.o)
-    0x08000326   0x000000e4   Code   RO         2829    .text               mf_w.l(dmul.o)
-    0x0800040a   0x000000de   Code   RO         2831    .text               mf_w.l(ddiv.o)
-    0x080004e8   0x00000022   Code   RO         2833    .text               mf_w.l(dflti.o)
-    0x0800050a   0x0000003e   Code   RO         2835    .text               mf_w.l(dfixi.o)
-    0x08000548   0x00000032   Code   RO         2837    .text               mf_w.l(dfixui.o)
-    0x0800057a   0x00000026   Code   RO         2839    .text               mf_w.l(f2d.o)
-    0x080005a0   0x00000038   Code   RO         2841    .text               mf_w.l(d2f.o)
-    0x080005d8   0x0000001e   Code   RO         2882    .text               mc_w.l(llshl.o)
-    0x080005f6   0x00000020   Code   RO         2884    .text               mc_w.l(llushr.o)
-    0x08000616   0x00000024   Code   RO         2886    .text               mc_w.l(llsshr.o)
+    0x080001c0   0x00000018   Code   RO         2822    .text               mc_w.l(strncpy.o)
+    0x080001d8   0x0000014e   Code   RO         2824    .text               mf_w.l(dadd.o)
+    0x08000326   0x000000e4   Code   RO         2826    .text               mf_w.l(dmul.o)
+    0x0800040a   0x000000de   Code   RO         2828    .text               mf_w.l(ddiv.o)
+    0x080004e8   0x00000022   Code   RO         2830    .text               mf_w.l(dflti.o)
+    0x0800050a   0x0000003e   Code   RO         2832    .text               mf_w.l(dfixi.o)
+    0x08000548   0x00000032   Code   RO         2834    .text               mf_w.l(dfixui.o)
+    0x0800057a   0x00000026   Code   RO         2836    .text               mf_w.l(f2d.o)
+    0x080005a0   0x00000038   Code   RO         2838    .text               mf_w.l(d2f.o)
+    0x080005d8   0x0000001e   Code   RO         2879    .text               mc_w.l(llshl.o)
+    0x080005f6   0x00000020   Code   RO         2881    .text               mc_w.l(llushr.o)
+    0x08000616   0x00000024   Code   RO         2883    .text               mc_w.l(llsshr.o)
     0x0800063a   0x00000002   PAD
-    0x0800063c   0x0000009c   Code   RO         2895    .text               mc_w.l(strtod.o)
-    0x080006d8   0x00000000   Code   RO         2897    .text               mc_w.l(iusefp.o)
-    0x080006d8   0x0000006c   Code   RO         2898    .text               mf_w.l(fepilogue.o)
-    0x08000744   0x000000be   Code   RO         2900    .text               mf_w.l(depilogue.o)
-    0x08000802   0x0000002e   Code   RO         2904    .text               mf_w.l(dscalb.o)
-    0x08000830   0x00000028   Code   RO         2906    .text               mf_w.l(cdrcmple.o)
-    0x08000858   0x00000024   Code   RO         2908    .text               mc_w.l(init.o)
-    0x0800087c   0x0000000a   Code   RO         2910    .text               mc_w.l(isspace_c.o)
+    0x0800063c   0x0000009c   Code   RO         2892    .text               mc_w.l(strtod.o)
+    0x080006d8   0x00000000   Code   RO         2894    .text               mc_w.l(iusefp.o)
+    0x080006d8   0x0000006c   Code   RO         2895    .text               mf_w.l(fepilogue.o)
+    0x08000744   0x000000be   Code   RO         2897    .text               mf_w.l(depilogue.o)
+    0x08000802   0x0000002e   Code   RO         2901    .text               mf_w.l(dscalb.o)
+    0x08000830   0x00000028   Code   RO         2903    .text               mf_w.l(cdrcmple.o)
+    0x08000858   0x00000024   Code   RO         2905    .text               mc_w.l(init.o)
+    0x0800087c   0x0000000a   Code   RO         2907    .text               mc_w.l(isspace_c.o)
     0x08000886   0x00000002   PAD
-    0x08000888   0x0000033c   Code   RO         2912    .text               mc_w.l(scanf_fp.o)
-    0x08000bc4   0x00000040   Code   RO         2916    .text               mc_w.l(_sgetc.o)
-    0x08000c04   0x000000a2   Code   RO         2918    .text               mf_w.l(dsqrt.o)
+    0x08000888   0x0000033c   Code   RO         2909    .text               mc_w.l(scanf_fp.o)
+    0x08000bc4   0x00000040   Code   RO         2913    .text               mc_w.l(_sgetc.o)
+    0x08000c04   0x000000a2   Code   RO         2915    .text               mf_w.l(dsqrt.o)
     0x08000ca6   0x00000002   PAD
-    0x08000ca8   0x00000028   Code   RO         2922    .text               mc_w.l(ctype_c.o)
-    0x08000cd0   0x00000018   Code   RO         2925    .text               mf_w.l(dfltul.o)
-    0x08000ce8   0x000001e8   Code   RO         2267    i.Call_Pitch_PID    pid05.o
-    0x08000ed0   0x000001e8   Code   RO         2268    i.Call_Roll_PID     pid05.o
-    0x080010b8   0x00000054   Code   RO         2385    i.DMA1_Stream2_IRQHandler  luanvan3-05vs2.o
-    0x0800110c   0x00000028   Code   RO         2125    i.DMA1_Stream4_IRQHandler  peripheral05.o
-    0x08001134   0x0000002c   Code   RO          276    i.DMA_ClearFlag     stm32f4xx_dma.o
-    0x08001160   0x0000002c   Code   RO          277    i.DMA_ClearITPendingBit  stm32f4xx_dma.o
-    0x0800118c   0x00000014   Code   RO          278    i.DMA_Cmd           stm32f4xx_dma.o
-    0x080011a0   0x00000124   Code   RO          279    i.DMA_DeInit        stm32f4xx_dma.o
-    0x080012c4   0x00000054   Code   RO          288    i.DMA_GetITStatus   stm32f4xx_dma.o
-    0x08001318   0x00000034   Code   RO          289    i.DMA_ITConfig      stm32f4xx_dma.o
-    0x0800134c   0x00000054   Code   RO          290    i.DMA_Init          stm32f4xx_dma.o
-    0x080013a0   0x00000004   Code   RO          293    i.DMA_SetCurrDataCounter  stm32f4xx_dma.o
-    0x080013a4   0x00000070   Code   RO         2126    i.DMA_UART4_Configuration  peripheral05.o
-    0x08001414   0x0000006c   Code   RO         2127    i.DMA_UART4_RX      peripheral05.o
-    0x08001480   0x00000068   Code   RO         2128    i.DMA_USART2_Config  peripheral05.o
-    0x080014e8   0x00000010   Code   RO         2129    i.Delay_100ms       peripheral05.o
-    0x080014f8   0x00000044   Code   RO         2130    i.EXTI9_5_IRQHandler  peripheral05.o
-    0x0800153c   0x00000042   Code   RO         2131    i.EXTI_FPGA_Pa8     peripheral05.o
-    0x0800157e   0x00000002   PAD
-    0x08001580   0x00000020   Code   RO          415    i.EXTI_GetITStatus  stm32f4xx_exti.o
-    0x080015a0   0x00000070   Code   RO          416    i.EXTI_Init         stm32f4xx_exti.o
-    0x08001610   0x000000a2   Code   RO          673    i.GPIO_Init         stm32f4xx_gpio.o
-    0x080016b2   0x00000020   Code   RO          674    i.GPIO_PinAFConfig  stm32f4xx_gpio.o
-    0x080016d2   0x0000000e   Code   RO          677    i.GPIO_ReadInputDataBit  stm32f4xx_gpio.o
-    0x080016e0   0x00000004   Code   RO          681    i.GPIO_SetBits      stm32f4xx_gpio.o
-    0x080016e4   0x00000080   Code   RO         2271    i.Gent_Pwm_Pitch    pid05.o
-    0x08001764   0x00000064   Code   RO         2272    i.Gent_Pwm_Roll     pid05.o
-    0x080017c8   0x00000070   Code   RO         2273    i.Gent_Pwm_Yaw      pid05.o
-    0x08001838   0x00000028   Code   RO         2133    i.Interrupt_uart4_rx  peripheral05.o
-    0x08001860   0x000000ac   Code   RO         2134    i.MyGPIO_Configuration  peripheral05.o
-    0x0800190c   0x0000004e   Code   RO         2135    i.MyRCC_Configuration  peripheral05.o
-    0x0800195a   0x00000002   PAD
-    0x0800195c   0x00000104   Code   RO         2136    i.MyTIM_PWM_Configuration  peripheral05.o
-    0x08001a60   0x00000028   Code   RO         2137    i.NVIC_Configuration  peripheral05.o
-    0x08001a88   0x00000064   Code   RO          150    i.NVIC_Init         misc.o
-    0x08001aec   0x00000014   Code   RO          151    i.NVIC_PriorityGroupConfig  misc.o
-    0x08001b00   0x00000080   Code   RO         2274    i.PID_Init          pid05.o
-    0x08001b80   0x00000018   Code   RO          773    i.RCC_AHB1PeriphClockCmd  stm32f4xx_rcc.o
-    0x08001b98   0x00000018   Code   RO          775    i.RCC_AHB1PeriphResetCmd  stm32f4xx_rcc.o
-    0x08001bb0   0x00000018   Code   RO          782    i.RCC_APB1PeriphClockCmd  stm32f4xx_rcc.o
-    0x08001bc8   0x00000018   Code   RO          785    i.RCC_APB2PeriphClockCmd  stm32f4xx_rcc.o
-    0x08001be0   0x00000094   Code   RO          794    i.RCC_GetClocksFreq  stm32f4xx_rcc.o
-    0x08001c74   0x00000028   Code   RO         1967    i.SYSCFG_EXTILineConfig  stm32f4xx_syscfg.o
-    0x08001c9c   0x000001b8   Code   RO         2275    i.Sampling_GGA      pid05.o
-    0x08001e54   0x000002e0   Code   RO         2276    i.Sampling_RPY      pid05.o
-    0x08002134   0x00000058   Code   RO         2277    i.Sampling_VTG      pid05.o
-    0x0800218c   0x000000b4   Code   RO           12    i.SetSysClock       system_stm32f4xx.o
-    0x08002240   0x00000104   Code   RO         2386    i.SysTick_Handler   luanvan3-05vs2.o
-    0x08002344   0x00000064   Code   RO           14    i.SystemInit        system_stm32f4xx.o
-    0x080023a8   0x00000014   Code   RO         1225    i.TIM_ARRPreloadConfig  stm32f4xx_tim.o
-    0x080023bc   0x00000014   Code   RO         1237    i.TIM_Cmd           stm32f4xx_tim.o
-    0x080023d0   0x00000060   Code   RO         1266    i.TIM_OC1Init       stm32f4xx_tim.o
-    0x08002430   0x0000000c   Code   RO         1269    i.TIM_OC1PreloadConfig  stm32f4xx_tim.o
-    0x0800243c   0x00000080   Code   RO         1271    i.TIM_OC2Init       stm32f4xx_tim.o
-    0x080024bc   0x00000014   Code   RO         1274    i.TIM_OC2PreloadConfig  stm32f4xx_tim.o
-    0x080024d0   0x0000007c   Code   RO         1276    i.TIM_OC3Init       stm32f4xx_tim.o
-    0x0800254c   0x0000000c   Code   RO         1279    i.TIM_OC3PreloadConfig  stm32f4xx_tim.o
-    0x08002558   0x00000060   Code   RO         1281    i.TIM_OC4Init       stm32f4xx_tim.o
-    0x080025b8   0x00000014   Code   RO         1283    i.TIM_OC4PreloadConfig  stm32f4xx_tim.o
-    0x080025cc   0x0000007c   Code   RO         1309    i.TIM_TimeBaseInit  stm32f4xx_tim.o
-    0x08002648   0x00000034   Code   RO         2138    i.UART4_Configuration  peripheral05.o
-    0x0800267c   0x00000034   Code   RO         2139    i.USART2_Configuration  peripheral05.o
-    0x080026b0   0x00000014   Code   RO         1777    i.USART_Cmd         stm32f4xx_usart.o
-    0x080026c4   0x00000010   Code   RO         1778    i.USART_DMACmd      stm32f4xx_usart.o
-    0x080026d4   0x000000b8   Code   RO         1784    i.USART_Init        stm32f4xx_usart.o
-    0x0800278c   0x00000030   Code   RO         2851    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
-    0x080027bc   0x00000004   PAD
-    0x080027c0   0x00000038   Code   RO         2802    i.__hardfp_atof     m_wm.l(atof.o)
-    0x080027f8   0x00000c90   Code   RO         2808    i.__hardfp_pow      m_wm.l(pow.o)
-    0x08003488   0x000000f8   Code   RO         2853    i.__kernel_poly     m_wm.l(poly.o)
-    0x08003580   0x00000020   Code   RO         2843    i.__mathlib_dbl_underflow  m_wm.l(dunder.o)
-    0x080035a0   0x0000000c   Code   RO         2889    i.__read_errno      mc_w.l(errno.o)
-    0x080035ac   0x0000000e   Code   RO         2929    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x080035ba   0x00000002   Code   RO         2930    i.__scatterload_null  mc_w.l(handlers.o)
-    0x080035bc   0x0000000e   Code   RO         2931    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x080035ca   0x00000002   PAD
-    0x080035cc   0x0000000c   Code   RO         2890    i.__set_errno       mc_w.l(errno.o)
-    0x080035d8   0x0000000e   Code   RO         2914    i._is_digit         mc_w.l(scanf_fp.o)
-    0x080035e6   0x00000020   Code   RO         2847    i.fabs              m_wm.l(fabs.o)
-    0x08003606   0x00000002   PAD
-    0x08003608   0x000000d0   Code   RO         2387    i.main              luanvan3-05vs2.o
-    0x080036d8   0x000003c4   Code   RO         2388    i.receive_data_and_reply  luanvan3-05vs2.o
-    0x08003a9c   0x0000006e   Code   RO         2858    i.sqrt              m_wm.l(sqrt.o)
-    0x08003b0a   0x00000010   Code   RO         2278    i.trituyetdoi       pid05.o
-    0x08003b1a   0x00000006   PAD
-    0x08003b20   0x00000088   Data   RO         2811    .constdata          m_wm.l(pow.o)
-    0x08003ba8   0x00000008   Data   RO         2855    .constdata          m_wm.l(qnan.o)
-    0x08003bb0   0x00000040   Data   RO         2923    .constdata          mc_w.l(ctype_c.o)
-    0x08003bf0   0x00000020   Data   RO         2927    Region$$Table       anon$$obj.o
+    0x08000ca8   0x00000028   Code   RO         2919    .text               mc_w.l(ctype_c.o)
+    0x08000cd0   0x00000018   Code   RO         2922    .text               mf_w.l(dfltul.o)
+    0x08000ce8   0x00000380   Code   RO         2266    i.Call_Alt_PID      pid05.o
+    0x08001068   0x000001e4   Code   RO         2267    i.Call_Pitch_PID    pid05.o
+    0x0800124c   0x000001e4   Code   RO         2268    i.Call_Roll_PID     pid05.o
+    0x08001430   0x00000200   Code   RO         2269    i.Call_Yaw_PID      pid05.o
+    0x08001630   0x00000054   Code   RO         2386    i.DMA1_Stream2_IRQHandler  luanvan3-05vs2.o
+    0x08001684   0x00000028   Code   RO         2125    i.DMA1_Stream4_IRQHandler  peripheral05.o
+    0x080016ac   0x0000002c   Code   RO          276    i.DMA_ClearFlag     stm32f4xx_dma.o
+    0x080016d8   0x0000002c   Code   RO          277    i.DMA_ClearITPendingBit  stm32f4xx_dma.o
+    0x08001704   0x00000014   Code   RO          278    i.DMA_Cmd           stm32f4xx_dma.o
+    0x08001718   0x00000124   Code   RO          279    i.DMA_DeInit        stm32f4xx_dma.o
+    0x0800183c   0x00000054   Code   RO          288    i.DMA_GetITStatus   stm32f4xx_dma.o
+    0x08001890   0x00000034   Code   RO          289    i.DMA_ITConfig      stm32f4xx_dma.o
+    0x080018c4   0x00000054   Code   RO          290    i.DMA_Init          stm32f4xx_dma.o
+    0x08001918   0x00000004   Code   RO          293    i.DMA_SetCurrDataCounter  stm32f4xx_dma.o
+    0x0800191c   0x00000070   Code   RO         2126    i.DMA_UART4_Configuration  peripheral05.o
+    0x0800198c   0x0000006c   Code   RO         2127    i.DMA_UART4_RX      peripheral05.o
+    0x080019f8   0x00000068   Code   RO         2128    i.DMA_USART2_Config  peripheral05.o
+    0x08001a60   0x00000010   Code   RO         2129    i.Delay_100ms       peripheral05.o
+    0x08001a70   0x00000044   Code   RO         2130    i.EXTI9_5_IRQHandler  peripheral05.o
+    0x08001ab4   0x00000042   Code   RO         2131    i.EXTI_FPGA_Pa8     peripheral05.o
+    0x08001af6   0x00000002   PAD
+    0x08001af8   0x00000020   Code   RO          415    i.EXTI_GetITStatus  stm32f4xx_exti.o
+    0x08001b18   0x00000070   Code   RO          416    i.EXTI_Init         stm32f4xx_exti.o
+    0x08001b88   0x000000a2   Code   RO          673    i.GPIO_Init         stm32f4xx_gpio.o
+    0x08001c2a   0x00000020   Code   RO          674    i.GPIO_PinAFConfig  stm32f4xx_gpio.o
+    0x08001c4a   0x0000000e   Code   RO          677    i.GPIO_ReadInputDataBit  stm32f4xx_gpio.o
+    0x08001c58   0x00000004   Code   RO          681    i.GPIO_SetBits      stm32f4xx_gpio.o
+    0x08001c5c   0x00000070   Code   RO         2270    i.Gent_Pwm_Alt      pid05.o
+    0x08001ccc   0x00000080   Code   RO         2271    i.Gent_Pwm_Pitch    pid05.o
+    0x08001d4c   0x00000064   Code   RO         2272    i.Gent_Pwm_Roll     pid05.o
+    0x08001db0   0x00000070   Code   RO         2273    i.Gent_Pwm_Yaw      pid05.o
+    0x08001e20   0x00000028   Code   RO         2133    i.Interrupt_uart4_rx  peripheral05.o
+    0x08001e48   0x000000ac   Code   RO         2134    i.MyGPIO_Configuration  peripheral05.o
+    0x08001ef4   0x0000004e   Code   RO         2135    i.MyRCC_Configuration  peripheral05.o
+    0x08001f42   0x00000002   PAD
+    0x08001f44   0x00000104   Code   RO         2136    i.MyTIM_PWM_Configuration  peripheral05.o
+    0x08002048   0x00000028   Code   RO         2137    i.NVIC_Configuration  peripheral05.o
+    0x08002070   0x00000064   Code   RO          150    i.NVIC_Init         misc.o
+    0x080020d4   0x00000014   Code   RO          151    i.NVIC_PriorityGroupConfig  misc.o
+    0x080020e8   0x00000080   Code   RO         2274    i.PID_Init          pid05.o
+    0x08002168   0x00000018   Code   RO          773    i.RCC_AHB1PeriphClockCmd  stm32f4xx_rcc.o
+    0x08002180   0x00000018   Code   RO          775    i.RCC_AHB1PeriphResetCmd  stm32f4xx_rcc.o
+    0x08002198   0x00000018   Code   RO          782    i.RCC_APB1PeriphClockCmd  stm32f4xx_rcc.o
+    0x080021b0   0x00000018   Code   RO          785    i.RCC_APB2PeriphClockCmd  stm32f4xx_rcc.o
+    0x080021c8   0x00000094   Code   RO          794    i.RCC_GetClocksFreq  stm32f4xx_rcc.o
+    0x0800225c   0x00000028   Code   RO         1967    i.SYSCFG_EXTILineConfig  stm32f4xx_syscfg.o
+    0x08002284   0x000001b8   Code   RO         2275    i.Sampling_GGA      pid05.o
+    0x0800243c   0x000002e0   Code   RO         2276    i.Sampling_RPY      pid05.o
+    0x0800271c   0x00000058   Code   RO         2277    i.Sampling_VTG      pid05.o
+    0x08002774   0x000000b4   Code   RO           12    i.SetSysClock       system_stm32f4xx.o
+    0x08002828   0x00000104   Code   RO         2387    i.SysTick_Handler   luanvan3-05vs2.o
+    0x0800292c   0x00000064   Code   RO           14    i.SystemInit        system_stm32f4xx.o
+    0x08002990   0x00000014   Code   RO         1225    i.TIM_ARRPreloadConfig  stm32f4xx_tim.o
+    0x080029a4   0x00000014   Code   RO         1237    i.TIM_Cmd           stm32f4xx_tim.o
+    0x080029b8   0x00000060   Code   RO         1266    i.TIM_OC1Init       stm32f4xx_tim.o
+    0x08002a18   0x0000000c   Code   RO         1269    i.TIM_OC1PreloadConfig  stm32f4xx_tim.o
+    0x08002a24   0x00000080   Code   RO         1271    i.TIM_OC2Init       stm32f4xx_tim.o
+    0x08002aa4   0x00000014   Code   RO         1274    i.TIM_OC2PreloadConfig  stm32f4xx_tim.o
+    0x08002ab8   0x0000007c   Code   RO         1276    i.TIM_OC3Init       stm32f4xx_tim.o
+    0x08002b34   0x0000000c   Code   RO         1279    i.TIM_OC3PreloadConfig  stm32f4xx_tim.o
+    0x08002b40   0x00000060   Code   RO         1281    i.TIM_OC4Init       stm32f4xx_tim.o
+    0x08002ba0   0x00000014   Code   RO         1283    i.TIM_OC4PreloadConfig  stm32f4xx_tim.o
+    0x08002bb4   0x0000007c   Code   RO         1309    i.TIM_TimeBaseInit  stm32f4xx_tim.o
+    0x08002c30   0x00000034   Code   RO         2138    i.UART4_Configuration  peripheral05.o
+    0x08002c64   0x00000034   Code   RO         2139    i.USART2_Configuration  peripheral05.o
+    0x08002c98   0x00000014   Code   RO         1777    i.USART_Cmd         stm32f4xx_usart.o
+    0x08002cac   0x00000010   Code   RO         1778    i.USART_DMACmd      stm32f4xx_usart.o
+    0x08002cbc   0x000000b8   Code   RO         1784    i.USART_Init        stm32f4xx_usart.o
+    0x08002d74   0x00000030   Code   RO         2848    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
+    0x08002da4   0x00000004   PAD
+    0x08002da8   0x00000038   Code   RO         2799    i.__hardfp_atof     m_wm.l(atof.o)
+    0x08002de0   0x00000c90   Code   RO         2805    i.__hardfp_pow      m_wm.l(pow.o)
+    0x08003a70   0x000000f8   Code   RO         2850    i.__kernel_poly     m_wm.l(poly.o)
+    0x08003b68   0x00000020   Code   RO         2840    i.__mathlib_dbl_underflow  m_wm.l(dunder.o)
+    0x08003b88   0x0000000c   Code   RO         2886    i.__read_errno      mc_w.l(errno.o)
+    0x08003b94   0x0000000e   Code   RO         2926    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x08003ba2   0x00000002   Code   RO         2927    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08003ba4   0x0000000e   Code   RO         2928    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08003bb2   0x00000002   PAD
+    0x08003bb4   0x0000000c   Code   RO         2887    i.__set_errno       mc_w.l(errno.o)
+    0x08003bc0   0x0000000e   Code   RO         2911    i._is_digit         mc_w.l(scanf_fp.o)
+    0x08003bce   0x00000020   Code   RO         2844    i.fabs              m_wm.l(fabs.o)
+    0x08003bee   0x00000002   PAD
+    0x08003bf0   0x00000118   Code   RO         2388    i.main              luanvan3-05vs2.o
+    0x08003d08   0x00000544   Code   RO         2389    i.receive_data_and_reply  luanvan3-05vs2.o
+    0x0800424c   0x0000006e   Code   RO         2855    i.sqrt              m_wm.l(sqrt.o)
+    0x080042ba   0x00000010   Code   RO         2278    i.trituyetdoi       pid05.o
+    0x080042ca   0x00000006   PAD
+    0x080042d0   0x00000088   Data   RO         2808    .constdata          m_wm.l(pow.o)
+    0x08004358   0x00000008   Data   RO         2852    .constdata          m_wm.l(qnan.o)
+    0x08004360   0x00000040   Data   RO         2920    .constdata          mc_w.l(ctype_c.o)
+    0x080043a0   0x00000020   Data   RO         2924    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00006488, Max: 0x00020000, ABSOLUTE)
@@ -1622,14 +1630,12 @@ Memory Map of the image
     0x20000000   0x00000014   Data   RW           15    .data               system_stm32f4xx.o
     0x20000014   0x00000010   Data   RW          817    .data               stm32f4xx_rcc.o
     0x20000024   0x00000010   Data   RW         2280    .data               pid05.o
-    0x20000034   0x00000024   Data   RW         2390    .data               luanvan3-05vs2.o
-    0x20000058   0x00000001   Data   RW         2393    .data               luanvan3-05vs2.o
-    0x20000059   0x00000001   Data   RW         2394    .data               luanvan3-05vs2.o
-    0x2000005a   0x00000002   PAD
-    0x2000005c   0x00000004   Data   RW         2891    .data               mc_w.l(errno.o)
-    0x20000060   0x000001c0   Zero   RW         2279    .bss                pid05.o
-    0x20000220   0x00000264   Zero   RW         2389    .bss                luanvan3-05vs2.o
-    0x20000484   0x00000004   PAD
+    0x20000034   0x00000028   Data   RW         2391    .data               luanvan3-05vs2.o
+    0x2000005c   0x00000001   Data   RW         2394    .data               luanvan3-05vs2.o
+    0x2000005d   0x00000003   PAD
+    0x20000060   0x00000004   Data   RW         2888    .data               mc_w.l(errno.o)
+    0x20000064   0x000001c0   Zero   RW         2279    .bss                pid05.o
+    0x20000224   0x00000264   Zero   RW         2390    .bss                luanvan3-05vs2.o
     0x20000488   0x00006000   Zero   RW            1    STACK               startup_stm32f4xx.o
 
 
@@ -1640,10 +1646,10 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      1516        110          0         38        612      32243   luanvan3-05vs2.o
+      1972        130          0         41        612      32471   luanvan3-05vs2.o
        120         18          0          0          0      15779   misc.o
       1208         72          0          0          0       8596   peripheral05.o
-      2724        276          0         16        448      11038   pid05.o
+      4236        406          0         16        448      11892   pid05.o
         36          8        392          0      24576        828   startup_stm32f4xx.o
        624         64          0          0          0      18512   stm32f4xx_dma.o
        144          8          0          0          0       3807   stm32f4xx_exti.o
@@ -1655,9 +1661,9 @@ Image component sizes
        280         36          0         20          0     261501   system_stm32f4xx.o
 
     ----------------------------------------------------------------------
-      8050        708        424         92      25640     414957   Object Totals
+     10018        858        424         96      25636     416039   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        10          0          0          2          4          0   (incl. Padding)
+        10          0          0          3          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -1729,15 +1735,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     14744       1100        632         96      25640     410621   Grand Totals
-     14744       1100        632         96      25640     410621   ELF Image Totals
-     14744       1100        632         96          0          0   ROM Totals
+     16712       1250        632        100      25636     411403   Grand Totals
+     16712       1250        632        100      25636     411403   ELF Image Totals
+     16712       1250        632        100          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                15376 (  15.02kB)
+    Total RO  Size (Code + RO Data)                17344 (  16.94kB)
     Total RW  Size (RW Data + ZI Data)             25736 (  25.13kB)
-    Total ROM Size (Code + RO Data + RW Data)      15472 (  15.11kB)
+    Total ROM Size (Code + RO Data + RW Data)      17444 (  17.04kB)
 
 ==============================================================================
 
