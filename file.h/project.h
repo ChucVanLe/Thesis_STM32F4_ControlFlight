@@ -63,13 +63,15 @@ typedef struct
   volatile float Kp;
 	volatile float Ki;
 	volatile float Kd;
-	volatile float e[3];
+	volatile float Error;//Error = SetPoint - Current;
+	volatile float PreError;
   volatile float Pid_Result;
-	volatile float Pid_Result_Temp;
-	volatile float a0,a1,a2;
+	volatile float PartKi;//PartKi = Ki * Error * T
 	volatile float SetPoint;
 	volatile float Current;
-	volatile uint8_t enable;
+	volatile uint8_t Enable;//Enable = 1 when get data from IMU/GPS
+	volatile bool Switch_manual_auto;//switch_manual_auto = 1--> manual convert to auto have received paramater from CS, setpoint receive from GS
+	//switch_manual_auto = 0; manual convert to auto have not received paramater from CS yet --> setpoint is current value at manual convert to auto
 }PID_Index;
 
 extern PID_Index Roll_PID;

@@ -86,27 +86,28 @@ int main(void)
 		
     while(1)
     {
-        if (GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8))
+        if (GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_8))//auto
         {
 						Call_Roll_PID(Roll_PID.SetPoint);   
-
 						Call_Pitch_PID(Pitch_PID.SetPoint);
 						Call_Yaw_PID(Yaw_PID.SetPoint);
 						//test simute altitude
-						if(Yaw_PID.Current > 0)
-						Alt_PID.Current = Yaw_PID.Current;
-						else Alt_PID.Current = 0;
-						//Call_Alt_PID(Alt_PID.SetPoint);
-						Call_Alt_PID(30);
+//						if(Yaw_PID.Current > 0)
+//						Alt_PID.Current = Yaw_PID.Current;
+//						else Alt_PID.Current = 0;
+//						Call_Alt_PID(30);
+						//real-time
+						Call_Alt_PID(Alt_PID.SetPoint);
+				
+        }
+				else
+				{
+					Roll_PID.Switch_manual_auto = false;
+					Pitch_PID.Switch_manual_auto = false;
+					Yaw_PID.Switch_manual_auto = false;
+					Alt_PID.Switch_manual_auto = false;
+				}
 
-					
-//						Call_Roll_PID(15);   
-//						Call_Pitch_PID(15);
-//						Call_Yaw_PID(15);
-//						//Call_Alt_PID(Alt_PID.SetPoint);
-//						Gent_Pwm_Alt(15);
-					
-        }      
 // /*.................................save data to SD Card...........................................*/  
 //...........................					remove code save data because Mr.Huan has done it.				        
     }// end while
