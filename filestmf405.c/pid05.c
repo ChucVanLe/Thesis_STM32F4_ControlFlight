@@ -14,28 +14,28 @@ PID_Index Press;
 void PID_Init(void)
 {
 	Roll_PID.Error = Roll_PID.PreError = 0;
-	Roll_PID.Kp = 0.1;
-	Roll_PID.Ki = 0.001;
-	Roll_PID.Kd = 0.001;
+	Roll_PID.Kp = 0.001;
+	Roll_PID.Ki = 0.00001;
+	Roll_PID.Kd = 0.00001;
 	Roll_PID.Switch_manual_auto = false;
 	Pitch_PID.Error = Pitch_PID.PreError = 0;
-	Pitch_PID.Kp = 0.1;
-	Pitch_PID.Ki = 0.001;
-	Pitch_PID.Kd = 0.001;
+	Pitch_PID.Kp = 0.001;
+	Pitch_PID.Ki = 0.00001;
+	Pitch_PID.Kd = 0.00001;
 	Pitch_PID.Switch_manual_auto = false;
 	Yaw_PID.Error = Yaw_PID.PreError = 0;
-	Yaw_PID.Kp = 0.1;
-	Yaw_PID.Ki = 0.001;
-	Yaw_PID.Kd = 0.001;
+	Yaw_PID.Kp = 0.001;
+	Yaw_PID.Ki = 0.00001;
+	Yaw_PID.Kd = 0.00001;
 	Yaw_PID.Switch_manual_auto = false;
 	Alt_PID.Error = Alt_PID.PreError = 0;
-	Alt_PID.Kp = 0.1;
-	Alt_PID.Ki = 0.001;
-	Alt_PID.Kd = 0.001;
+	Alt_PID.Kp = 0.001;
+	Alt_PID.Ki = 0.00001;
+	Alt_PID.Kd = 0.00001;
 	Alt_PID.SetPoint = 40;
 	Alt_PID.Switch_manual_auto = false;
 }
-float Time_sample = 0.2;
+float Time_sample = 0.01;
 //*****************************************************
 //get speed
 void Sampling_VTG(char* VTG , int lenght)
@@ -222,8 +222,8 @@ void Call_Roll_PID(float Setpoint)
 		//PartKd = Kd * (Error - PreError) / Time_sample;
 		Roll_PID.Pid_Result += Roll_PID.Kp * Roll_PID.Error + Roll_PID.PartKi + Roll_PID.Kd * (Roll_PID.Error - Roll_PID.PreError) / Time_sample;
 		//limit
-		if(Roll_PID.Pid_Result > 31) Roll_PID.Pid_Result = 31;
-		if(Roll_PID.Pid_Result < -31) Roll_PID.Pid_Result = -31;
+		if(Roll_PID.Pid_Result > 0.35) Roll_PID.Pid_Result = 0.35;
+		if(Roll_PID.Pid_Result < -0.42) Roll_PID.Pid_Result = -0.42;
 		// Dat gia tri vao PWM	
 		Gent_Pwm_Roll(Roll_PID.Pid_Result);
 				
@@ -267,12 +267,57 @@ void Call_Pitch_PID(float Setpoint)
 		//PartKd = Kd * (Error - PreError) / Time_sample;
 		Pitch_PID.Pid_Result += Pitch_PID.Kp * Pitch_PID.Error + Pitch_PID.PartKi + Pitch_PID.Kd * (Pitch_PID.Error - Pitch_PID.PreError) / Time_sample;
 		//limit
-		if(Pitch_PID.Pid_Result > 31) Pitch_PID.Pid_Result = 31;
-		if(Pitch_PID.Pid_Result < -31) Pitch_PID.Pid_Result = -31;
+		if(Pitch_PID.Pid_Result > 0.29) Pitch_PID.Pid_Result = 0.29;
+		if(Pitch_PID.Pid_Result < -0.41) Pitch_PID.Pid_Result = -0.41;
 		// Dat gia tri vao PWM	
 		Gent_Pwm_Pitch(Pitch_PID.Pid_Result);
 				
 		Pitch_PID.PreError=Pitch_PID.Error;
+	}
+	else return;
+}
+
+/*******************************************************************************
+Function name: Call_Yaw_PID
+Decription: Ham PID vi tri dong co theo gia tri xung encoder
+Input: p_set
+Output: None
+*******************************************************************************/
+void Call_Yaw_PID(float Setpoint)
+{
+	if(Yaw_PID.Enable)
+	{
+		//at manual --> auto, get setpoint is current
+		if(!Yaw_PID.Switch_manual_auto) 
+		{
+				Yaw_PID.SetPoint = Yaw_PID.Current;
+				Setpoint = Yaw_PID.Current;
+				Yaw_PID.Switch_manual_auto = true;
+		}
+		Yaw_PID.Enable = 0;
+		Yaw_PID.Error = Setpoint - Yaw_PID.Current;
+
+		//limit -180, 180
+		if (Yaw_PID.Error > 180)
+			Yaw_PID.Error -= 360;
+		if (Yaw_PID.Error < -180)
+			Yaw_PID.Error += 360;
+		//PID_ThanhTan
+		//Yaw_PID.Pid_Result_Temp=Yaw_PID.Pid_Result;
+		//Yaw_PID.Pid_Result=Yaw_PID.Pid_Result_Temp+Yaw_PID.a0*Yaw_PID.e[2]+Yaw_PID.a1*Yaw_PID.e[1]	+Yaw_PID.a2*Yaw_PID.e[0];
+		//new pid controller
+		Yaw_PID.PartKi += Yaw_PID.Ki * Yaw_PID.Error * Time_sample;
+		//PartKp = Kp * Error
+		//PartKi += Ki * Error * Time_sample;
+		//PartKd = Kd * (Error - PreError) / Time_sample;
+		Yaw_PID.Pid_Result += Yaw_PID.Kp * Yaw_PID.Error + Yaw_PID.PartKi + Yaw_PID.Kd * (Yaw_PID.Error - Yaw_PID.PreError) / Time_sample;
+		//limit
+		if(Yaw_PID.Pid_Result > 0.4) Yaw_PID.Pid_Result = 0.4;
+		if(Yaw_PID.Pid_Result < -0.26) Yaw_PID.Pid_Result = -0.26;
+		// Dat gia tri vao PWM	
+		Gent_Pwm_Yaw(Yaw_PID.Pid_Result);
+				
+		Yaw_PID.PreError=Yaw_PID.Error;
 	}
 	else return;
 }
@@ -314,8 +359,8 @@ void Call_Alt_PID(float Setpoint)
 				//PartKd = Kd * (Error - PreError) / Time_sample;
 				Alt_PID.Pid_Result += Alt_PID.Kp * Alt_PID.Error + Alt_PID.PartKi + Alt_PID.Kd * (Alt_PID.Error - Alt_PID.PreError) / Time_sample;
 				//limit
-				if(Alt_PID.Pid_Result > 31) Alt_PID.Pid_Result = 31;
-				if(Alt_PID.Pid_Result < -31) Alt_PID.Pid_Result = -31;
+				if(Alt_PID.Pid_Result > 0.42) Alt_PID.Pid_Result = 0.42;
+				if(Alt_PID.Pid_Result < -0.26) Alt_PID.Pid_Result = -0.26;
 				// Dat gia tri vao PWM	
 				Gent_Pwm_Alt(Alt_PID.Pid_Result);
 						
@@ -328,51 +373,6 @@ void Call_Alt_PID(float Setpoint)
 		}
 		else return;
 }
-
-/*******************************************************************************
-Function name: Call_Yaw_PID
-Decription: Ham PID vi tri dong co theo gia tri xung encoder
-Input: p_set
-Output: None
-*******************************************************************************/
-void Call_Yaw_PID(float Setpoint)
-{
-	if(Yaw_PID.Enable)
-	{
-		//at manual --> auto, get setpoint is current
-		if(!Yaw_PID.Switch_manual_auto) 
-		{
-				Yaw_PID.SetPoint = Yaw_PID.Current;
-				Setpoint = Yaw_PID.Current;
-				Yaw_PID.Switch_manual_auto = true;
-		}
-		Yaw_PID.Enable = 0;
-		Yaw_PID.Error = Setpoint - Yaw_PID.Current;
-
-		//limit -180, 180
-		if (Yaw_PID.Error > 180)
-			Yaw_PID.Error -= 360;
-		if (Yaw_PID.Error < -180)
-			Yaw_PID.Error += 360;
-		//PID_ThanhTan
-		//Yaw_PID.Pid_Result_Temp=Yaw_PID.Pid_Result;
-		//Yaw_PID.Pid_Result=Yaw_PID.Pid_Result_Temp+Yaw_PID.a0*Yaw_PID.e[2]+Yaw_PID.a1*Yaw_PID.e[1]	+Yaw_PID.a2*Yaw_PID.e[0];
-		//new pid controller
-		Yaw_PID.PartKi += Yaw_PID.Ki * Yaw_PID.Error * Time_sample;
-		//PartKp = Kp * Error
-		//PartKi += Ki * Error * Time_sample;
-		//PartKd = Kd * (Error - PreError) / Time_sample;
-		Yaw_PID.Pid_Result += Yaw_PID.Kp * Yaw_PID.Error + Yaw_PID.PartKi + Yaw_PID.Kd * (Yaw_PID.Error - Yaw_PID.PreError) / Time_sample;
-		//limit
-		if(Yaw_PID.Pid_Result > 31) Yaw_PID.Pid_Result = 31;
-		if(Yaw_PID.Pid_Result < -31) Yaw_PID.Pid_Result = -31;
-		// Dat gia tri vao PWM	
-		Gent_Pwm_Yaw(Yaw_PID.Pid_Result);
-				
-		Yaw_PID.PreError=Yaw_PID.Error;
-	}
-	else return;
-}
 /************************************************************************************************/
 //TIM4->CCR3 = Pwm;//channel 3
 //TIM4->CCR2 = Pwm;//channel 2
@@ -380,8 +380,10 @@ void Gent_Pwm_Roll(float Roll)
 {
 	int Pwm ;
  	//Pwm =(int)((1+(Roll+45)/90)*21711/8);
-	Pwm =(int)((float)(1.5 - Roll/90) * 21711 / 13.7);
-	if(Pwm > 2853) Pwm = 2932;//Pulse = 1.85ms
+//	Pwm =(int)((float)(1.5 - Roll/90) * 21711 / 13.7);
+	Pwm =(int)((float)(1.5 + Roll) * 21711 * 73 / 1000);
+	//1.08-1.5 <=  Roll <= 1.85 - 1.5
+	if(Pwm > 2932) Pwm = 2932;//Pulse = 1.85ms
 	if(Pwm < 1712) Pwm = 1712;//Pulse = 1.08ms
 	TIM4->CCR1 = Pwm;
 //	TIM4->CCR1 = 1584;//1ms
@@ -392,7 +394,8 @@ void Gent_Pwm_Roll(float Roll)
 void Gent_Pwm_Pitch(float Pitch)
 {
 	int Pwm ;
- 	Pwm =(int)((float)(1.56 + Pitch/90) * 21711 / 13.7);
+ 	Pwm =(int)((float)(1.56 + Pitch) * 1584903 /1000);
+	//1.15 - 1.56 <= Pitch <= 1.85 - 1.56
 	if(Pwm > 2932) Pwm = 2932;//Pulse = 1.85ms
 	if(Pwm < 1822) Pwm = 1822;//Pulse = 1.15ms
 	TIM4->CCR2 = Pwm;
@@ -400,7 +403,8 @@ void Gent_Pwm_Pitch(float Pitch)
 void Gent_Pwm_Yaw(float Yaw)
 {
 	int Pwm ;
- 	Pwm =(int)((1+(Yaw+45)/90)*21711/13.7);
+	Pwm =(int)((float)(1.5 + Yaw) * 21711 * 73 / 1000);
+	//1.24 - 1.5 <= Yaw <= 1.9 - 1.5
 	//limit
 	if(Pwm > 3011) Pwm = 3011;//Pulse = 1.9ms
 	if(Pwm < 1965) Pwm = 1965;//Pulse = 1.24ms
@@ -409,8 +413,9 @@ void Gent_Pwm_Yaw(float Yaw)
 void Gent_Pwm_Alt(float Alt)
 {
 	int Pwm ;
- 	 	Pwm =(int)((1+(Alt+45)/90)*21711/13.7);
+	Pwm =(int)((float)(1.5 + Alt) * 21711 * 73 / 1000);
 	//limit
+	//1.24 - 1.5 <= Alt <= 1.92 - 1.5
 //	if(Pwm > 3043) Pwm = 3043;//Pulse = 1.92ms
 //	if(Pwm < 1743) Pwm = 1743;//Pulse = 1.24ms
 	//test simulate
@@ -419,10 +424,4 @@ void Gent_Pwm_Alt(float Alt)
 	TIM4->CCR3 = Pwm;
 }
 
-float trituyetdoi(float a)
-{
-	if (a<0) 
-		return -a ;
-	else
-		return a;
-}
+

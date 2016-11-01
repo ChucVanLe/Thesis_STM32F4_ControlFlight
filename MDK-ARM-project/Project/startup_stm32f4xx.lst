@@ -849,9 +849,8 @@ ject\startup_stm32f4xx.d -o.\project\startup_stm32f4xx.o -IC:\Keil\ARM\RV31\INC
 ARM Macro Assembler    Page 14 
 
 
- -IC:\Keil\ARM\CMSIS\Include -IDevice\Include --predefine="__EVAL SETA 1" --pre
-define="__MICROLIB SETA 1" --list=.\project\startup_stm32f4xx.lst ..\lib\startu
-p_stm32f4xx.s
+ -IC:\Keil\ARM\CMSIS\Include -IDevice\Include --predefine="__MICROLIB SETA 1" -
+-list=.\project\startup_stm32f4xx.lst ..\lib\startup_stm32f4xx.s
 
 
 
@@ -1945,4 +1944,4 @@ Symbol: __main
       At line 177 in file ..\lib\startup_stm32f4xx.s
 Comment: __main used once
 2 symbols
-444 symbols in table
+443 symbols in table

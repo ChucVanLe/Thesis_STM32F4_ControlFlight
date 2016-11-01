@@ -29,29 +29,26 @@
 /**************************************************************************************/
 
 /**************************************************************************************/
-//bien cho ham sd card
 
-/**************************************************************************************/
-bool CMD_Trigger = false;//mode tran data to ground station or receive data from GS,CMD_Trigger = true: receive data from GS
+#define		BUFF_SIZE			1//interrupt UART_DMA when receive BUFF_SIZE from GS
+//#define		BUFF_SIZE_IMU_GPS			1024 
+bool CMD_Trigger = false, timer_enough_2ms = false;//mode tran data to ground station or receive data from GS,CMD_Trigger = true: receive data from GS
 uint8_t Alt_latest = 0;
 int compare_enough_data = 0;
 int number_byte_empty_into_Buf_USART2 = 0;
 uint8_t number_byte_empty_into_Buf_USART4_rx = 0, index_find_e = 0;//variable for receive from GS
 int lenght_of_data_IMU_GPS = 0;
-
-uint8_t CMD_delay =0;
-uint16_t G_delay_count =0;
-uint8_t Buf_UART4[6],Buf_rx4[1];
-char Buf_USART2[250], data_from_pc[250];
+//char data_IMU[80], data_VTG[50], dataGGA[80];
+uint8_t Buf_UART4[6], Buf_rx4[1];
+char Buf_USART2[250],  data_from_pc[250];
 uint8_t Update_heso_Roll=0,Update_heso_Pitch=0,Update_heso_Yaw=0,Update_heso_Alt=0,Update_heso_Press=0;
-#define		BUFF_SIZE			1//interrupt UART_DMA when receive BUFF_SIZE from GS
+
 uint8_t index_receive_enough_data_GS = 0;//counter number of char from GS
-uint8_t crc;
+uint16_t start_one_line_IMU_GPS, end_one_line_IMU_GPS;//find position start and end of 1 line into buffer IMU/GPS
 int i = 0;
 uint8_t find_char_$ = 0 ;
 uint16_t position_VTG = 0, position_end_of_VTG = 0, position_end_of_GGA = 0;
 uint8_t flag_set_or_current_press;
-uint8_t flag_press = 0;
 uint8_t state_alt = 1,state_press = 0;
 void receive_data_and_reply(char *buffer);
 
@@ -69,15 +66,13 @@ int main(void)
 		MyGPIO_Configuration();
     EXTI_FPGA_Pa8();
     UART4_Configuration(57600);
-    USART2_Configuration(57600);
-    DMA_UART4_Configuration((uint8_t*)Buf_USART2,250);
-    DMA_USART2_Config((uint8_t*)Buf_USART2,250);
-    DMA_UART4_RX(Buf_rx4, 1);
+    USART2_Configuration(460800);
+    DMA_UART4_Configuration((uint8_t*)Buf_USART2,250);//tran data to GS
+    DMA_USART2_Config((uint8_t*)Buf_USART2, 250);//receive data from IMU/GPS
+    DMA_UART4_RX(Buf_rx4, 1);//receive data from GS
 // defaude dieu khien o che do ALT  
     state_press = 0;
     state_alt = 1;
-
-    //power();
     
     MyTIM_PWM_Configuration();  
        
@@ -106,25 +101,21 @@ int main(void)
 					Pitch_PID.Switch_manual_auto = false;
 					Yaw_PID.Switch_manual_auto = false;
 					Alt_PID.Switch_manual_auto = false;
+					Pitch_PID.PartKi = 0;
+					Pitch_PID.PreError = 0;
+					Pitch_PID.Pid_Result = 0;
 				}
+		//-----------------process data from IMU/GPS dataIMU 10ms, data GPS 100ms------------------------------------
+		//-------------------get current value IMU/GPS----------------------------------
+		//--------------------tran data to GS-------------------------------------------
+		//---------------------receive data from GS-------------------------------------
 
-// /*.................................save data to SD Card...........................................*/  
-//...........................					remove code save data because Mr.Huan has done it.				        
-    }// end while
-}//end main
-    
-/**************************************************************************************/
-void SysTick_Handler(void)
- {
-     
+		if(timer_enough_2ms)//in interrupt 2ms timer_enough_2ms = true;
+		{
+		timer_enough_2ms = false;
     compare_enough_data = number_byte_empty_into_Buf_USART2;
     number_byte_empty_into_Buf_USART2 = DMA1_Stream5->NDTR;// (Buffer->size) --> count2, number byte data from IMU/GPS
-    if( CMD_delay == 1 )
-    {   
-        G_delay_count += 1;
-    }
-
-
+		lenght_of_data_IMU_GPS = 250 - number_byte_empty_into_Buf_USART2;//lenght_of_data_IMU_GPS: number byte in buffer DMA has received
 		if(CMD_Trigger) //receive enough 1 frame
 		{//if CMD_Trigger = 1 ; receive data from ground station 
 				receive_data_and_reply(&data_from_pc[0]);
@@ -134,7 +125,7 @@ void SysTick_Handler(void)
 				for(index_find_e = 0; index_find_e < 250; index_find_e ++)
 						data_from_pc[index_find_e] = 0;
 		}
-		else
+		else//update code data IMU 10ms, data GPS 100ms				
     if(compare_enough_data == number_byte_empty_into_Buf_USART2)
     {
         lenght_of_data_IMU_GPS = 250 - number_byte_empty_into_Buf_USART2;//y number byte in buffer DMA has received
@@ -146,7 +137,6 @@ void SysTick_Handler(void)
           DMA_SetCurrDataCounter(DMA1_Stream5,250);
 					DMA_Cmd(DMA1_Stream5,ENABLE);
           
-
 					//test with STM studio => Buf_USART2[0] = 0x0A, Buf_USART2[1] = 0x24 ('$'), Buf_USART2[2], Buf_USART2[3],... roll, pitch,... finish with '\r'
           /*
 					$  0015  0068 -0080  0011 -0082  0123 -0203 -0019  0976  0297  0097  0383  0792 
@@ -180,13 +170,34 @@ void SysTick_Handler(void)
 					Sampling_GGA(&Buf_USART2[position_end_of_VTG + 1], position_end_of_GGA - position_end_of_VTG);//get lat, lon, alt
           
 
-//if (CMD_Trigger == 0)//if CMD_Trigger = 0 ; transmit data to ground station             
-          DMA_SetCurrDataCounter(DMA1_Stream4,lenght_of_data_IMU_GPS);
-          DMA_Cmd(DMA1_Stream4,ENABLE);   
- 
+					//if (CMD_Trigger == 0)//if CMD_Trigger = 0 ; transmit data to ground station             
+          DMA_SetCurrDataCounter(DMA1_Stream4, lenght_of_data_IMU_GPS);
+          DMA_Cmd(DMA1_Stream4,ENABLE);   			 
         }
+				else//only data IMU, update 10ms
+				{
+					if (lenght_of_data_IMU_GPS > 78)//buffer size IMU = 80.
+					{
+						//fastest way to restart DMA
+						DMA_Cmd(DMA1_Stream5,DISABLE);
+						DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
+						DMA_SetCurrDataCounter(DMA1_Stream5,250);
+						DMA_Cmd(DMA1_Stream5,ENABLE);
+						Sampling_RPY((uint8_t*)Buf_USART2,80);//get roll, pitch, yaw
+					}
+				}
     }
- }
+	}
+
+//...........................	remove code save data because Mr.Huan has done it.				        
+    }// end while
+}//end main
+    
+/**************************************************************************************/
+void SysTick_Handler(void)
+{
+	 timer_enough_2ms = true;
+}
 
 //Ngat nhan dmauart4
 void DMA1_Stream2_IRQHandler(void)

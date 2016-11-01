@@ -208,6 +208,15 @@ void DMA1_Stream4_IRQHandler(void)
 		
   }
 }
+
+//Ngat nhan dmauart4
+void DMA1_Stream5_IRQHandler(void)
+{
+
+		/* Clear the DMA1_Stream2 TCIF2 pending bit */
+		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_TCIF5);//DMA_IT_TCIF2 //co de bao day chua
+
+}
 /**************************************************************************************/
 void NVIC_Configuration(void)
 {
@@ -421,60 +430,18 @@ void EXTI_FPGA_Pa8(void)
   }
 // 	
 	
-// 	void EXTI9_5_IRQHandler(void)//tu dong chuyen mode
-//   {
-//     if(EXTI_GetITStatus(EXTI_Line8) != RESET)
-//     {
-//       //if (Alt_PID.Current !=0)	Alt_PID.SetPoint = Alt_PID.Current;
-// 			//if (Alt_PID.Current >0)	Alt_PID.SetPoint = Alt_PID.Current;
-// 			Roll_PID.SetPoint =0;
-// 			Yaw_PID.SetPoint =Yaw_PID.Current;
-// 			Pitch_PID.SetPoint =Pitch_PID.Current;
-// 			if(Alt_PID.Current==0)
-// 			{
-// 				state_press=1;
-// 				Alt_PID.SetPoint=Press.Current;
-// 			}
-// 			
-// 			if (Alt_PID.Current >0)
-// 			{
-// 				state_alt=1;
-// 				Alt_PID.SetPoint=Alt_PID.Current;
-// 			}
-// 			Gent_Pwm_Pitch(0);
-// 			Gent_Pwm_Yaw(0);
-// 			Gent_Pwm_Roll(0);
-//       EXTI->PR = EXTI_Line8;
-// // 			flag1=1;
-// 	  }
-
-//   }
-// 	
 
 	
 void EXTI9_5_IRQHandler(void)
   {
     if(EXTI_GetITStatus(EXTI_Line8) != RESET)
     {
-      //if (Alt_PID.Current !=0)	Alt_PID.SetPoint = Alt_PID.Current;
-			//if (Alt_PID.Current >0)	Alt_PID.SetPoint = Alt_PID.Current;
-//			Roll_PID.SetPoint =0;
-//			Yaw_PID.SetPoint =Yaw_PID.Current;
-//			Pitch_PID.SetPoint =Pitch_PID.Current;
-//			if(state_press==1)
-//			{
-//				Alt_PID.SetPoint=Press.Current;
-//			}
-//			
-//			if ((state_alt==1)&&(Alt_PID.Current >5))
-//			{
-//				Alt_PID.SetPoint=Alt_PID.Current;
-//			}
- 			Gent_Pwm_Pitch(0);
- 			Gent_Pwm_Yaw(0);
- 			Gent_Pwm_Roll(0);
-      EXTI->PR = EXTI_Line8;
-// 			flag1=1;
+ 			//Gent_Pwm_Pitch(0);
+ 			//Gent_Pwm_Yaw(0);
+ 			//Gent_Pwm_Roll(0);
+      //EXTI->PR = EXTI_Line8;
+	/* Clear interrupt flag */
+			EXTI_ClearITPendingBit(EXTI_Line8);
 	  }
 
   }
